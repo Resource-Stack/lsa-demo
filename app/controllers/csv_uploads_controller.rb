@@ -20,6 +20,14 @@ class CsvUploadsController < ApplicationController
       @count+=1
     end 
 
+    @unidentifiedValues = []
+    @current_row.each do |i|
+      ind = i.to_s.rstrip
+      if !@masterRow.include?(ind) && !DataDictionary.find_by_csv_header_name(ind).present? && !DataDumpDictionary.find_by_csv_header_name(ind).present?
+        @unidentifiedValues.push(i)
+      end 
+    end  
+
   end 
 
   # GET /csv_uploads/news
