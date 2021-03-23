@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Field one:</strong>
+  <%= @table_entry.field_one %>
+</p>
+
+<p>
+  <strong>Field two:</strong>
+  <%= @table_entry.field_two %>
+</p>
+
+<p>
+  <strong>Field three:</strong>
+  <%= @table_entry.field_three %>
+</p>
+
+<%= link_to 'Edit', edit_table_entry_path(@table_entry) %> |
+<%= link_to 'Back', table_entries_path %>

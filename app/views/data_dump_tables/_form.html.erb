@@ -1,0 +1,37 @@
+<%= form_with(model: data_dump_table, local: true) do |form| %>
+  <% if data_dump_table.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(data_dump_table.errors.count, "error") %> prohibited this data_dump_table from being saved:</h2>
+
+      <ul>
+      <% data_dump_table.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :source_id %>
+    <%= form.number_field :source_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :csv_header_name %>
+    <%= form.text_field :csv_header_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :csv_row_value %>
+    <%= form.text_field :csv_row_value %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

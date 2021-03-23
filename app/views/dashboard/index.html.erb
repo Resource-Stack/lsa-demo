@@ -1,0 +1,151 @@
+<div class="container">
+	<h1>Dashboard</h1>
+	<div class="row">
+		<div class="col-12">
+			<h6>Create a Report for...</h6>
+			<label for="cars">Collection:</label>
+
+			<select name="cars" id="whatever" >
+			  <option value="Name">Name</option>
+			  <option value="Position">Position</option>
+			  <option value="Office">Office</option>
+			  <option value="Age">Age</option>
+			</select>
+
+			<label for="cars">Action:</label>
+
+			<select name="cars" id="reports">
+				<option value="select">Select</option>
+			  <option value="where">Where</option>
+			  <option value="from">From</option>
+			  <option value="and">And</option>
+			</select>
+
+
+			<div id="where" style="display: none;">
+			    <form class="form-inline my-2 my-lg-0">
+			      <input class="form-control mr-sm-2" type="search" placeholder="Search for value" aria-label="Search">
+			      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			    </form>
+				
+			</div>
+
+			<div id="from" style="display: none;">
+				<label for="birthday">Start:</label>
+				<input type="date" id="birthday" name="birthday">
+
+				<label for="birthday">Finish:</label>
+				<input type="date" id="birthday" name="birthday">
+			</div>
+
+			<div id="and" style="display: none;">
+				<label for="cars">Second Collection:</label>
+				<select name="cars" id="whatever" >
+				  <option value="Name">Name</option>
+				  <option value="Position">Position</option>
+				  <option value="Office">Office</option>
+				  <option value="Age">Age</option>
+				</select>
+			</div>
+			<button type="button" class="btn btn-primary">Create Report</button>
+		</div>
+	</div>
+
+	<h1>Default Charts</h1>
+	<div class="row">
+		<div class="col">
+
+			<div id="piechart"></div>
+
+		</div>
+		<div class="col">
+			<div id="curve_chart" style="width: 900px; height: 500px"></div>			
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	var report_button = document.getElementById('reports')
+	var where = document.getElementById('where')
+	var from = document.getElementById('from')
+	var and = document.getElementById('and')
+	
+
+
+	report_button.addEventListener('change', (event) =>{
+		var report_type = report_button.options[report_button.selectedIndex].value
+		console.log(report_type)
+		if (report_type === 'where') {
+			where.style.display ='block'
+			from.style.display ='none'
+			and.style.display ='none'
+
+		} else if (report_type === 'from'){
+			where.style.display ='none'
+			from.style.display ='block'
+			and.style.display ='none'
+
+		} else if (report_type === 'and'){
+			where.style.display ='none'
+			from.style.display ='none'
+			and.style.display ='block'
+
+		}
+	})
+
+
+</script>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Year', 'Sales', 'Expenses'],
+      ['2004',  1000,      400],
+      ['2005',  1170,      460],
+      ['2006',  660,       1120],
+      ['2007',  1030,      540]
+    ]);
+
+    var options = {
+      title: 'Company Performance',
+      curveType: 'function',
+      legend: { position: 'bottom' }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    chart.draw(data, options);
+  }
+</script>
+
+<script type="text/javascript">
+	// Load google charts
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	// Draw the chart and set the chart values
+	function drawChart() {
+	  var data = google.visualization.arrayToDataTable([
+	  ['Task', 'Hours per Day'],
+	  ['Operating System', 8],
+	  ['Version', 2],
+	  ['Location', 4],
+	  ['Ports', 2],
+	  ['Incidents', 8]
+	]);
+
+	  // Optional; add a title and set the width and height of the chart
+	  var options = {'title':'My Average Day', 'width':550, 'height':400};
+
+	  // Display the chart inside the <div> element with id="piechart"
+	  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+	  chart.draw(data, options);
+	}
+</script>

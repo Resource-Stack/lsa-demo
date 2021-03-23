@@ -1,0 +1,2 @@
+class TableEntry < ApplicationRecord
+end

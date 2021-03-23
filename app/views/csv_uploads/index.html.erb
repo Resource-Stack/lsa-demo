@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Csv Uploads</h1>
+
+<table class="table table-stripped">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Flagged</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @csv_uploads.each do |csv_upload| %>
+      <tr>
+        <td><%= csv_upload.user_id %></td>
+
+        <% if csv_upload.flagged == true %>
+          <td style="background-color: red"><%= csv_upload.flagged %></td>
+        <% else %>
+          <td style="background-color: green"><%= csv_upload.flagged %></td>
+        <% end %>
+
+        <td><%= link_to 'Show', csv_upload %></td>
+        <td><%= link_to 'Edit', edit_csv_upload_path(csv_upload) %></td>
+        <td><%= link_to 'Destroy', csv_upload, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></td>
+        <% if csv_upload.flagged == false%>
+          <td><button id="submit_csv" onclick="submit(<%= csv_upload.id %>)">Submit</button></td>
+        <% else %>
+          <td>Please Validate</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Csv Upload', new_csv_upload_path %>
+
+
+<script type="text/javascript">
+  
+  var validate = document.getElementById('validate_order');
+  var validate = document.getElementById('submit_csv');
+
+
+  function validation(csv_id) {
+    console.log(csv_id)
+    var mydata = { csv_id: csv_id } 
+      var data = new URLSearchParams(mydata).toString()
+
+      Rails.ajax({
+        type: "POST", 
+        url: "/validate",
+        data: data,
+      })
+  }
+  function submit(csv_id) {
+    console.log(csv_id)
+    var mydata = { csv_id: csv_id } 
+      var data = new URLSearchParams(mydata).toString()
+
+      Rails.ajax({
+        type: "POST", 
+        url: "/submit",
+        data: data,
+      })
+  }
+
+</script>
+

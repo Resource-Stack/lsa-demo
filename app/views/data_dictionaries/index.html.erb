@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Data Dictionaries</h1>
+
+<table class="table table-stripped">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Admin</th>
+      <th>Csv header name</th>
+      <th>Maps to</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data_dictionaries.each do |data_dictionary| %>
+      <tr>
+        <td><%= data_dictionary.user_id %></td>
+        <td><%= data_dictionary.admin_id %></td>
+        <td><%= data_dictionary.csv_header_name %></td>
+        <td><%= data_dictionary.maps_to %></td>
+        <td><%= link_to 'Show', data_dictionary %></td>
+        <td><%= link_to 'Edit', edit_data_dictionary_path(data_dictionary) %></td>
+        <td><%= link_to 'Destroy', data_dictionary, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Data Dictionary', new_data_dictionary_path %>

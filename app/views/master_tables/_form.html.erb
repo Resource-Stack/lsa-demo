@@ -1,0 +1,71 @@
+<%= form_with(model: master_table, local: true) do |form| %>
+  <% if master_table.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(master_table.errors.count, "error") %> prohibited this master_table from being saved:</h2>
+
+      <ul>
+      <% master_table.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :field_one %>
+    <%= form.text_field :field_one %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_two %>
+    <%= form.text_field :field_two %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_three %>
+    <%= form.text_field :field_three %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_four %>
+    <%= form.text_field :field_four %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_five %>
+    <%= form.text_field :field_five %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_six %>
+    <%= form.text_field :field_six %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_seven %>
+    <%= form.text_field :field_seven %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_eight %>
+    <%= form.text_field :field_eight %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_nine %>
+    <%= form.text_field :field_nine %>
+  </div>
+
+  <div class="field">
+    <%= form.label :field_ten %>
+    <%= form.text_field :field_ten %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+

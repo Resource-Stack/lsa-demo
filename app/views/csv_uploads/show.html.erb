@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @csv_upload.user_id %>
+</p>
+
+<p>
+  <strong>Flagged:</strong>
+  <%= @csv_upload.flagged %> 
+</p>
+
+<p>
+  <strong>Master Fields :</strong>
+  <%= @masterRow %>
+</p>
+
+<p>
+  <strong>Uploaded Fields :</strong>
+  <%= @current_row %>
+</p>
+
+
+
+<p>Add to data dictionary ? 
+	<%= link_to 'Add', new_data_dictionary_path  %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_csv_upload_path(@csv_upload) %> |
+<%= link_to 'Back', csv_uploads_path %>

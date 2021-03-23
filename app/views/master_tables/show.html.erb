@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Field one:</strong>
+  <%= @master_table.field_one %>
+</p>
+
+<p>
+  <strong>Field two:</strong>
+  <%= @master_table.field_two %>
+</p>
+
+<p>
+  <strong>Field three:</strong>
+  <%= @master_table.field_three %>
+</p>
+
+
+<%= link_to 'Edit', edit_master_table_path(@master_table) %> |
+<%= link_to 'Back', master_tables_path %>

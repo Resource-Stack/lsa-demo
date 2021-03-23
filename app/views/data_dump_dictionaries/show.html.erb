@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @data_dump_dictionary.user_id %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @data_dump_dictionary.source_id %>
+</p>
+
+<p>
+  <strong>Csv header name:</strong>
+  <%= @data_dump_dictionary.csv_header_name %> 
+</p>
+
+<div>
+<% @dataDumpTables.each do |x| %>
+
+	<p><%= x.csv_header_name %>:<%= x.csv_row_value %></p>
+
+<% end %>	
+</div>
+
+
+<%= link_to 'Edit', edit_data_dump_dictionary_path(@data_dump_dictionary) %> |
+<%= link_to 'Back', data_dump_dictionaries_path %>
