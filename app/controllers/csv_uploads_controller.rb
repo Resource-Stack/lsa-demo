@@ -1,6 +1,6 @@
 class CsvUploadsController < ApplicationController
   before_action :set_csv_upload, only: %i[ show edit update destroy ]
-  before_action :set_master_table, only: %i[ show edit validate submit create update destroy ]
+  before_action :set_master_table, only: %i[ show edit validate submit create add_data_dictionary add_data_dump update destroy ]
   require 'csv'
 
   # GET /csv_uploads or /csv_uploads.json
@@ -256,6 +256,23 @@ class CsvUploadsController < ApplicationController
     end
     
 
+  end 
+
+
+  def add_data_dictionary
+        @data_dictionary = DataDictionary.new
+        respond_to do |format|
+          format.html
+          format.js
+        end
+  end 
+
+  def add_data_dump
+      @data_dump_dictionary = DataDumpDictionary.new
+        respond_to do |format|
+          format.html 
+          format.js
+        end
   end 
 
   private

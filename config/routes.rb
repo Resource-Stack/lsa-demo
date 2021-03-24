@@ -9,4 +9,6 @@ root'dashboard#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   post 'validate', to: 'csv_uploads#validate'
   post 'submit', to: 'csv_uploads#submit'
+  get 'add_data_dictionary', to: 'csv_uploads#add_data_dictionary'
+  get 'add_data_dump', to: 'csv_uploads#add_data_dump'
 end

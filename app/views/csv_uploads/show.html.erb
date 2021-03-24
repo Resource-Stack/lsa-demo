@@ -26,13 +26,15 @@
 </p>
 
 
+<h3>Add Rule</h3>
+  <%= link_to 'Add Rule', add_data_dictionary_path, class: 'btn btn-primary text-white', remote: true  %>
+  <%= link_to 'Add Exception', add_data_dump_path, class: 'btn btn-primary text-white', remote: true  %>
+
+<div id="rule_div"></div>
 
 
-<p>Add to data dictionary ? 
-	<%= link_to 'Add', new_data_dictionary_path  %>
-</p>
 
-
+<hr>
 
 <%= link_to 'Edit', edit_csv_upload_path(@csv_upload) %> |
 <%= link_to 'Back', csv_uploads_path %>
