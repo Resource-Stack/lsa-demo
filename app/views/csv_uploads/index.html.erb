@@ -25,12 +25,21 @@
         <td><%= link_to 'Show', csv_upload %></td>
         <td><%= link_to 'Edit', edit_csv_upload_path(csv_upload) %></td>
         <td><%= link_to 'Destroy', csv_upload, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></td>
+
+        <% if csv_upload.flagged == false%>
+          <td>Ready to submit</td>
+        <% else %>
+          <td><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></td>
+        <% end %>
+
+
         <% if csv_upload.flagged == false%>
           <td><button id="submit_csv" onclick="submit(<%= csv_upload.id %>)">Submit</button></td>
         <% else %>
           <td>Please Validate</td>
         <% end %>
+
+
       </tr>
     <% end %>
   </tbody>

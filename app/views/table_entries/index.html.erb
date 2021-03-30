@@ -5,16 +5,10 @@
 <table class="table table-stripped">
   <thead>
     <tr>
-      <th>Field one</th>
-      <th>Field two</th>
-      <th>Field three</th>
-      <th>Field 4</th>
-      <th>Field 5</th>
-      <th>Field 6</th>
-      <th>Field 7</th>
-      <th>Field 8</th>
-      <th>Field 9</th>
-      <th>Field 10</th>
+      <% @masterRow.each do |x| %>
+        <th> <%= x %></th>
+      <% end %>
+
       <th colspan="3"></th>
     </tr>
   </thead>

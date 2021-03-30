@@ -4,6 +4,14 @@ class TableEntriesController < ApplicationController
   # GET /table_entries or /table_entries.json
   def index
     @table_entries = TableEntry.all
+    @masterTable = MasterTable.first
+        #this should be the master table belonging to the user. 
+        @masterRow = []
+        @masterTable.attributes.each do |k,v|
+          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
+            @masterRow.push(v)
+          end 
+        end
   end
 
   # GET /table_entries/1 or /table_entries/1.json
