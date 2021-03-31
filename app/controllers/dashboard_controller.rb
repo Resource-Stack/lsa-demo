@@ -2,12 +2,12 @@ class DashboardController < ApplicationController
 
 	def index
 
-		@table_entries = TableEntry.all
+		@tableEntry = TableEntry.first
 		#Need to add this logic to model to handle these break downs
-		@field_one = @table_entries.pluck(:field_one)
-		@field_one_size = @field_one.size
-		@f_one_avg = @field_one.map(&:to_i).sum / @field_one_size.to_i
-		@f_one_unique = @field_one.map(&:to_i).uniq.sort
+		#@field_one = @table_entries.pluck(:field_one)
+		#@field_one_size = @field_one.size
+		#@f_one_avg = @field_one.map(&:to_i).sum / @field_one_size.to_i
+		#@f_one_unique = @field_one.map(&:to_i).uniq.sort
 
 
 
@@ -24,6 +24,10 @@ class DashboardController < ApplicationController
 			end 
 			#
 		end
+	end 
+
+	def time_range_report
+		p 'here'
 	end 
 
 

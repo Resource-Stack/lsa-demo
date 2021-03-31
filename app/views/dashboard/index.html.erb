@@ -133,164 +133,94 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-
-                                        <h1>Test Display</h1>
-                                        
-                                        <ul>
-                                            <li>Number Of Entries:<%= @field_one_size %></li>
-                                            <li>Avg: <%= @f_one_avg %></li>
+                                        <h1>Generate Reports</h1>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <ul>
+                                                    <li>
+                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> *Time Range</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> Restricted Parameters</button>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> Find By</button>
+                                                    </li>
+                                                </ul>  
+                                            </div>
+                                            <div class="col-8">
+                                                
+                                            </div>
                                             
-                                            <li>Different Values: <%= @f_one_unique %></li>
-
-                                        </ul>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-<!-- Reports -->
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Field Reports</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <%= pie_chart TableEntry.group(:field_four).count %>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-<!-- Reports -->
-                    <div class="row">
 
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Field Reports</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+
+                    <% count = 0 %>
+                    <% @tableEntry.attributes.each do |k,v| %>
+                        <% if k != 'id' && k != 'created_at' && k != 'updated_at' %>
+                            
+                            <!-- Reports -->
+                            <div class="row">
+
+
+
+                                <!-- Area Chart -->
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary"> <%= @fieldValues[count] %></h6>
+                                            <div class="dropdown no-arrow">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                    aria-labelledby="dropdownMenuLink">
+                                                    <div class="dropdown-header">Chart Type</div>
+
+                                                    <button class="dropdown-item PieChart" id=<%=count.to_s%>> Pie Chart</button>
+
+                                                    <button class="dropdown-item BarChart" id=<%=count.to_s%>> Bar Chart</button>
+
+                                                    <button class="dropdown-item ColumnChart" id=<%=count.to_s%>> Column Chart</button>
+
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Something else here</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div id= <%="field_pie_" + count.to_s%> >
+                                                <%= pie_chart TableEntry.group(k).count %>
+                                            </div>
+
+                                            <div class="displayBarChart" id= <%="field_bar_" + count.to_s%> >
+                                                <%= column_chart TableEntry.group(k).count %>
+                                            </div>
+
+                                            <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
+                                                <%= bar_chart TableEntry.group(k).count %>
+                                            </div>
+
+
+                                            
+
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <%= column_chart TableEntry.group(:field_five).count %>
-
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-<!-- Reports -->
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Field Reports</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <%= column_chart TableEntry.group(:field_six).count %>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-<!-- Reports -->
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Field Reports</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-
-                                        <%= pie_chart TableEntry.group(:field_seven).count, donut: true %>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <% end %>
+                    <% count+=1 %>
+                    <% end %>
 
 
 
@@ -368,6 +298,11 @@
         <i class="fa fa-angle-up"></i>
     </a>
 
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -390,46 +325,120 @@
 
 
 
+    <!-- Time Range  Modal-->
+    <div class="modal fade" id="timeRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Generate a Time Report</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <h6>Please enter the time range & and specific field</h6>
+                    <div class="col">
+                        <label for="birthday">Start Date:</label>
+                        <input type="date" id="birthday" name="birthday">
+                    </div>
+                    <div class="col">
+                        <label for="birthday">End Date:</label><br>
+                        <input type="date" id="birthday" name="birthday">
+                    </div>
 
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+                
+                    <label>Specify Field if any</label>
+                    <select>
+                        <% @fieldValues.each do |x| %>
+                            <option><%= x %></option>
+                        <% end %>
+                        
+                    </select>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Generate Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+
+    // Activate Bar Chart
+    var barcharts = document.getElementsByClassName('BarChart')
+    for (var i =0; i < barcharts.length; i++){
+            barcharts[i].addEventListener('click', function(e){
+              //Hide Pie Chart
+              var currentID = 'field_pie_' + e.srcElement.id
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'none';
+
+              //Hide Column Chart
+              var currentColumn = 'column_bar_' + e.srcElement.id
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'none';
+
+              //Display Bar Chart
+              var barChart = 'field_bar_' + e.srcElement.id
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'block';
+              activateBar.style.transition = 'opacity 1s ease-out';
+          })
         }
-    }
-});
+
+        // Activate Bar Chart
+    var piecharts = document.getElementsByClassName('PieChart')
+    for (var i =0; i < piecharts.length; i++){
+            piecharts[i].addEventListener('click', function(e){
+              //Display Pie Chart
+              var currentID = 'field_pie_' + e.srcElement.id
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'block';
+
+              //Hide Column Chart
+              var currentColumn = 'column_bar_' + e.srcElement.id
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'none';
+
+              //Hide Bar Chart
+              var barChart = 'field_bar_' + e.srcElement.id
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'none';
+          })
+        }
+        // Activate Column Chart
+    var columncharts = document.getElementsByClassName('ColumnChart')
+    for (var i =0; i < columncharts.length; i++){
+            columncharts[i].addEventListener('click', function(e){
+
+
+              //Show Column Chart
+              var currentColumn = 'column_bar_' + e.srcElement.id
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'block';
+
+              //Hide Pie Chart
+              var currentID = 'field_pie_' + e.srcElement.id
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'none';
+
+              //Hide Bar Chart
+              var barChart = 'field_bar_' + e.srcElement.id
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'none';
+          })
+        }
+
+
+
+
 </script>
+
+
 
 
 

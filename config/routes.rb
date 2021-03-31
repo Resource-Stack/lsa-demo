@@ -11,4 +11,5 @@ root'dashboard#index'
   post 'submit', to: 'csv_uploads#submit'
   get 'add_data_dictionary', to: 'csv_uploads#add_data_dictionary'
   get 'add_data_dump', to: 'csv_uploads#add_data_dump'
+  post 'time_range_report', to: 'dashboard#time_range_report'
 end
