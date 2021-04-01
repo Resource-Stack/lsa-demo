@@ -27,9 +27,31 @@ class DashboardController < ApplicationController
 	end 
 
 	def time_range_report
-		p 'here'
+
+        respond_to do |format|
+          format.html 
+          format.js
+        end
+
 	end 
 
+	def restrict_param
+		p 'stupid'
+        respond_to do |format|
+          format.html 
+          format.js
+        end
+
+	end 
+
+	def find_By
+		p 'stupid'
+        respond_to do |format|
+          format.html 
+          format.js
+        end
+
+	end 
 
 
 	

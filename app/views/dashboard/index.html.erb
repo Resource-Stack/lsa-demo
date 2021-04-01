@@ -104,7 +104,7 @@
                         </div>
                     </div>
 
-                    <!-- Content Row -->
+                    <!-- Report Content Row -->
 
                     <div class="row">
 
@@ -141,16 +141,16 @@
                                                         <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> *Time Range</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> Restricted Parameters</button>
+                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#restrictedParameterModal"> Restricted Parameters</button>
                                                     </li>
                                                     
                                                     <li>
-                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> Find By</button>
+                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#findByModal"> Find By</button>
                                                     </li>
                                                 </ul>  
                                             </div>
-                                            <div class="col-8">
-                                                
+                                            <div class="col-8" id="generatedChart">
+                                                <p>INSERT CHART HERE</p>
                                             </div>
                                             
                                         </div>
@@ -210,10 +210,6 @@
                                             <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
                                                 <%= bar_chart TableEntry.group(k).count %>
                                             </div>
-
-
-                                            
-
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +220,7 @@
 
 
 
-                    <!-- Content Row -->
+                    <!-- Bar Chart Content Row -->
                     <div class="row">
 
                         <!-- Content Column -->
@@ -339,17 +335,17 @@
                 <div class="modal-body row">
                     <h6>Please enter the time range & and specific field</h6>
                     <div class="col">
-                        <label for="birthday">Start Date:</label>
-                        <input type="date" id="birthday" name="birthday">
+                        <label for="startDate">Start Date:</label>
+                        <input type="date" id="startDate" name="birthday">
                     </div>
                     <div class="col">
-                        <label for="birthday">End Date:</label><br>
-                        <input type="date" id="birthday" name="birthday">
+                        <label for="endDate">End Date:</label><br>
+                        <input type="date" id="endDate" name="birthday">
                     </div>
 
                 
                     <label>Specify Field if any</label>
-                    <select>
+                    <select id="fieldSelection"><br>
                         <% @fieldValues.each do |x| %>
                             <option><%= x %></option>
                         <% end %>
@@ -359,7 +355,76 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Generate Report</a>
+
+                    <button onclick="generateTimeReport()" class="btn btn-primary">Generate Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restricted Parameters Modal-->
+    <div class="modal fade" id="restrictedParameterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Restricted Parameters</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <h6>Please enter the time range & and specific field</h6>
+                    <div class="col">
+                        <label for="startDate">Start Date:</label>
+
+                    </div>
+                    <div class="col">
+                        <label for="endDate">End Date:</label><br>
+
+                    </div>
+
+                
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+                    <button onclick="generateRestrictedReport()" class="btn btn-primary">Generate Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Find By Modal-->
+    <div class="modal fade" id="findByModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Find By</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <h6>Please enter the time range & and specific field</h6>
+                    <div class="col">
+                        <label for="startDate">Start Date:</label>
+
+                    </div>
+                    <div class="col">
+                        <label for="endDate">End Date:</label><br>
+
+                    </div>
+
+                
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+                    <button onclick="generateFindByReport()" class="btn btn-primary">Generate Report</button>
                 </div>
             </div>
         </div>
@@ -372,67 +437,116 @@
     var barcharts = document.getElementsByClassName('BarChart')
     for (var i =0; i < barcharts.length; i++){
             barcharts[i].addEventListener('click', function(e){
-              //Hide Pie Chart
-              var currentID = 'field_pie_' + e.srcElement.id
-              var currentCard = document.getElementById(currentID);
-              currentCard.style.display = 'none';
 
-              //Hide Column Chart
-              var currentColumn = 'column_bar_' + e.srcElement.id
-              var columnDiv = document.getElementById(currentColumn);
-              columnDiv.style.display = 'none';
-
+              hidePie(e.srcElement.id)
+              hideColumn(e.srcElement.id)
               //Display Bar Chart
               var barChart = 'field_bar_' + e.srcElement.id
               var activateBar = document.getElementById(barChart);
               activateBar.style.display = 'block';
-              activateBar.style.transition = 'opacity 1s ease-out';
+
           })
         }
 
-        // Activate Bar Chart
+    // Activate Bar Chart
     var piecharts = document.getElementsByClassName('PieChart')
     for (var i =0; i < piecharts.length; i++){
             piecharts[i].addEventListener('click', function(e){
+              hideBar(e.srcElement.id)
+              hideColumn(e.srcElement.id)
               //Display Pie Chart
               var currentID = 'field_pie_' + e.srcElement.id
               var currentCard = document.getElementById(currentID);
               currentCard.style.display = 'block';
 
-              //Hide Column Chart
-              var currentColumn = 'column_bar_' + e.srcElement.id
-              var columnDiv = document.getElementById(currentColumn);
-              columnDiv.style.display = 'none';
-
-              //Hide Bar Chart
-              var barChart = 'field_bar_' + e.srcElement.id
-              var activateBar = document.getElementById(barChart);
-              activateBar.style.display = 'none';
           })
         }
-        // Activate Column Chart
+    // Activate Column Chart
     var columncharts = document.getElementsByClassName('ColumnChart')
     for (var i =0; i < columncharts.length; i++){
             columncharts[i].addEventListener('click', function(e){
 
-
+              hidePie(e.srcElement.id)
+              hideBar(e.srcElement.id)
               //Show Column Chart
               var currentColumn = 'column_bar_' + e.srcElement.id
               var columnDiv = document.getElementById(currentColumn);
               columnDiv.style.display = 'block';
 
-              //Hide Pie Chart
-              var currentID = 'field_pie_' + e.srcElement.id
-              var currentCard = document.getElementById(currentID);
-              currentCard.style.display = 'none';
 
-              //Hide Bar Chart
-              var barChart = 'field_bar_' + e.srcElement.id
-              var activateBar = document.getElementById(barChart);
-              activateBar.style.display = 'none';
           })
         }
 
+    function hidePie(e){
+            //Hide Pie Chart
+              var currentID = 'field_pie_' + e
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'none';
+    }
+
+    function hideBar(e){
+
+              //Hide Bar Chart
+              var barChart = 'field_bar_' + e
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'none';
+    }
+
+    function hideColumn(e){
+              var currentColumn = 'column_bar_' + e
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'none';
+    }
+
+    function generateTimeReport(){
+        var endDate = document.getElementById('endDate').value
+        var startDate = document.getElementById('startDate').value
+        var fieldSelection = document.getElementById('fieldSelection')
+        var field_selected = fieldSelection.options[fieldSelection.selectedIndex].text
+
+        var mydata = {
+            start_date: endDate,
+            end_date: startDate,
+            field_selection: field_selected,
+        }   
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/timeRangeReport", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+
+    }
+
+    function generateRestrictedReport(){
+
+
+        var mydata = {
+            soda: 'caffeine',
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/restrictParam", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+    }
+
+    function generateFindByReport(){
+
+
+        var mydata = {
+            soda: 'caffeine',
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/findBy", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+    }
 
 
 
