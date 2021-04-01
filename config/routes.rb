@@ -15,4 +15,10 @@ root'dashboard#index'
   post 'timeRangeReport', to: 'dashboard#timeRangeReport'
   post 'restrictParam', to: 'dashboard#restrictParam'
   post 'findBy', to: 'dashboard#findBy'
+  #update Field Selections
+  post 'update_time_field_selection', to: 'dashboard#updateTimeFieldSelection'
+  post 'update_filter_one', to: 'dashboard#update_filter_one'
+  post 'update_filter_two', to: 'dashboard#update_filter_two'
+  post 'find_by_filter', to: 'dashboard#find_by_filter'
+
 end

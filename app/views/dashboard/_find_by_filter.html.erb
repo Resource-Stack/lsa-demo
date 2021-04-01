@@ -1,0 +1,8 @@
+<p>Filter By</p>
+<% @uniqueEntries.each do |x| %>
+	<input type="checkbox" name="scales" id=<%=x.to_s%>>
+	<label for=<%=x.to_s%>><%= x %></label>
+	<hr>
+<% end %>
+
+
