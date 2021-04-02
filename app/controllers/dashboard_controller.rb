@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+	require 'date'
 
 	def index
 
@@ -26,28 +27,105 @@ class DashboardController < ApplicationController
 		end
 	end 
 
-	def time_range_report
+	def timeRangeReport
+		p '[time]'
+		#p params[:start_date]
+		#p params[:end_date]
+		#p params[:field_selection]
+		#p params[:unique_selection]
+		startDate = params[:start_date].to_date.beginning_of_day
+		endDate = params[:end_date].to_date.end_of_day
+
+		#reduce by date
+		@dateRestrictions = TableEntry.where(:created_at => startDate..endDate)
+		#find specified entries
+		@masterTable = MasterTable.first  
+		@uniqueEntries = []
+		@masterTable.attributes.each do |k,v|
+			#these are the fields associated to with a postgres table we don't care about
+			if k != 'id' && k != 'created_at' && k != 'updated_at'
+				if params[:field_selection] == v
+
+					@focusedTableEntries = @dateRestrictions.where("#{k}": "#{params[:unique_selection]}")
+					p @focusedTableEntries
+				end 
+			end 
+		end 
+
+
 
         respond_to do |format|
-          format.html 
+          #format.html 
           format.js
         end
 
 	end 
 
-	def restrict_param
+	def restrictParam
+		p params[:first_field]
+		p params[:filter_one]
+
+		p params[:second_field]
+		p params[:filter_two]
+		@masterTable = MasterTable.first  
+		@uniqueEntries = []
+		@masterTable.attributes.each do |k,v|
+			#these are the fields associated to with a postgres table we don't care about
+			#This will throw an error unless it is done in order....
+			if k != 'id' && k != 'created_at' && k != 'updated_at'
+				if params[:first_field] == v
+					@firstFocusedTableEntries = TableEntry.where("#{k}": "#{params[:filter_one]}")
+				elsif params[:second_field] == v
+					@secondFocusedTableEntries = @firstFocusedTableEntries.where("#{k}": "#{params[:filter_two]}")
+				else
+					p ' no match'
+				end 
+			end 
+		end 
+		
+
 
         respond_to do |format|
-          format.html 
+          #format.html 
           format.js
         end
 
 	end 
 
-	def find_By
+	def findBy
+		p params[:findby_field]
+		p params[:values]
+
+		@masterTable = MasterTable.first  
+		@count = 0
+		@masterTable.attributes.each do |k,v|
+			#these are the fields associated to with a postgres table we don't care about
+			#This will throw an error unless it is done in order....
+			if k != 'id' && k != 'created_at' && k != 'updated_at'
+				if params[:findby_field] == v
+					params[:values].split(',').each do |x|
+						p x
+						if @count == 0 
+							@currentCollection = TableEntry.where("#{k}": "#{x}")	
+							#logger.debug("current #{@currentCollection}")
+							@FindByTableEntries = @currentCollection
+							#logger.debug("FocusedTableEntries #{@FocusedTableEntries}")
+						else 
+							p 'not 0'
+							nextCollection = TableEntry.where("#{k}": "#{x}")	
+							#logger.debug("next #{nextCollection}")
+							@FindByTableEntries = (@FindByTableEntries + nextCollection)
+							
+						end 
+						@count = @count + 1
+					end 
+				end 
+			end 
+		end 
+		logger.debug("focus #{@FindByTableEntries}")
 
         respond_to do |format|
-          format.html 
+          #format.html 
           format.js
         end
 

@@ -1,1 +1,37 @@
 <h1>Find By</h1>
+
+<table class="table table-stripped">
+  <thead>
+    <tr>
+      <th>field_one</th>
+      <th>field two</th>
+      <th>field_three</th>
+      <th>field four</th>
+      <th>field_five</th>
+      <th>field six</th>
+      <th>field_seven</th>
+      <th>field eight</th>
+      <th>field_nine</th>
+      <th>field ten</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @FindByTableEntries.each do |x| %>
+      <tr>
+        <td><%= x.field_one %></td>
+        <td><%= x.field_two %></td>
+        <td><%= x.field_three %></td>
+        <td><%= x.field_four %></td>
+        <td><%= x.field_five %></td>
+        <td><%= x.field_six %></td>
+        <td><%= x.field_seven %></td>
+        <td><%= x.field_eight %></td>
+        <td><%= x.field_nine %></td>
+        <td><%= x.field_ten %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
