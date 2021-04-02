@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
 	require 'date'
-
+	before_action :set_master_table, only: %i[ timeRangeReport restrictParam findBy ] 
 	def index
 
 		@tableEntry = TableEntry.first
@@ -216,5 +216,27 @@ class DashboardController < ApplicationController
           format.js
         end
 	end 
+
+	private 
+
+    def set_master_table
+
+      if MasterTable.first.present?
+
+        #this should be the master table belonging to the user.
+        @masterTable = MasterTable.first  
+        @masterRow = []
+        @masterWithIndex = []
+        @masterTable.attributes.each do |k,v|
+            logger.debug("K:#{k} V: #{v}")
+          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
+
+            @masterRow.push(v)
+            @masterWithIndex.push([k,v])
+          end 
+        end 
+      #
+      end
+    end
 	
 end

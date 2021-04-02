@@ -1,8 +1,9 @@
 <p>Filter By</p>
+<!-- Page Heading -->
 <% @uniqueEntries.each do |x| %>
 	<input class="findbyOption" type="checkbox" name="scales" id=<%=x.to_s%>>
 	<label for=<%=x.to_s%>><%= x %></label>
-
+	|
 <% end %>
 
 

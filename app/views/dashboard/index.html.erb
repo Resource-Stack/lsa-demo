@@ -10,14 +10,8 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fa fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
 
-                    <!-- Content Row -->
+                    <!-- Header Content Row -->
                     <div class="row">
 
                         <!-- Earnings (Monthly) Card Example -->
@@ -105,7 +99,6 @@
                     </div>
 
                     <!-- Report Content Row -->
-
                     <div class="row">
 
                         <!-- Area Chart -->
@@ -114,7 +107,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">General Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Generate Reports</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -122,37 +115,28 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Download This Chart</a>
+                                            <div class="dropdown-header">Filter Types:</div>
+
+
+                                            <button class="dropdown-item" data-toggle="modal" data-target="#timeRangeModal">Filter by Date</button>
+
+
+                                            <button class="dropdown-item" data-toggle="modal" data-target="#restrictedParameterModal">Filter by Parameters</button>
+
+
+
+                                            <button class="dropdown-item" data-toggle="modal" data-target="#findByModal"> Filter by Values</button>
+
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <h1>Generate Reports</h1>
+                                    <div class="chart-area">   
                                         <div class="row">
-                                            <div class="col-4">
-                                                <ul>
-                                                    <li>
-                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#timeRangeModal"> *Time Range</button>
-                                                    </li>
-                                                    <li>
-                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#restrictedParameterModal"> Restricted Parameters</button>
-                                                    </li>
-                                                    
-                                                    <li>
-                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#findByModal"> Find By</button>
-                                                    </li>
-                                                </ul>  
+                                            <div class="col-12" id="generatedChart">
+                                                <p>Select Filter From Dropdown</p>
                                             </div>
-                                            <div class="col-8" id="generatedChart">
-                                                <p>INSERT CHART HERE</p>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +144,7 @@
                         </div>
                     </div>
 
-
+                    <!-- Dashboard Charts -->
                     <% count = 0 %>
                     <% @tableEntry.attributes.each do |k,v| %>
                         <% if k != 'id' && k != 'created_at' && k != 'updated_at' %>
@@ -193,7 +177,7 @@
                                                     <button class="dropdown-item ColumnChart" id=<%=count.to_s%>> Column Chart</button>
 
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Something else here</a>
+                                                    <a class="dropdown-item" href="#">Download This Chart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,7 +261,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; ForeScout</span>
                     </div>
                 </div>
             </footer>
@@ -294,10 +278,10 @@
         <i class="fa fa-angle-up"></i>
     </a>
 
-                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+        Logout
+    </a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -319,21 +303,18 @@
         </div>
     </div>
 
-
-
     <!-- Time Range  Modal-->
     <div class="modal fade" id="timeRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Generate a Time Report</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Filter By Date</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body row">
-                    <h6>Please enter the time range & and specific field</h6>
                     <div class="col">
                         <label for="startDate">Start Date:</label>
                         <input type="date" id="startDate" name="birthday">
@@ -343,14 +324,18 @@
                         <input type="date" id="endDate" name="birthday">
                     </div>
 
-                
-                    <label>Specify Field if any</label>
-                    <select id="fieldSelection" ><br>
-                        <% @fieldValues.each do |x| %>
-                            <option><%= x %></option>
-                        <% end %>
-                        
-                    </select>
+
+                        <div class="col-12">
+                            <label>Specify Field </label>
+                            <select id="fieldSelection" ><br>
+                                <% @fieldValues.each do |x| %>
+                                    <option><%= x %></option>
+                                <% end %>
+                                
+                            </select>                                                    
+                        </div>
+
+
                     <div id="timeRangeSelection">
                         
                     </div>
@@ -371,15 +356,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Filtered View</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Filter By Fields</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body row">
-                    <h6>Please enter the time range & and specific field</h6>
                     <div class="col">
-                        <label for="startDate">Specify First Parameter</label>
+                        <label for="startDate">Specify First Field</label>
                         <select id ='filterFirstParamQuery'>
                             <% @fieldValues.each do |fe| %>
                                 <option> <%= fe %></option>
@@ -392,7 +376,7 @@
 
                     </div>
                     <div class="col">
-                        <label for="endDate">Specify Second Parameter</label>
+                        <label for="endDate">Specify Second Field</label>
                         <select id ='filterSecondParamQuery'>
                             <% @fieldValues.each do |fe| %>
                                 <option> <%= fe %></option>
@@ -423,14 +407,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Find By</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Filter By Values</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body row">
-                    <h6>Please enter the time range & and specific field</h6>
-                        <label for="startDate">Specify First Parameter</label>
+                        <label for="startDate">Specify Field</label>
                         <select id="findBySelect">
                             <% @fieldValues.each do |fe| %>
                                 <option> <%= fe %></option>
