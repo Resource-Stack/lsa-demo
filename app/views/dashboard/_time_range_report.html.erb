@@ -8,17 +8,10 @@
 <table class="table table-stripped" >
   <thead>
     <tr>
-      <th>field_one</th>
-      <th>field two</th>
-      <th>field_three</th>
-      <th>field four</th>
-      <th>field_five</th>
-      <th>field six</th>
-      <th>field_seven</th>
-      <th>field eight</th>
-      <th>field_nine</th>
-      <th>field ten</th>
-      <th colspan="5"></th>
+      <% @masterRow.each do |x| %>
+        <th> <%= x %></th>
+      <% end %>
+
     </tr>
   </thead>
 

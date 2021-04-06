@@ -152,8 +152,6 @@
                             <!-- Reports -->
                             <div class="row">
 
-
-
                                 <!-- Area Chart -->
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="card shadow mb-4">
@@ -198,8 +196,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <% count+=1 %>
                         <% end %>
-                    <% count+=1 %>
+                    
                     <% end %>
 
 
@@ -328,6 +327,7 @@
                         <div class="col-12">
                             <label>Specify Field </label>
                             <select id="fieldSelection" ><br>
+                                <option></option>
                                 <% @fieldValues.each do |x| %>
                                     <option><%= x %></option>
                                 <% end %>
@@ -365,7 +365,9 @@
                     <div class="col">
                         <label for="startDate">Specify First Field</label>
                         <select id ='filterFirstParamQuery'>
+                            <option></option>
                             <% @fieldValues.each do |fe| %>
+
                                 <option> <%= fe %></option>
                             <% end %>
                         </select>
@@ -378,6 +380,7 @@
                     <div class="col">
                         <label for="endDate">Specify Second Field</label>
                         <select id ='filterSecondParamQuery'>
+                            <option></option>
                             <% @fieldValues.each do |fe| %>
                                 <option> <%= fe %></option>
                             <% end %>
@@ -415,7 +418,9 @@
                 <div class="modal-body row">
                         <label for="startDate">Specify Field</label>
                         <select id="findBySelect">
+                            <option></option>
                             <% @fieldValues.each do |fe| %>
+
                                 <option> <%= fe %></option>
                             <% end %>
                         </select>
