@@ -1,0 +1,28 @@
+<h1>Edit User</h1>
+<%= form_with(model: @user, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :role_id %>
+    <%= collection_select(:role, :role_id, @roles, :id, :title, {:prompt => true}) %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :overlooking_user %>
+    <%= form.text_field :overlooking_user %>
+  </div>
+  <div class="field">
+    <%= form.label :user_first_name %>
+    <%= form.text_field :user_first_name %>
+  </div>
+  <div class="field">
+    <%= form.label :user_last_name %>
+    <%= form.text_field :user_last_name %>
+  </div>
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div> 
+<% end %>

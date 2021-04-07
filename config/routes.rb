@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+ 
+  
+  root'dashboard#index'
   resources :roles
   devise_for :users
+  resources :users, only: [:show, :edit, :update]
   resources :data_dump_dictionaries
   resources :data_dump_tables
-root'dashboard#index'
   resources :table_entries
   resources :data_dictionaries
   resources :csv_uploads
