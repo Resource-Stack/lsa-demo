@@ -1,0 +1,36 @@
+<h1>Users</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+		<th>user_id</th>
+		<th>role_id</th>
+		<th>overlooking_user</th>
+		<th>user_first_name</th>
+		<th>user_last_name</th>
+		<th>email</th>
+		<th>created_at</th>
+       	<th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+	<% @users.each do |role|%>
+      <tr>
+        <td><%= role.id %></td>
+        <td><%= role.role_id %></td>
+        <td><%= role.overlooking_user %></td>
+        <td><%= role.user_first_name %></td>
+        <td><%= role.user_last_name %></td>
+        <td><%= role.email %></td>
+        <td><%= role.created_at %></td>
+        
+        <td><%= link_to 'Show', role %></td>
+        <td><%= link_to 'Edit', edit_user_path(role) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
