@@ -11,6 +11,7 @@ class CreateTableEntries < ActiveRecord::Migration[5.2]
       t.string :field_eight
       t.string :field_nine
       t.string :field_ten
+      t.integer :user_id
 
       t.timestamps
     end

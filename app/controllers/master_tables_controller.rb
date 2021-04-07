@@ -3,7 +3,15 @@ class MasterTablesController < ApplicationController
 
   # GET /master_tables or /master_tables.json
   def index
-    @master_tables = MasterTable.all
+    #@master_tables = MasterTable.all
+      p current_user.master_table
+      p MasterTable.first.inspect
+    if current_user.master_table.present?
+      p 'true'
+      @master_table = current_user.master_table
+    else
+      p 'false'
+    end 
   end
 
   # GET /master_tables/1 or /master_tables/1.json
@@ -64,6 +72,6 @@ class MasterTablesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def master_table_params
-      params.require(:master_table).permit(:field_one, :field_two, :field_three, :field_four, :field_five, :field_six, :field_seven, :field_eight, :field_nine, :field_ten)
+      params.require(:master_table).permit(:field_one, :field_two, :field_three, :field_four, :field_five, :field_six, :field_seven, :field_eight, :field_nine, :field_ten, :user_id)
     end
 end

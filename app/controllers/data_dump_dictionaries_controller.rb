@@ -65,6 +65,6 @@ class DataDumpDictionariesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def data_dump_dictionary_params
-      params.require(:data_dump_dictionary).permit(:user_id, :source_id, :csv_header_name)
+      params.require(:data_dump_dictionary).permit(:csv_header_name, :user_id, :source_id, :policy_id, :forescout_id )
     end
 end

@@ -78,6 +78,8 @@ class DataDictionariesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def data_dictionary_params
-      params.require(:data_dictionary).permit(:user_id, :admin_id, :csv_header_name, :maps_to)
+      params.require(:data_dictionary).permit( :user_id, :forescout_id, :source_id, :admin_id, :csv_header_name, :maps_to)
+
+
     end
 end

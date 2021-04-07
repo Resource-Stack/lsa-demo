@@ -145,8 +145,9 @@
                     </div>
 
                     <!-- Dashboard Charts -->
+                    <% if @tableEntry.present? %>
                     <% count = 0 %>
-                    <% @tableEntry.attributes.each do |k,v| %>
+                    <% @tableEntry.attributes.each do |k,v| %> 
                         <% if k != 'id' && k != 'created_at' && k != 'updated_at' %>
                             
                             <!-- Reports -->
@@ -198,9 +199,10 @@
                             </div>
                             <% count+=1 %>
                         <% end %>
-                    
                     <% end %>
-
+                    <% else %>
+                        <h1> No Data Has Been Uploaded</h1>
+                    <% end %>
 
 
                     <!-- Bar Chart Content Row -->
@@ -260,7 +262,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; ForeScout</span>
+                        <span>Copyright &copy; Lifescale Analytics</span>
                     </div>
                 </div>
             </footer>
@@ -277,31 +279,9 @@
         <i class="fa fa-angle-up"></i>
     </a>
 
-    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-        Logout
-    </a>
+ 
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <% if @fieldValues.present? %>
     <!-- Time Range  Modal-->
     <div class="modal fade" id="timeRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -440,6 +420,7 @@
             </div>
         </div>
     </div>
+    <% end %>
 
 <script type="text/javascript">
 

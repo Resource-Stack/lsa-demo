@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :roles
+  devise_for :users
   resources :data_dump_dictionaries
   resources :data_dump_tables
 root'dashboard#index'

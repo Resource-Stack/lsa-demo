@@ -185,7 +185,7 @@ class CsvUploadsController < ApplicationController
         #mapping['field_three'] = the current csv index of
       elsif DataDictionary.find_by_csv_header_name(singleRowValue).present?
         
-        @map_key = DataDictionary.where("user_id = ? AND csv_header_name = ?", '333', x)
+        @map_key = DataDictionary.where("user_id = ? AND csv_header_name = ?", current_user.id, x)
         current_index = @current_row.index(x)
         mapping[@map_key[0].maps_to] = current_index
         #logger.debug("mapKey: #{@map_key[0].maps_to}....Index: #{current_index}")
@@ -228,6 +228,7 @@ class CsvUploadsController < ApplicationController
       te.field_eight = row[mapping['field_eight']]
       te.field_nine = row[mapping['field_nine']]
       te.field_ten = row[mapping['field_ten']]
+      te.user_id = current_user.id
       te.save
       #p row[mapping['field_one']]
       #p row[mapping['field_two']]
@@ -283,22 +284,23 @@ class CsvUploadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def csv_upload_params
-      params.require(:csv_upload).permit(:user_id, :flagged, :csv_file, :source_id, :location_id, :policy_id)
+      params.require(:csv_upload).permit(:user_id, :source_id, :policy_id, :forescout_id, :flagged, :uploaded, :csv_file)
     end
 
 
 
     def set_master_table
 
-      if MasterTable.first.present?
+      if current_user.master_table.present?
 
         #this should be the master table belonging to the user.
-        @masterTable = MasterTable.first  
+        #@masterTable = MasterTable.first  
+        @masterTable = current_user.master_table
         @masterRow = []
         @masterWithIndex = []
         @masterTable.attributes.each do |k,v|
             logger.debug("K:#{k} V: #{v}")
-          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
+          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil && k != 'user_id'
 
             @masterRow.push(v)
             @masterWithIndex.push([k,v])

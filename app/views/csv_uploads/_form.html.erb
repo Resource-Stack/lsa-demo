@@ -10,16 +10,44 @@
       </ul>
     </div>
   <% end %>
-  <p>For Testing, use user 333</p>
+
   <div class="field">
     <%= form.label :user_id %>
-    <%= form.number_field :user_id %>
+    <%= form.text_field :user_id, :value => current_user.id %>
   </div>
 
   <div class="field">
     <%= form.label :csv_file %>
     <%= form.file_field :csv_file %>
   </div>
+
+  <div class="field">
+    <%= form.label :forescout_id %>
+    <%= form.text_field :forescout_id %>
+  </div>
+    <div class="field">
+    <%= form.label :source_id %>
+    <%= form.text_field :source_id %>
+  </div>
+    <div class="field">
+    <%= form.label :policy_id %>
+    <%= form.text_field :policy_id %>
+  </div>
+
+    <div class="field">
+    <%= form.label :uploaded %>
+    <%= form.check_box :uploaded %>
+  </div>
+
+      <div class="field">
+    <%= form.label :flagged %>
+    <%= form.check_box :flagged %>
+  </div>
+
+
+
+
+
 
   <div class="actions">
     <%= form.submit %>

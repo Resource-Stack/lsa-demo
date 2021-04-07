@@ -7,6 +7,10 @@
     <tr>
       <th>User</th>
       <th>Flagged</th>
+      <th>Uploaded</th>
+      <th>source</th>
+      <th>policy</th>
+      <th>forescout</th>
       <th colspan="5"></th>
     </tr>
   </thead>
@@ -21,6 +25,11 @@
         <% else %>
           <td style="background-color: green"><%= csv_upload.flagged %></td>
         <% end %>
+
+        <td><%= csv_upload.uploaded %></td>
+        <td><%= csv_upload.source_id %></td>
+        <td><%= csv_upload.policy_id %></td>
+        <td><%= csv_upload.forescout_id %></td>
 
         <td><%= link_to 'Show', csv_upload %></td>
         <td><%= link_to 'Edit', edit_csv_upload_path(csv_upload) %></td>

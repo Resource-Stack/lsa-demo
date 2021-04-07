@@ -1,20 +1,19 @@
 class DashboardController < ApplicationController
 	require 'date'
 	before_action :set_master_table, only: %i[ timeRangeReport restrictParam findBy ] 
+	before_action :authenticate_user!
 	def index
 
-		@tableEntry = TableEntry.first
-		#Need to add this logic to model to handle these break downs
-		#@field_one = @table_entries.pluck(:field_one)
-		#@field_one_size = @field_one.size
-		#@f_one_avg = @field_one.map(&:to_i).sum / @field_one_size.to_i
-		#@f_one_unique = @field_one.map(&:to_i).uniq.sort
+		if current_user.table_entries.present? && current_user.master_table.present?
+			#only concerned about first row. Need to make conditional based off values 
+			@tableEntry = current_user.table_entries[0]
 
-
-
-		if MasterTable.first.present?
-			#
-			@masterTable = MasterTable.first  
+			#Need to add this logic to model to handle these break downs
+			#@field_one = @table_entries.pluck(:field_one)
+			#@field_one_size = @field_one.size
+			#@f_one_avg = @field_one.map(&:to_i).sum / @field_one_size.to_i
+			#@f_one_unique = @field_one.map(&:to_i).uniq.sort
+			@masterTable = current_user.master_table
 			@fieldValues = []
 			@masterTable.attributes.each do |k,v|
 				p k
@@ -23,8 +22,15 @@ class DashboardController < ApplicationController
 					@fieldValues.push(v) 
 				end 
 			end 
-			#
-		end
+
+		elsif !current_user.master_table.present?
+			redirect_to master_tables_path, notice: "Please Create A Master Table"
+		end 
+
+
+
+			
+
 	end 
 
 	def timeRangeReport
@@ -39,7 +45,7 @@ class DashboardController < ApplicationController
 		#reduce by date
 		@dateRestrictions = TableEntry.where(:created_at => startDate..endDate)
 		#find specified entries
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table 
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -67,7 +73,7 @@ class DashboardController < ApplicationController
 
 		p params[:second_field]
 		p params[:filter_two]
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table 
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -96,7 +102,7 @@ class DashboardController < ApplicationController
 		p params[:findby_field]
 		p params[:values]
 
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table 
 		@count = 0
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -132,7 +138,7 @@ class DashboardController < ApplicationController
 	end 
 
 	def find_by_filter
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table  
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -153,7 +159,7 @@ class DashboardController < ApplicationController
 	end 
 
 	def updateTimeFieldSelection
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table   
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -175,7 +181,7 @@ class DashboardController < ApplicationController
 
 	def update_filter_one
 		p 'test'
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table 
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -197,7 +203,7 @@ class DashboardController < ApplicationController
 
 	def update_filter_two
 		p 'test'
-		@masterTable = MasterTable.first  
+		@masterTable = current_user.master_table  
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
@@ -221,10 +227,11 @@ class DashboardController < ApplicationController
 
     def set_master_table
 
-      if MasterTable.first.present?
+
+      if current_user.master_table.present?
 
         #this should be the master table belonging to the user.
-        @masterTable = MasterTable.first  
+        @masterTable = current_user.master_table   
         @masterRow = []
         @masterWithIndex = []
         @masterTable.attributes.each do |k,v|

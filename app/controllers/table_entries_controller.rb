@@ -29,7 +29,7 @@ class TableEntriesController < ApplicationController
 
   # POST /table_entries or /table_entries.json
   def create
-    @table_entry = TableEntry.new(table_entry_params)
+    @table_entry = TableEntry.new(table_entry_params) 
 
     respond_to do |format|
       if @table_entry.save
@@ -72,6 +72,6 @@ class TableEntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def table_entry_params
-      params.require(:table_entry).permit(:field_one, :field_two, :field_three,:field_four, :field_five, :field_six, :field_seven, :field_eight, :field_nine, :field_ten)
+      params.require(:table_entry).permit(:field_one, :field_two, :field_three,:field_four, :field_five, :field_six, :field_seven, :field_eight, :field_nine, :field_ten, :user_id)
     end
 end
