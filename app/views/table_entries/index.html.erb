@@ -2,6 +2,8 @@
 
 <h1>Table Entries</h1>
 
+<% if @masterRow.present? %>
+
 <table class="table table-stripped">
   <thead>
     <tr>
@@ -34,6 +36,8 @@
   </tbody>
 </table>
 
+<% end %>
 <br>
+
 
 <%= link_to 'New Table Entry', new_table_entry_path %>
