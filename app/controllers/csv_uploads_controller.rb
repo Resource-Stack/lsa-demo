@@ -1,6 +1,8 @@
 class CsvUploadsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_csv_upload, only: %i[ show edit update destroy ]
   before_action :set_master_table, only: %i[ show edit validate submit create add_data_dictionary add_data_dump update destroy ]
+
   require 'csv'
 
   # GET /csv_uploads or /csv_uploads.json

@@ -1,7 +1,8 @@
 class DashboardController < ApplicationController
 	require 'date'
-	before_action :set_master_table, only: %i[ timeRangeReport restrictParam findBy ] 
 	before_action :authenticate_user!
+	before_action :set_master_table, only: %i[ timeRangeReport restrictParam findBy ] 
+	
 	def index
 
 		if current_user.table_entries.present? && current_user.master_table.present?

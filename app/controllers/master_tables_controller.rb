@@ -1,4 +1,5 @@
 class MasterTablesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_master_table, only: %i[ show edit update destroy ]
 
   # GET /master_tables or /master_tables.json

@@ -1,4 +1,5 @@
 class DataDumpTablesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_data_dump_table, only: %i[ show edit update destroy ]
 
   # GET /data_dump_tables or /data_dump_tables.json

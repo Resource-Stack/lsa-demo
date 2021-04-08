@@ -1,4 +1,5 @@
 class TableEntriesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_table_entry, only: %i[ show edit update destroy ]
 
   # GET /table_entries or /table_entries.json

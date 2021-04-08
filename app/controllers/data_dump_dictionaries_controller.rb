@@ -1,4 +1,5 @@
 class DataDumpDictionariesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_data_dump_dictionary, only: %i[ show edit update destroy ]
 
   # GET /data_dump_dictionaries or /data_dump_dictionaries.json
