@@ -7,6 +7,8 @@ class CreateCsvUploads < ActiveRecord::Migration[5.2]
       t.integer :forescout_id
       t.boolean :flagged
       t.boolean :uploaded, default: false 
+      t.boolean :uploaded_to_superior, default: false
+      t.integer :uploaded_from
 
       t.timestamps
     end

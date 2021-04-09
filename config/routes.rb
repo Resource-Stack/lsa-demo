@@ -25,5 +25,8 @@ Rails.application.routes.draw do
   post 'update_filter_one', to: 'dashboard#update_filter_one'
   post 'update_filter_two', to: 'dashboard#update_filter_two'
   post 'find_by_filter', to: 'dashboard#find_by_filter'
+  #
+  post 'upload_user_data', to: 'users#upload_user_data'
+
 
 end

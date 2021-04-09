@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2021_04_06_195650) do
     t.integer "forescout_id"
     t.boolean "flagged"
     t.boolean "uploaded", default: false
+    t.boolean "uploaded_to_superior", default: false
+    t.integer "uploaded_from"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

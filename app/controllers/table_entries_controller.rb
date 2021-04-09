@@ -4,13 +4,13 @@ class TableEntriesController < ApplicationController
 
   # GET /table_entries or /table_entries.json
   def index
-    @table_entries = TableEntry.all
+    @table_entries = TableEntry.where("user_id = ? ", current_user.id)
 
         if current_user.table_entries.present?
-          @masterTable = current_user.table_entries
+          @masterTable = current_user.master_table
           @masterRow = []
-          p @masterTable[0]
-          @masterTable[0].attributes.each do |k,v|
+          p @masterTable
+          @masterTable.attributes.each do |k,v|
             if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
               @masterRow.push(v)
             end 

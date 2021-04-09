@@ -6,10 +6,25 @@
 		<div class="col">
 			<%= form_with(model: @data_dictionary, local: true) do |form| %>
 
-			  <p>For testing, use user 333</p> 
+
 			  <div class="field">
 			    <%= form.label :user_id %>
-			    <%= form.number_field :user_id %>
+			    <%= form.text_field :user_id, :value => current_user.id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :forescout_id %>
+			    <%= form.number_field :forescout_id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :source_id %>
+			    <%= form.number_field :source_id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :admin_id %>
+			    <%= form.number_field :admin_id %>
 			  </div>
 
 			  <p>For testing, use user 1</p>
@@ -35,3 +50,5 @@
 		</div>
 	</div>
 </div>
+
+

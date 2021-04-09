@@ -7,28 +7,53 @@ class CsvUploadsController < ApplicationController
 
   # GET /csv_uploads or /csv_uploads.json
   def index
-    @csv_uploads = CsvUpload.all
+    #@csv_uploads = CsvUpload.all
+    @csv_uploads = current_user.csv_uploads
   end
 
   # GET /csv_uploads/1 or /csv_uploads/1.json
   def show
-
+    logger.debug("csv show:: #{@csv_}")
     @count = 0
     @current_row = []
-    CSV.parse( @csv_upload.csv_file.download, headers: false) do |row|
-      if @count == 0
-        @current_row = row
+
+    if @csv_upload.uploaded_from != nil 
+      associated_csv = CsvUpload.find_by(id: @csv_upload.uploaded_from)
+      CSV.parse( associated_csv.csv_file.download, headers: false) do |row|
+        if @count == 0
+          @current_row = row
+        end 
+        @count+=1
       end 
-      @count+=1
+
+      @unidentifiedValues = []
+      @current_row.each do |i|
+        ind = i.to_s.rstrip
+        if !@masterRow.include?(ind) && !DataDictionary.find_by_csv_header_name(ind).present? && !DataDumpDictionary.find_by_csv_header_name(ind).present?
+          @unidentifiedValues.push(i)
+        end 
+      end  
+
+
+    else 
+      CSV.parse( @csv_upload.csv_file.download, headers: false) do |row|
+        if @count == 0
+          @current_row = row
+        end 
+        @count+=1
+      end 
+
+      @unidentifiedValues = []
+      @current_row.each do |i|
+        ind = i.to_s.rstrip
+        if !@masterRow.include?(ind) && !DataDictionary.find_by_csv_header_name(ind).present? && !DataDumpDictionary.find_by_csv_header_name(ind).present?
+          @unidentifiedValues.push(i)
+        end 
+      end  
     end 
 
-    @unidentifiedValues = []
-    @current_row.each do |i|
-      ind = i.to_s.rstrip
-      if !@masterRow.include?(ind) && !DataDictionary.find_by_csv_header_name(ind).present? && !DataDumpDictionary.find_by_csv_header_name(ind).present?
-        @unidentifiedValues.push(i)
-      end 
-    end  
+
+
 
   end 
 
@@ -183,7 +208,7 @@ class CsvUploadsController < ApplicationController
       singleRowValue = x.to_s.rstrip
       logger.debug("Match #{x} :: TF:: #{@masterRow.include?(singleRowValue)}")
       if @masterRow.include?(singleRowValue)
-        mapping[ @masterWithIndex[@masterRow.index(singleRowValue)][0] ] = @current_row.index(x)
+        mapping[ @masterWithIndex[@masterRow.index(singleRowValue)][0]] = @current_row.index(x)
         #mapping['field_three'] = the current csv index of
       elsif DataDictionary.find_by_csv_header_name(singleRowValue).present?
         
@@ -252,7 +277,7 @@ class CsvUploadsController < ApplicationController
 
     end 
 
-    my_csv.destroy
+    my_csv.update_attribute(:uploaded, true)
     respond_to do |format|
       format.html { redirect_to csv_uploads_url, notice: "Csv was successfully uploaded into database." }
       format.json { head :no_content }
