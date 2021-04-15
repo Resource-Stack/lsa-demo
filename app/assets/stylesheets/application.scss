@@ -14,3 +14,29 @@
  *= require_self
  */
 @import "bootstrap";
+
+#content{
+	margin-left: 150px; 
+}
+
+#content-wrapper{
+	margin-left: 150px;
+}
+
+#sideNav {
+	margin-top: 150px;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 999;
+	width: 150px;
+	height: 100%;
+	background-color: inherit;
+}
+
+.content-spacer{
+	margin-left: 150px;
+}
+
+ 
