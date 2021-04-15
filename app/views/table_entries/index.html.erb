@@ -1,43 +1,49 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Table Entries</h1>
+<div class="container">
+  <div class="row" style="text-align: center; ">
+    <div class="col">
+      <h3>ABC Company</h3>
+      <h3>Cyber and Asset Dashboard</h3>
+      <p>Today's Date is: <%= Date.today %> </p>      
+    </div>
+  </div>
 
-<% if @masterRow.present? %>
+  <div class="row">
+    <div class="col-6">
+      <p style="text-align: center;">Total Number of Devices/Endpoints</p>
+      <%= line_chart @table_entries.group_by_day(:created_at).count %>
+    </div>
 
-<table class="table table-stripped">
-  <thead>
-    <tr>
-      <% @masterRow.each do |x| %>
-        <th> <%= x %></th>
-      <% end %>
+    <div class="col-6">
+      <p style="text-align: center;">Number of Devices by Operating System</p>
+      <%= pie_chart @table_entries.group(:field_seven).count %>
+    </div>
+  </div>
+</div>
 
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @table_entries.each do |table_entry| %>
-      <tr>
-        <td><%= table_entry.field_one %></td>
-        <td><%= table_entry.field_two %></td>
-        <td><%= table_entry.field_three %></td>
-        <td><%= table_entry.field_four %></td>
-        <td><%= table_entry.field_five %></td>
-        <td><%= table_entry.field_six %></td>
-        <td><%= table_entry.field_seven %></td>
-        <td><%= table_entry.field_eight %></td>
-        <td><%= table_entry.field_nine %></td>
-        <td><%= table_entry.field_ten %></td>
-        <td><%= link_to 'Show', table_entry %></td>
-        <td><%= link_to 'Edit', edit_table_entry_path(table_entry) %></td>
-        <td><%= link_to 'Destroy', table_entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<% end %>
-<br>
+<div class="row justify-content-center">
+  <div class="col-2">
+    <p style="text-align: center;">IoT Data</p>
+    <%= pie_chart @table_entries.group(:field_two).count %>
+  </div>
+  <div class="col-2">
+    <p style="text-align: center;">Wireless</p>
+    <%= pie_chart @table_entries.group(:field_seven).count %>
+  </div>
+  <div class="col-2">
+    <p style="text-align: center;">Endpoint Compliance</p>
+    <%= pie_chart @table_entries.group(:field_seven).count %>
+  </div>
+  <div class="col-2">
+    <p style="text-align: center;">Security Risk</p>
+    <%= pie_chart @table_entries.group(:field_five).count %>
+  </div>
+  <div class="col-2">
+    <p style="text-align: center;">Software Vulnerabilities</p>
+    <%= pie_chart @table_entries.group(:field_seven).count %>
+  </div>
+</div>
 
 
-<%= link_to 'New Table Entry', new_table_entry_path %>
+

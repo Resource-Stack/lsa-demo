@@ -10,8 +10,13 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                    <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Change User</a></div>
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0">Dashboard</h3>
+                        <!--<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#">
+                         <i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Change User</a>
+                        -->
+                    </div> 
+
                     <!-- Header Content Row -->
                     <div class="row">
 
@@ -22,11 +27,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                All Devices</div>
+                                                End Points</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">1,833,032</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fa fa-desktop fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -40,11 +45,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Campus Wired</div>
+                                                ioT</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">1,206,720</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fa fa-server fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +78,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fa fa-cloud fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -87,11 +92,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                OT</div>
+                                                LAN Devices</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">49,032</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fa fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fa fa-connectdevelop fa-4x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +108,7 @@
                     <div class="row">
 
                         <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
+                        <div class="col-xl-8 col-lg-8">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
@@ -136,120 +141,117 @@
                                     <div class="chart-area">   
                                         <div class="row">
                                             <div class="col-12" id="generatedChart">
-                                                <p>Select Filter From Dropdown</p>
+                                                <p>Filter From Dropdown</p>
+
+
+                                                <table class="table table-stripped">
+                                                  <thead>
+                                                    <tr>
+                                                      <% @masterRow.each do |x| %>
+                                                        <th> <%= x %></th>
+                                                      <% end %>
+
+
+                                                    </tr>
+                                                  </thead>
+
+                                                  <tbody>
+                                                    <% @table_entries.each do |table_entry| %>
+                                                      <tr>
+                                                        <td><%= table_entry.field_one %></td>
+                                                        <td><%= table_entry.field_two %></td>
+                                                        <td><%= table_entry.field_three %></td>
+                                                        <td><%= table_entry.field_four %></td>
+                                                        <td><%= table_entry.field_five %></td>
+                                                        <td><%= table_entry.field_six %></td>
+                                                        <td><%= table_entry.field_seven %></td>
+                                                        <td><%= table_entry.field_eight %></td>
+                                                        <td><%= table_entry.field_nine %></td>
+                                                        <td><%= table_entry.field_ten %></td>
+                                      
+                                                      </tr>
+                                                    <% end %>
+                                                  </tbody>
+                                                </table>
+
+
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <!-- General Reports -->                
+                        <div class="col-xl-4 col-lg-4">
+                            <!-- Dashboard Charts -->
+                            <% if @tableEntry.present? %>
+                                <% count = 0 %>
 
-                    <!-- Dashboard Charts -->
-                    <% if @tableEntry.present? %>
-                    <% count = 0 %>
-                    <% @tableEntry.attributes.each do |k,v| %> 
-                        <% if k != 'id' && k != 'created_at' && k != 'updated_at' %>
-                            
-                            <!-- Reports -->
-                            <div class="row">
+                                <% @tableEntry.attributes.each do |k,v| %> 
+                                    <% if k != 'id' && k != 'created_at' && k != 'updated_at' && k !='user_id' %>
 
-                                <!-- Area Chart -->
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="card shadow mb-4">
-                                        <!-- Card Header - Dropdown -->
-                                        <div
-                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 class="m-0 font-weight-bold text-primary"> <%= @fieldValues[count] %></h6>
-                                            <div class="dropdown no-arrow">
-                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                    aria-labelledby="dropdownMenuLink">
-                                                    <div class="dropdown-header">Chart Type</div>
+                                        <% if count%2 == 0 %>
+                                            
+                                        <% end %>
 
-                                                    <button class="dropdown-item PieChart" id=<%=count.to_s%>> Pie Chart</button>
+                                            <!-- Reports -->
+                                            <div class="col-lg-12 col-md-12 col-sm-12 d-sm-inline-block">
+                                                <div class="card shadow mb-4">
+                                                    <!-- Card Header - Dropdown -->
+                                                    <div
+                                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                        <h6 class="m-0 font-weight-bold text-primary"> <%= @fieldValues[count] %></h6>
+                                                        <div class="dropdown no-arrow">
+                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                                aria-labelledby="dropdownMenuLink">
+                                                                <div class="dropdown-header">Chart Type</div>
 
-                                                    <button class="dropdown-item BarChart" id=<%=count.to_s%>> Bar Chart</button>
+                                                                <button class="dropdown-item PieChart" id=<%=count.to_s%>> Pie Chart</button>
 
-                                                    <button class="dropdown-item ColumnChart" id=<%=count.to_s%>> Column Chart</button>
+                                                                <button class="dropdown-item BarChart" id=<%=count.to_s%>> Bar Chart</button>
 
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Download This Chart</a>
+                                                                <button class="dropdown-item ColumnChart" id=<%=count.to_s%>> Column Chart</button>
+
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item" href="#">Download This Chart</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Card Body -->
+                                                    <div class="card-body">
+                                                        <div id= <%="field_pie_" + count.to_s%> >
+                                                            <%= pie_chart TableEntry.group(k).count %>
+                                                        </div>
+
+                                                        <div class="displayBarChart" id= <%="field_bar_" + count.to_s%> >
+                                                            <%= column_chart TableEntry.group(k).count %>
+                                                        </div>
+
+                                                        <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
+                                                            <%= bar_chart TableEntry.group(k).count %>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- Card Body -->
-                                        <div class="card-body">
-                                            <div id= <%="field_pie_" + count.to_s%> >
-                                                <%= pie_chart TableEntry.group(k).count %>
-                                            </div>
+                                            <% count+=1 %>
 
-                                            <div class="displayBarChart" id= <%="field_bar_" + count.to_s%> >
-                                                <%= column_chart TableEntry.group(k).count %>
-                                            </div>
+                                        <% if count%2 == 0 %>
+                                            
+                                            <!-- This will fail if the count is not even-->
+                                        <% end %>
 
-                                            <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
-                                                <%= bar_chart TableEntry.group(k).count %>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <% count+=1 %>
-                        <% end %>
-                    <% end %>
-                    <% else %>
-                        <h1> No Data Has Been Uploaded</h1>
-                    <% end %>
+                                    <% end %>
+                                <% end %>
 
-
-                    <!-- Bar Chart Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span
-                                            class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales Tracking <span
-                                            class="float-right">40%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database <span
-                                            class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details <span
-                                            class="float-right">80%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account Setup <span
-                                            class="float-right">Complete!</span></h4>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <% else %>
+                                <h1> No Data Has Been Uploaded</h1>
+                            <% end %>
                         </div>
                     </div>
 
@@ -258,16 +260,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Lifescale Analytics</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->

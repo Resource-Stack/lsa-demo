@@ -84,6 +84,9 @@ class CsvUploadsController < ApplicationController
           if ind != nil
             p @masterRow
               currentIndex = ind.to_s.rstrip
+              #need to change this to be user
+              #DataDictionary.where("user_id = current_user.id && csv_header_name")
+              #same with DataDump
               if @masterRow.include?(currentIndex) || DataDictionary.find_by_csv_header_name(ind).present? || DataDumpDictionary.find_by_csv_header_name(ind).present?
                 validation_array.push("true")
               else

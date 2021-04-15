@@ -10,3 +10,13 @@
 .displayColumnChart{
 	display: none;
 } 
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+	display:inline-block;
+} 
+

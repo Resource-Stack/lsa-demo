@@ -1,13 +1,14 @@
 class DashboardController < ApplicationController
 	require 'date'
 	before_action :authenticate_user!
-	before_action :set_master_table, only: %i[ timeRangeReport restrictParam findBy ] 
+	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ] 
 	
 	def index
 
 		if current_user.table_entries.present? && current_user.master_table.present?
 			#only concerned about first row. Need to make conditional based off values 
 			@tableEntry = current_user.table_entries[0]
+			@table_entries = current_user.table_entries
 
 			#Need to add this logic to model to handle these break downs
 			#@field_one = @table_entries.pluck(:field_one)
@@ -19,7 +20,7 @@ class DashboardController < ApplicationController
 			@masterTable.attributes.each do |k,v|
 				p k
 				#these are the fields associated to with a postgres table we don't care about
-				if k != 'id' && k != 'created_at' && k != 'updated_at'
+				if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
 					@fieldValues.push(v) 
 				end 
 			end 
@@ -50,7 +51,7 @@ class DashboardController < ApplicationController
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
-			if k != 'id' && k != 'created_at' && k != 'updated_at'
+			if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
 				if params[:field_selection] == v
 
 					@focusedTableEntries = @dateRestrictions.where("#{k}": "#{params[:unique_selection]}")
@@ -79,7 +80,7 @@ class DashboardController < ApplicationController
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
 			#This will throw an error unless it is done in order....
-			if k != 'id' && k != 'created_at' && k != 'updated_at'
+			if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
 				if params[:first_field] == v
 					@firstFocusedTableEntries = TableEntry.where("#{k}": "#{params[:filter_one]}")
 				elsif params[:second_field] == v
@@ -108,7 +109,7 @@ class DashboardController < ApplicationController
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
 			#This will throw an error unless it is done in order....
-			if k != 'id' && k != 'created_at' && k != 'updated_at'
+			if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
 				if params[:findby_field] == v
 					params[:values].split(',').each do |x|
 						p x
@@ -143,7 +144,7 @@ class DashboardController < ApplicationController
 		@uniqueEntries = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
-			if k != 'id' && k != 'created_at' && k != 'updated_at'
+			if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
 				if params[:findBy_filter] == v
 					@focusedTableEntries = TableEntry.pluck(k)
 					@uniqueEntries = @focusedTableEntries.uniq.sort
@@ -237,7 +238,7 @@ class DashboardController < ApplicationController
         @masterWithIndex = []
         @masterTable.attributes.each do |k,v|
             logger.debug("K:#{k} V: #{v}")
-          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
+          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil && k != 'user_id'
 
             @masterRow.push(v)
             @masterWithIndex.push([k,v])

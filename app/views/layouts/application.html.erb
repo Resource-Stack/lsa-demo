@@ -18,28 +18,26 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                  <%= link_to 'Home', root_path, class: 'nav-link' %>
-                  <%= link_to 'Master Table', master_tables_path, class: 'nav-link' %>
-                  <%= link_to 'Table Entries', table_entries_path, class: 'nav-link' %>
-                  <%= link_to 'Data Dictionary', data_dictionaries_path, class: 'nav-link' %>
-                  <%= link_to 'Data Dump', data_dump_dictionaries_path, class: 'nav-link' %>
-                  <%= link_to 'My Uploads', csv_uploads_path, class: 'nav-link' %>
-                  <%= link_to 'User Roles ', roles_path, class: 'nav-link' %>
+
+                  <a class="navbar-brand" href="/">
+                    <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
+                  </a>
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
  
-
-                        <!-- Nav Item - Alerts -->
+                    <!--
+                        <!-- Nav Item - Alerts
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
+                                <!-- Counter - Alerts 
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
-                            <!-- Dropdown - Alerts -->
+                            <!-- Dropdown - Alerts 
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
@@ -82,15 +80,15 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
+                        <!-- Nav Item - Messages
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
+                                <!-- Counter - Messages 
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
-                            <!-- Dropdown - Messages -->
+                            <!-- Dropdown - Messages 
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
@@ -144,6 +142,7 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
+                    -->
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -151,25 +150,33 @@
                         <li class="nav-item dropdown no-arrow">
 
                             <% if user_signed_in? %>
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= current_user.email %></span>
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= current_user.email %></span>
 
-                            </a>
-                            <!-- Dropdown - User Information -->
+                                </a>
+                                <!-- Dropdown - User Information -->
 
-    
-    
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <%= link_to 'Settings', user_path(current_user.id), class: 'dropdown-item' %>
-                                <%= link_to 'Edit User', edit_user_path(current_user.id), class: 'dropdown-item' %>
-                                <%= link_to 'Users', users_path, class: 'dropdown-item' %>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
+        
+        
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <%= link_to 'Settings', user_path(current_user.id), class: 'dropdown-item' %>
+                                    <%= link_to 'Edit User', edit_user_path(current_user.id), class: 'dropdown-item' %>
+                                    <%= link_to 'Users', users_path, class: 'dropdown-item' %>
+
+                                    <%= link_to 'Master Table', master_tables_path, class: 'dropdown-item' %>
+                                    <%= link_to 'Table Entries', table_entries_path, class: 'dropdown-item' %>
+                                    <%= link_to 'Data Dictionary', data_dictionaries_path, class: 'dropdown-item' %>
+                                    <%= link_to 'Data Dump', data_dump_dictionaries_path, class: 'dropdown-item' %>
+                                    <%= link_to 'My Uploads', csv_uploads_path, class: 'dropdown-item' %>
+                                    <%= link_to 'User Roles ', roles_path, class: 'dropdown-item' %>
+
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Logout
+                                        </a>
                             <% else %>
                                     <a class="dropdown-item" href="#">
                                         <%= link_to 'Sign In', new_user_session_path, class: 'fa-sm fa-fw mr-2 text-gray-400' %>
@@ -184,6 +191,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
+
                 <!-- Logout Modal-->
                 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -203,7 +211,20 @@
                         </div>
                     </div>
                 </div>
+
+
     <%= yield %>
+
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Lifescale Analytics</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
   </body>
 </html>
 
