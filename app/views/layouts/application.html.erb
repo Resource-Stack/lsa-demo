@@ -187,18 +187,18 @@
         <!-- -->
         <div id="sideNav">
             <div class="sidebar-header">
-                <h6>Interface</h6>
+                <h6 class="dropdown-header"><u>INTERFACE</u></h6>
             </div>
             <%= link_to 'Dashboard', root_path, class: 'dropdown-item' %>
             <%= link_to 'Graph View', table_entries_path, class: 'dropdown-item' %>
             <%= link_to 'Mapping', master_tables_path, class: 'dropdown-item' %>
             
-            <h6>Data Management</h6>
+            <h6 class="dropdown-header"><u>DATA RULES</u></h6>
 
             <%= link_to 'Data Dictionary', data_dictionaries_path, class: 'dropdown-item' %>
             <%= link_to 'Data Dump', data_dump_dictionaries_path, class: 'dropdown-item' %>
 
-            <h6>Uploads</h6>
+            <h6 class="dropdown-header"><u>UPLOADS</u></h6>
             <%= link_to 'My Uploads', csv_uploads_path, class: 'dropdown-item' %>
             
         </div>          
@@ -234,7 +234,9 @@
 
     </div>
     <!-- End of Page Wrapper -->
+    <div class="content-spacer">
     <%= yield %>
+    </div>
                     <!-- Footer -->
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">

@@ -1,66 +1,86 @@
-
-
-<div class="content-spacer">
 <p id="notice"><%= notice %></p>
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">My Uploads</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Action:</div>
 
-<h1>Csv Uploads</h1>
+                                            <%= link_to 'New Csv Upload', new_csv_upload_path, class: 'dropdown-item' %>
 
-<table class="table table-stripped">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Flagged</th>
-      <th>Uploaded</th>
-      <th>source</th>
-      <th>policy</th>
-      <th>forescout</th>
-      <th colspan="5"></th>
-    </tr>
-  </thead>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          <th style="text-align: center;">Error</th>
+                                          <th style="text-align: center;">Submitted</th>
 
-  <tbody>
-    <% @csv_uploads.each do |csv_upload| %>
-      <tr>
-        <td><%= csv_upload.user_id %></td>
+                                          <th colspan="3"></th>
 
-        <% if csv_upload.flagged == true %>
-          <td style="background-color: red"><%= csv_upload.flagged %></td>
-        <% else %>
-          <td style="background-color: green"><%= csv_upload.flagged %></td>
-        <% end %>
+                                        </tr>
+                                      </thead>
 
-        <td><%= csv_upload.uploaded %></td>
-        <td><%= csv_upload.source_id %></td>
-        <td><%= csv_upload.policy_id %></td>
-        <td><%= csv_upload.forescout_id %></td>
+                                      <tbody>
+                                        <% @csv_uploads.each do |csv_upload| %>
+                                          <tr>
 
-        <td><%= link_to 'Show', csv_upload %></td>
-        <td><%= link_to 'Edit', edit_csv_upload_path(csv_upload) %></td>
-        <td><%= link_to 'Destroy', csv_upload, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-
-        <% if csv_upload.flagged == false%>
-          <td>Ready to submit</td>
-        <% else %>
-          <td><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></td>
-        <% end %>
-
-
-        <% if csv_upload.flagged == false%>
-          <td><button id="submit_csv" onclick="submit(<%= csv_upload.id %>)">Submit</button></td>
-        <% else %>
-          <td>Please Validate</td>
-        <% end %>
+                                            <% if csv_upload.flagged == true %>
+                                              <td style="background-color: #C82333; text-align: center;"><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></i></td>
+                                            <% else %>
+                                              <td style="background-color: green; text-align: center;">
+                                                No Error <i class="fa fa-check">
+                                              </td>
+                                            <% end %>
 
 
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                                            <% if csv_upload.uploaded == false && csv_upload.flagged == false  %>
+                                              <td style="background-color: green; text-align: center;">
+                                                <button id="submit_csv" onclick="submit(<%= csv_upload.id %>)">Submit</button>
+                                              </td>
+                                              
+                                            <% elsif csv_upload.uploaded == false && csv_upload.flagged == true %>
+                                              <td style="background-color: #C82333; text-align: center;">
+                                                Please Validate
+                                              </td>
 
-<br>
+                                            <% else %>
+                                              <td style="text-align: center;">
+                                                <p>Submitted</p>
+                                              </td>
+                                            <% end %>
 
-<%= link_to 'New Csv Upload', new_csv_upload_path %>
-</div>
+
+                                            <td><%= link_to 'Show', csv_upload %></td>
+                                            <td><%= link_to 'Edit', edit_csv_upload_path(csv_upload) %></td>
+                                            <td><%= link_to 'Destroy', csv_upload, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+                                          </tr>
+                                        <% end %>
+                                      </tbody>
+                                    </table>
+
+                                    <br>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
 
 
 <script type="text/javascript">

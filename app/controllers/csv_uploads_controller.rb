@@ -259,6 +259,7 @@ class CsvUploadsController < ApplicationController
       te.field_nine = row[mapping['field_nine']]
       te.field_ten = row[mapping['field_ten']]
       te.user_id = current_user.id
+      te.csv_upload_date = my_csv.csv_upload_date
       te.save
       #p row[mapping['field_one']]
       #p row[mapping['field_two']]
@@ -314,7 +315,7 @@ class CsvUploadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def csv_upload_params
-      params.require(:csv_upload).permit(:user_id, :source_id, :policy_id, :forescout_id, :flagged, :uploaded, :csv_file)
+      params.require(:csv_upload).permit(:user_id, :source_id, :policy_id, :forescout_id, :flagged, :uploaded, :csv_file, :csv_upload_date)
     end
 
 

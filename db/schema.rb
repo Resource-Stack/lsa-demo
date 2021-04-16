@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_195650) do
     t.boolean "uploaded", default: false
     t.boolean "uploaded_to_superior", default: false
     t.integer "uploaded_from"
+    t.date "csv_upload_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -114,6 +115,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_195650) do
     t.string "field_nine"
     t.string "field_ten"
     t.integer "user_id"
+    t.date "csv_upload_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

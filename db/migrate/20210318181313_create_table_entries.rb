@@ -12,6 +12,7 @@ class CreateTableEntries < ActiveRecord::Migration[5.2]
       t.string :field_nine
       t.string :field_ten
       t.integer :user_id
+      t.date :csv_upload_date
 
       t.timestamps
     end

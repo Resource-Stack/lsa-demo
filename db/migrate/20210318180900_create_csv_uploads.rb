@@ -9,6 +9,7 @@ class CreateCsvUploads < ActiveRecord::Migration[5.2]
       t.boolean :uploaded, default: false 
       t.boolean :uploaded_to_superior, default: false
       t.integer :uploaded_from
+      t.date :csv_upload_date
 
       t.timestamps
     end

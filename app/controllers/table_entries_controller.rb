@@ -76,6 +76,6 @@ class TableEntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def table_entry_params
-      params.require(:table_entry).permit(:field_one, :field_two, :field_three,:field_four, :field_five, :field_six, :field_seven, :field_eight, :field_nine, :field_ten, :user_id)
+      params.require(:table_entry).permit(:field_one, :field_two, :field_three,:field_four, :field_five, :field_six, :field_seven, :field_eight, :field_nine, :field_ten, :user_id, :csv_upload_date)
     end
 end

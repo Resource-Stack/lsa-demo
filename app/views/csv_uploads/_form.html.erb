@@ -1,4 +1,6 @@
-<%= form_with(model: csv_upload, local: true) do |form| %>
+<div class="content-spacer">
+  
+  <%= form_with(model: csv_upload, local: true) do |form| %>
   <% if csv_upload.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(csv_upload.errors.count, "error") %> prohibited this csv_upload from being saved:</h2>
@@ -39,13 +41,16 @@
     <%= form.check_box :uploaded %>
   </div>
 
-      <div class="field">
-    <%= form.label :flagged %>
-    <%= form.check_box :flagged %>
+    <div class="field">
+    <%= form.label :uploaded %>
+    <%= form.check_box :uploaded %>
   </div>
 
 
-
+  <div class="field">
+    <%= form.label :csv_upload_date %> 
+    <%= form.date_field :csv_upload_date %>
+  </div>
 
 
 
@@ -53,3 +58,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+</div>

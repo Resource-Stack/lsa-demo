@@ -11,37 +11,37 @@
 
   <div class="row">
     <div class="col-6">
-      <p style="text-align: center;">Total Number of Devices/Endpoints</p>
-      <%= line_chart @table_entries.group_by_day(:created_at).count %>
+
+      <%= line_chart @table_entries.group_by_month(:csv_upload_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
     </div>
 
     <div class="col-6">
-      <p style="text-align: center;">Number of Devices by Operating System</p>
-      <%= pie_chart @table_entries.group(:field_seven).count %>
+      <%= pie_chart @table_entries.group(:field_seven).count, title: "Number of Devices by Operating System" %>
     </div>
   </div>
 </div>
+<hr>
 
 <div class="row justify-content-center">
   <div class="col-2">
-    <p style="text-align: center;">IoT Data</p>
-    <%= pie_chart @table_entries.group(:field_two).count %>
+    <%= pie_chart @table_entries.group(:field_two).count, legend: "bottom", title: "IoT Data" %>
+    <p style="text-align: center;">Total IoT Devices: 602</p>
   </div>
   <div class="col-2">
-    <p style="text-align: center;">Wireless</p>
-    <%= pie_chart @table_entries.group(:field_seven).count %>
+    <%= pie_chart @table_entries.group(:field_seven).count, legend: "bottom", donut: true, title: "Wireless" %>
+    <p style="text-align: center;">Total Wireless Connections: 367</p>
   </div>
   <div class="col-2">
-    <p style="text-align: center;">Endpoint Compliance</p>
-    <%= pie_chart @table_entries.group(:field_seven).count %>
+    <%= pie_chart @table_entries.group(:field_seven).count, legend: "bottom", title: "Endpoint Compliance" %>
+    <p style="text-align: center;">Total Unresolved Agents: 101</p>
   </div>
   <div class="col-2">
-    <p style="text-align: center;">Security Risk</p>
-    <%= pie_chart @table_entries.group(:field_five).count %>
+    <%= pie_chart @table_entries.group(:field_five).count, legend: "bottom", title: "Security Risks" %>
+    <p style="text-align: center;">Total Potential Security Risks: 98</p>
   </div>
   <div class="col-2">
-    <p style="text-align: center;">Software Vulnerabilities</p>
-    <%= pie_chart @table_entries.group(:field_seven).count %>
+    <%= pie_chart @table_entries.group(:field_seven).count, legend: "bottom", title: "Software Vulnerabilities" %>
+    <p style="text-align: center;">Total Potential Vulnerabilties: 101</p>
   </div>
 </div>
 

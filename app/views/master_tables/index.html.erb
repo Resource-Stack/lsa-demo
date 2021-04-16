@@ -1,64 +1,85 @@
-<div class="content-spacer">
+
 <p id="notice"><%= notice %></p>
-<% if current_user.master_table.present? %>
-<p>
-  <strong>Field one:</strong>
-  <%= @master_table.field_one %>
-</p>
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Upload Mapping</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Action:</div>
+                                                <%= link_to 'Edit', edit_master_table_path(@master_table.id), class: 'dropdown-item' %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <% if current_user.master_table.present? %>
+                                    <p>
+                                      <strong>Field 1:</strong>
+                                      <%= @master_table.field_one %>
+                                    </p>
 
-<p>
-  <strong>Field two:</strong>
-  <%= @master_table.field_two %>
-</p>
+                                    <p>
+                                      <strong>Field 2:</strong>
+                                      <%= @master_table.field_two %>
+                                    </p>
 
-<p>
-  <strong>Field three:</strong>
-  <%= @master_table.field_three %>
-</p>
+                                    <p>
+                                      <strong>Field 3:</strong>
+                                      <%= @master_table.field_three %>
+                                    </p>
 
-<p>
-  <strong>Field 4:</strong>
-  <%= @master_table.field_four %>
-</p>
+                                    <p>
+                                      <strong>Field 4:</strong>
+                                      <%= @master_table.field_four %>
+                                    </p>
 
-<p>
-  <strong>Field 5:</strong>
-  <%= @master_table.field_five %>
-</p>
+                                    <p>
+                                      <strong>Field 5:</strong>
+                                      <%= @master_table.field_five %>
+                                    </p>
 
-<p>
-  <strong>Field 6:</strong>
-  <%= @master_table.field_six %>
-</p>
+                                    <p>
+                                      <strong>Field 6:</strong>
+                                      <%= @master_table.field_six %>
+                                    </p>
 
-<p>
-  <strong>Field 7:</strong>
-  <%= @master_table.field_seven %>
-</p>
+                                    <p>
+                                      <strong>Field 7:</strong>
+                                      <%= @master_table.field_seven %>
+                                    </p>
 
-<p>
-  <strong>Field 8:</strong>
-  <%= @master_table.field_eight %>
-</p>
+                                    <p>
+                                      <strong>Field 8:</strong>
+                                      <%= @master_table.field_eight %>
+                                    </p>
 
-<p>
-  <strong>Field 9:</strong>
-  <%= @master_table.field_nine %>
-</p>
+                                    <p>
+                                      <strong>Field 9:</strong>
+                                      <%= @master_table.field_nine %>
+                                    </p>
 
-<p>
-  <strong>Field 10:</strong>
-  <%= @master_table.field_ten %>
-</p>
+                                    <p>
+                                      <strong>Field 10:</strong>
+                                      <%= @master_table.field_ten %>
+                                    </p>
 
-
-<%= link_to 'Edit', edit_master_table_path(@master_table.id) %>
-<% else %>
-<p>Create A Master Table </p>
-<%= link_to 'New Master Table', new_master_table_path %>
-<% end %>
+                                    <% else %>
+                                        <p>Create A Master Table </p>
+                                        <%= link_to 'New Master Table', new_master_table_path %>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
  
-</div>
+
 
 
 
