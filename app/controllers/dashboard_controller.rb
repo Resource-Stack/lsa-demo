@@ -27,7 +27,7 @@ class DashboardController < ApplicationController
 
 		elsif !current_user.master_table.present?
 			redirect_to master_tables_path, notice: "Please Create A Master Table"
-		end 
+		end   
 
 
 
@@ -101,15 +101,19 @@ class DashboardController < ApplicationController
 	end 
 
 	def findBy
+		@tableEntry = current_user.table_entries[0]
+		logger.debug("Oliver Stone #{@tableEntry}")
 		p params[:findby_field]
 		p params[:values]
 
 		@masterTable = current_user.master_table 
 		@count = 0
+		@fieldValues = []
 		@masterTable.attributes.each do |k,v|
 			#these are the fields associated to with a postgres table we don't care about
 			#This will throw an error unless it is done in order....
 			if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
+				@fieldValues.push(v) 
 				if params[:findby_field] == v
 					params[:values].split(',').each do |x|
 						p x

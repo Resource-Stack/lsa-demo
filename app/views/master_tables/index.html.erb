@@ -14,7 +14,9 @@
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Action:</div>
+                                                <% if current_user.master_table.present? %>
                                                 <%= link_to 'Edit', edit_master_table_path(@master_table.id), class: 'dropdown-item' %>
+                                                <% end %>
                                         </div>
                                     </div>
                                 </div>

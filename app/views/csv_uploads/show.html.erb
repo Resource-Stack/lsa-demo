@@ -1,19 +1,18 @@
-<div class="content-spacer">
 
-<p id="notice"><%= notice %></p>
+<% if notice.present? %>
+  <div id="notice" class="alert alert-dark" role="alert">
+      <%= notice %>
+  </div>
+<% end %>
+
 
 <p>
-  <strong>User:</strong>
-  <%= @csv_upload.user_id %>
-</p>
-
-<p>
-  <strong>Flagged:</strong>
+  <strong>Error:</strong>
   <%= @csv_upload.flagged %> 
 </p>
 
 <p>
-  <strong>Master Fields :</strong>
+  <strong>Mapped Fields :</strong>
   <%= @masterRow %>
 </p>
 
@@ -40,4 +39,3 @@
 
 <%= link_to 'Edit', edit_csv_upload_path(@csv_upload) %> |
 <%= link_to 'Back', csv_uploads_path %>
-</div>

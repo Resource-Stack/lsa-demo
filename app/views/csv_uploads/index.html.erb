@@ -14,7 +14,7 @@
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Action:</div>
 
-                                            <%= link_to 'New Csv Upload', new_csv_upload_path, class: 'dropdown-item' %>
+                                            <%= link_to 'New Upload', new_csv_upload_path, class: 'dropdown-item' %>
 
                                         </div>
                                     </div>
@@ -39,14 +39,14 @@
                                             <% if csv_upload.flagged == true %>
                                               <td style="background-color: #C82333; text-align: center;"><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></i></td>
                                             <% else %>
-                                              <td style="background-color: green; text-align: center;">
+                                              <td style=" text-align: center;">
                                                 No Error <i class="fa fa-check">
                                               </td>
                                             <% end %>
 
 
                                             <% if csv_upload.uploaded == false && csv_upload.flagged == false  %>
-                                              <td style="background-color: green; text-align: center;">
+                                              <td style="text-align: center;">
                                                 <button id="submit_csv" onclick="submit(<%= csv_upload.id %>)">Submit</button>
                                               </td>
                                               
