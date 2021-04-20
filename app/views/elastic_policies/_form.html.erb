@@ -1,0 +1,128 @@
+<%= form_with(model: elastic_policy, local: true) do |form| %>
+  <% if elastic_policy.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(elastic_policy.errors.count, "error") %> prohibited this elastic_policy from being saved:</h2>
+
+      <ul>
+      <% elastic_policy.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+
+
+
+<div class="row">
+  <div class="col">
+    <div class="field">
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="field">
+      <%= form.label :source %>
+      <%= form.text_field :source, id: 'source' %> 
+      <i class="fa fa-plus" id="add_source"></i><br>
+      <sub id="current_source_values">added sources</sub>
+    </div>
+  </div>
+</div>
+<hr>
+
+
+  <div class="row">
+
+    <div class="col">
+      <div class="field" id="input_div">
+        <h5>Input Requirements</h5><i class="fa fa-plus" id="add_input"></i><br>
+        <div id="input_fields">
+          <label>Key (Header)</label>
+          <select id="user_id" name="Device Type">
+            <option value="1">Mobile</option>
+            <option value="2">Printer</option>
+            <option value="3">Desktop</option>
+          </select>
+          <label>Values</label>
+          <select id="user_id" name="Device Type">
+            <option value="1">mobile phone</option>
+            <option value="2">tablet</option>
+            <option value="3">gps</option>
+          </select>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="col">
+      <div class="field">
+        <h5>Output</h5><i class="fa fa-plus" id="add_output"></i><br>
+        <div id="output_div">
+          <div id="output_fields">
+            <%= form.label :report_type_id %>
+            <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}), class: 'report_type_id' %>
+
+            <%= form.label :report_values_id %>
+            <%= form.select :report_values_id, options_for_select(@report_values.collect{ |u| [u.title, u.id]}), class: 'report_value_id' %>        
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <!-- <# %= form.submit %> -->
+      </div>
+    </div>
+  </div>
+
+<% end %>
+
+<script type="text/javascript">
+
+  // Add to source 
+  var source_input = document.getElementById('source')
+  var add_source = document.getElementById('add_source')
+  var current_source_values = document.getElementById('current_source_values')
+  var source_collection = []
+
+  add_source.addEventListener('click', function(){
+    console.log('hi')
+    //var source_collection = source.value.split(',')
+    source_collection.push(source.value)
+    current_source_values.innerHTML = source_collection
+    source.value = ''
+  })
+
+  // Clone Output
+
+  var add_output = document.getElementById('add_output');
+  var output_fields = document.getElementById('output_fields');
+  var output_div = document.getElementById('output_div');
+  add_output.addEventListener('click', function(){
+    console.log('hi')
+
+    var cloneDiv = output_fields.cloneNode(true);
+    cloneDiv.id = "newID" //this needs to be randomized/unique
+    output_div.appendChild(cloneDiv);
+  })
+
+  // Clone Input Requirements
+  input_div
+input_fields
+add_input
+  var add_input = document.getElementById('add_input');
+  var input_fields = document.getElementById('input_fields');
+  var input_div = document.getElementById('input_div');
+  add_input.addEventListener('click', function(){
+    console.log('hi')
+    var cloneInputDiv = input_fields.cloneNode(true);
+    cloneInputDiv.id = "newID" //this needs to be randomized/unique
+    input_div.appendChild(cloneInputDiv);
+  })
+
+
+
+
+</script>

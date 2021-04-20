@@ -1,0 +1,2 @@
+class ElasticReport < ApplicationRecord
+end

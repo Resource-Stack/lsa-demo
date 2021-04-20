@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
  
   
+  resources :elastic_policies
+  resources :elastic_reports
+  resources :report_values
+  resources :report_types
   root'dashboard#index'
   resources :roles
   devise_for :users

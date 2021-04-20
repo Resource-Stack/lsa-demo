@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @elastic_policy.title %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @elastic_policy.source %>
+</p>
+
+<p>
+  <strong>Policy output:</strong>
+  <%= @elastic_policy.policy_output %>
+</p>
+
+<p>
+  <strong>Input requirements:</strong>
+  <%= @elastic_policy.input_requirements %>
+</p>
+
+<%= link_to 'Edit', edit_elastic_policy_path(@elastic_policy) %> |
+<%= link_to 'Back', elastic_policies_path %>

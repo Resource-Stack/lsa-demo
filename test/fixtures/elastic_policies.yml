@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  source: MyString
+  policy_output: 
+  input_requirements: 
+
+two:
+  title: MyString
+  source: MyString
+  policy_output: 
+  input_requirements: 

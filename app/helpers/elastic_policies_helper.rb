@@ -1,0 +1,2 @@
+module ElasticPoliciesHelper
+end

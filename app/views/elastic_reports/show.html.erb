@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Report type:</strong>
+  <%= @elastic_report.report_type_id %>
+</p>
+
+<p>
+  <strong>Report value:</strong>
+  <%= @elastic_report.report_value_id %>
+</p>
+
+<%= link_to 'Edit', edit_elastic_report_path(@elastic_report) %> |
+<%= link_to 'Back', elastic_reports_path %>

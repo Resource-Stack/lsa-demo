@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_195650) do
+ActiveRecord::Schema.define(version: 2021_04_19_195525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,22 @@ ActiveRecord::Schema.define(version: 2021_04_06_195650) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "elastic_policies", force: :cascade do |t|
+    t.string "title"
+    t.string "source", array: true
+    t.json "policy_output"
+    t.json "input_requirements"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "elastic_reports", force: :cascade do |t|
+    t.integer "report_type_id"
+    t.integer "report_value_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "master_tables", force: :cascade do |t|
     t.string "field_one"
     t.string "field_two"
@@ -92,6 +108,19 @@ ActiveRecord::Schema.define(version: 2021_04_06_195650) do
     t.string "field_nine"
     t.string "field_ten"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "report_types", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "report_values", force: :cascade do |t|
+    t.string "title"
+    t.integer "report_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
