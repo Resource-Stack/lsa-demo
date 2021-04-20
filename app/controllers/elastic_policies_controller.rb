@@ -58,6 +58,30 @@ class ElasticPoliciesController < ApplicationController
     end
   end
 
+  def update_output
+    p 'hit' 
+    passed_id = params[:id_selection]
+    if passed_id == 'elastic_policy_report_type_id'
+      @identify = 'elastic_policy_report_values_id'
+      p 'here'
+    else 
+      id_value = passed_id.split('_')
+      @identify = 'elastic_policy_report_values_id_' + id_value[id_value.length-1].to_s
+    end 
+
+    p @identify
+
+    selected_report_type = ReportType.find_by_title(params[:field_selection])
+    @return_values = ReportValue.where(report_type_id: selected_report_type.id)
+    p @return_values.inspect
+
+  end 
+
+  def update_input
+    p 'hit'
+
+  end 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_elastic_policy

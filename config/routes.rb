@@ -31,6 +31,9 @@ Rails.application.routes.draw do
   post 'find_by_filter', to: 'dashboard#find_by_filter'
   #
   post 'upload_user_data', to: 'users#upload_user_data'
+  #elastic policy
+  post 'update_output', to: 'elastic_policies#update_output' 
+  post 'update_input', to: 'elastic_policies#update_input' 
 
 
 end
