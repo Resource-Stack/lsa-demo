@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   #elastic policy
   post 'update_output', to: 'elastic_policies#update_output' 
   post 'update_input', to: 'elastic_policies#update_input' 
+  post 'create_policy', to: 'elastic_policies#create_policy'
 
 
 end

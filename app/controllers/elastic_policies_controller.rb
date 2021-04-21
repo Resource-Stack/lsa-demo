@@ -82,6 +82,51 @@ class ElasticPoliciesController < ApplicationController
 
   end 
 
+
+  def create_policy
+    p ' hit'
+    #source
+    policy_sources = params[:source].split(',')
+    #output
+    output_keys = params[:output_keys].split(',')
+    output_values = params[:output_values].split(',')
+    output = Hash.new 
+    x=0
+    while x < output_keys.length
+      output[x] = {key: output_keys[x], value: output_values[x]}
+      x +=1
+    end 
+
+    #input
+    input_keys = params[:input_keys].split(',')
+    input_values = params[:input_values].split(',')
+    input = Hash.new 
+    i=0
+    while i < input_keys.length
+      input[i] = {key: input_keys[i], value: input_values[i]}
+      i +=1
+    end 
+
+    @new_policy = ElasticPolicy.new
+    @new_policy.title = params[:title]
+    @new_policy.source = policy_sources
+    @new_policy.policy_output = output
+    @new_policy.input_requirements = input
+    
+
+    respond_to do |format|
+      if @new_policy.save
+        format.html { redirect_to @elastic_policy, notice: "Elastic policy was successfully created." }
+        format.json { render :show, status: :created, location: @elastic_policy }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @elastic_policy.errors, status: :unprocessable_entity }
+      end
+    end
+
+
+  end 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_elastic_policy
