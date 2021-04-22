@@ -4,10 +4,35 @@ class TableEntriesController < ApplicationController
 
   # GET /table_entries or /table_entries.json
   def index
-    report_type = ElasticReport.pluck(:report_value_title)
-    @reports = report_type.uniq 
+    #Get Unique Keys
+    report_type = ElasticReport.pluck(:report_type_title)
+    @unique_keys = report_type.uniq 
+    logger.debug("Unique Keys:: #{@unique_keys}")
 
+    @brewed = Hash.new
 
+    @unique_keys.each do |x|
+      #Get Unique Values
+      unique_value = ElasticReport.where(report_type_title: x)
+      unique = unique_value.pluck(:report_value_title)
+      #count per unique value
+
+      unique.uniq.each do |q|
+          countdrac = ElasticReport.where(report_value_title: q)
+          p q
+          p countdrac.count
+          #@brewed[count] = {report: x, key: q, value: countdrac.count}
+          if @brewed.include?(x.to_s)
+            #pre existing
+            @brewed[x] << [q , countdrac.count]
+          else 
+            #new
+            @brewed[x] = [[q , countdrac.count]]
+          end 
+      end 
+
+      p @brewed
+    end 
 
     @table_entries = TableEntry.where("user_id = ? ", current_user.id)
 

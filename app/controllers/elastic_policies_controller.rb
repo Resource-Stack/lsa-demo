@@ -28,49 +28,39 @@ class ElasticPoliciesController < ApplicationController
       count = count + 1
     end 
     ##
+        @data_hash.each_value do |data|
+            ElasticPolicy.all.each do |ep|
+              logger.debug("POLICY: #{ep.title} input #{ep.input_requirements}")
+                  @trueFalse = []
+                  ep[:input_requirements].each do |policy_index,policy_KV|
+                      data.each do |key,value|  
 
-    @data_hash.each_value do |data|
-      logger.debug("data #{data}")
-      #compare to elastic policy 
-      @trueFalse = []
-      data.each do |key,value|    
-        ElasticPolicy.all.each do |ep|
-          logger.debug("Input Requirement Size: #{ep[:input_requirements].size}") # MATTER
-          
-              ep[:input_requirements].each do |policy_index,policy_KV|
-                  p 'START@@@@@@@@@@@@@@@@@@@@@'
-                    p 'KEYS compared'
-                    logger.debug("data key: #{key.to_s}")
-                    logger.debug("policy key: #{policy_KV['key'].to_s}")
-                    p 'Values compared'
-                    p value.to_s
-                    p policy_KV['value'].to_s
-                   if key.to_s == policy_KV['key'].to_s && value.to_s == policy_KV['value'].to_s
-                     p ' MATCH'
-                      @trueFalse.push(true)
-                   else 
-                    p 'NO'
-                   end 
-                  p 'END'
-              end #ep
-          #does the row meet the required inputs?
-          p @trueFalse.length
-          if ep[:input_requirements].size == @trueFalse.length
-            p 'eureka'
-               ep[:policy_output].each do |kk,vv|
-                 er = ElasticReport.new 
-                 er.report_type_title = ReportType.find_by_title(vv['key']).title
-                 er.report_value_title = ReportValue.find_by_title(vv['value']).title
-                 er.save
-               end 
-               #reset count
-               @trueFalse = []
-          end 
 
-        end #EPs
-      end #Data
+                        logger.debug("Keys::: d #{key.to_s} == p #{policy_KV['key'].to_s}")
+                        logger.debug("Values::: d #{value.to_s} == p #{policy_KV['value'].to_s}")
 
-    end 
+                         if key.to_s == policy_KV['key'].to_s && value.to_s == policy_KV['value'].to_s
+                           p ' MATCH'
+                            @trueFalse.push(true)
+                         end 
+                            logger.debug("Length: tf#{@trueFalse.length} p#{ep.input_requirements.length}")
+                            if ep[:input_requirements].size == @trueFalse.length
+                              p 'eureka'
+                                 ep[:policy_output].each do |kk,vv|
+                                   er = ElasticReport.new 
+                                   er.report_type_title = ReportType.find_by_title(vv['key']).title
+                                   er.report_value_title = ReportValue.find_by_title(vv['value']).title
+                                   er.save
+                                 end 
+                                 #reset count
+                                 @trueFalse = []
+                            end #End Input check
+                      end #End Data Loop
+                  end # End Current Input
+            end #End ElasticPolicy
+      end #End Data Hash
+
+
   end 
 
   # GET /elastic_policies/1/edit

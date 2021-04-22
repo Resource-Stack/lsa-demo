@@ -23,15 +23,15 @@
 <hr>
 
 
-<div class="row">
-  <div class="col">
-    <h1> HERE </h1>
-    <% @reports.each do |x| %> 
-        <%= pie_chart ElasticReport.group('report_type_title').count %>    
+<div class="row">  
+    <% @brewed.each do |k,v| %>
+      <div class="col-4">
+        <h1 style="text-align: center;"> <%= k %> </h1>
+          <%= pie_chart(v) %>
+          <%= v.map{|x| x[1]} %>
+      </div>
     <% end %>
-
     <!-- <# %= pie_chart TableEntry.group(k).count %>  -->
-  </div>
 </div>
 
 
