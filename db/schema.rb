@@ -90,8 +90,8 @@ ActiveRecord::Schema.define(version: 2021_04_19_195525) do
   end
 
   create_table "elastic_reports", force: :cascade do |t|
-    t.integer "report_type_id"
-    t.integer "report_value_id"
+    t.string "report_type_title"
+    t.string "report_value_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

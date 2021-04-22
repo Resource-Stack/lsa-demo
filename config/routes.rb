@@ -36,5 +36,8 @@ Rails.application.routes.draw do
   post 'update_input', to: 'elastic_policies#update_input' 
   post 'create_policy', to: 'elastic_policies#create_policy'
 
+  #dummy route
+  post 'false_create', to: 'elastic_policies#false_create'
+
 
 end

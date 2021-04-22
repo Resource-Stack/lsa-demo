@@ -14,8 +14,8 @@
   <tbody>
     <% @elastic_reports.each do |elastic_report| %>
       <tr>
-        <td><%= elastic_report.report_type_id %></td>
-        <td><%= elastic_report.report_value_id %></td>
+        <td><%= elastic_report.report_type_title %></td>
+        <td><%= elastic_report.report_value_title %></td>
         <td><%= link_to 'Show', elastic_report %></td>
         <td><%= link_to 'Edit', edit_elastic_report_path(elastic_report) %></td>
         <td><%= link_to 'Destroy', elastic_report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
