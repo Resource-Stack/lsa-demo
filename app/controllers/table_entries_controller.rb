@@ -4,9 +4,14 @@ class TableEntriesController < ApplicationController
 
   # GET /table_entries or /table_entries.json
   def index
+    report_type = ElasticReport.pluck(:report_value_title)
+    @reports = report_type.uniq 
+
+
+
     @table_entries = TableEntry.where("user_id = ? ", current_user.id)
 
-        if current_user.table_entries.present?
+        if current_user.table_entries.present? 
           @masterTable = current_user.master_table
           @masterRow = []
           p @masterTable

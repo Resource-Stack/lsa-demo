@@ -22,6 +22,21 @@
 </div>
 <hr>
 
+
+<div class="row">
+  <div class="col">
+    <h1> HERE </h1>
+    <% @reports.each do |x| %> 
+        <%= pie_chart ElasticReport.group('report_type_title').count %>    
+    <% end %>
+
+    <!-- <# %= pie_chart TableEntry.group(k).count %>  -->
+  </div>
+</div>
+
+
+<hr>
+
 <div class="row justify-content-center">
   <div class="col-2">
     <%= pie_chart @table_entries.group(:field_two).count, legend: "bottom", title: "IoT Data" %>
