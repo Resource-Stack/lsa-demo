@@ -53,7 +53,7 @@
             <!-- Card Body -->
             <div class="card-body">
               <%= pie_chart(v) %>
-              <%= v.map{|x| x[1]} %>
+              Total: <%= (v.map{|x| x[1]}).sum %>
             </div>
         </div>
     </div>
