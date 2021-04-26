@@ -65,6 +65,8 @@ class ElasticPoliciesController < ApplicationController
 
   # GET /elastic_policies/1/edit
   def edit
+    @report_values = ReportValue.all
+    @report_types = ReportType.all
   end
 
   # POST /elastic_policies or /elastic_policies.json
@@ -84,15 +86,31 @@ class ElasticPoliciesController < ApplicationController
 
   # PATCH/PUT /elastic_policies/1 or /elastic_policies/1.json
   def update
-    respond_to do |format|
-      if @elastic_policy.update(elastic_policy_params)
-        format.html { redirect_to @elastic_policy, notice: "Elastic policy was successfully updated." }
-        format.json { render :show, status: :ok, location: @elastic_policy }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @elastic_policy.errors, status: :unprocessable_entity }
-      end
-    end
+    p "update"
+    #source
+    policy_sources = params[:source].split(',')
+    #output
+    output_keys = params[:output_keys].split(',')
+    output_values = params[:output_values].split(',')
+    output = Hash.new 
+    x=0
+    while x < output_keys.length
+      output[x] = {key: output_keys[x], value: output_values[x]}
+      x +=1
+    end 
+
+    #input
+    input_keys = params[:input_keys].split(',')
+    input_values = params[:input_values].split(',')
+    input = Hash.new 
+    i=0
+    while i < input_keys.length
+      input[i] = {key: input_keys[i], value: input_values[i]}
+      i +=1
+    end 
+
+  @elastic_policy.update_attributes(:title => params[:title], :source => policy_sources, :policy_output => output, :input_requirements => input)
+
   end
 
   # DELETE /elastic_policies/1 or /elastic_policies/1.json
@@ -162,11 +180,11 @@ class ElasticPoliciesController < ApplicationController
 
     respond_to do |format|
       if @new_policy.save
-        format.html { redirect_to @elastic_policy, notice: "Elastic policy was successfully created." }
-        format.json { render :show, status: :created, location: @elastic_policy }
+        format.html { redirect_to @new_policy, notice: "Elastic policy was successfully created." }
+        format.json { render :show, status: :created, location: @new_policy }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @elastic_policy.errors, status: :unprocessable_entity }
+        format.json { render json: @new_policy.errors, status: :unprocessable_entity }
       end
     end
 
