@@ -1,3 +1,4 @@
+
 <p id="notice"><%= notice %></p>
 
     <div class="col-xl-12 col-lg-12">
@@ -71,40 +72,16 @@
                             <tr id="input_fields" >
                               <td>
                                 <select id="input_requirement_header_id" class="input_requirement_select" name="Device Type">
-                                  <option value="1">DeviceWired</option>
-                                  <option value="2">DeviceType</option>
-                                  <option value="3">DeviceName</option>
-                                  <option value="3">@version</option>
-                                  <option value="1">DeviceOS</option>
-                                  <option value="2">Source</option>
-                                  <option value="3">DeviceAV</option>
-                                  <option value="1">DeviceChip</option>
-                                  <option value="2">Region</option>
-                                  <option value="3">DeviceIP</option>
-                                  <option value="3">@timestamp</option>
-                                  <option value="3">DeviceMac</option>
-                                  <option value="3">host</option>
+                                  <option>Select</option>
+                                  <% @headerValues.each do |x| %>
+                                    <option><%= x %></option>
+                                  <% end %>
                                 </select>
                               </td>
-
+ 
                               <td>
                                 <select id="input_requirement_value_id" name="Device Type" class="input_requirement_value">
-                                  <option value="1">No</option>
-                                  <option value="2">Laptop</option>
-                                  <option value="3">1</option>
-                                  <option value="1">Sameer-laptop</option>
-                                  <option value="2">Windows 10</option>
-                                  <option value="3">RSI</option>
-                                  <option value="1">Symantec</option>
-                                  <option value="2">Intel i7</option>
-                                  <option value="3">DESKTOP-8NACH6E</option>
-                                  <option value="1">Virginia USA</option>
-                                  <option value="2">192.168.1.3</option>
-                                  <option value="3">2021-04-12T04:42:02.939Z</option>
-                                  <option value="1">9C-B6-D0-BD-ED-EB</option>
-
-
-                                  
+                                  <option>Header 1st</option>                                  
                                 </select>
                               </td>
                             </tr>

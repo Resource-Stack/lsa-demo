@@ -4,6 +4,9 @@ class ElasticPoliciesController < ApplicationController
   # GET /elastic_policies or /elastic_policies.json
   def index
     @elastic_policies = ElasticPolicy.all
+
+   
+
   end
 
   # GET /elastic_policies/1 or /elastic_policies/1.json
@@ -15,6 +18,29 @@ class ElasticPoliciesController < ApplicationController
     @elastic_policy = ElasticPolicy.new
     @report_values = ReportValue.all
     @report_types = ReportType.all
+
+    # GET ALL (for input values)
+      response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search')
+        p '[RESPONSE CODE]'
+        p response.code
+      #Convert To JSON
+      @responseBody = JSON.parse(response.body)
+        p '[RESPONSE BODY]'
+        p @responseBody
+      #Get the HITS
+      @responseHash = Hash.new  
+      count = 0
+      @responseBody['hits']['hits'].each do |k,v|
+        @responseHash[count] = k['_source']
+        count = count + 1
+      end 
+      #Get The Header Values
+      @headerValues = []
+      @responseHash[0].each do |kilo,alpha|
+        @headerValues.push(kilo)
+      end 
+    ##
+
   end
 
   def false_create
@@ -59,8 +85,6 @@ class ElasticPoliciesController < ApplicationController
                   end # End Current Input
             end #End ElasticPolicy
       end #End Data Hash
-
-
   end 
 
   # GET /elastic_policies/1/edit
@@ -142,7 +166,51 @@ class ElasticPoliciesController < ApplicationController
   end 
 
   def update_input
-    p 'hit'
+    p 'update input'
+    #Get A Value
+        tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search', 
+              :body => {
+                :aggs => {
+                  :langs => { 
+                    :terms => {
+                      'field' => params[:field_selection]+'.keyword','size' => 500
+                    }
+                  } 
+                },
+                "fields" => [params[:field_selection]+".keyword"],
+                "_source" => false
+              }.to_json,
+                :headers => {
+                  "Content-Type" => "application/json"
+                }
+            )
+
+         @tight = JSON.parse(tightResponse.body)
+         @importantvalues = @tight['aggregations']['langs']['buckets']
+
+         #Get Values From JSON
+        valueCount = 0
+        @valuesArray =  []
+        @importantvalues.each do |k,v|
+            k.each do |key,value| 
+              
+              valueCount +=1
+              if valueCount == 2
+                valueCount = 0
+              end 
+
+              if valueCount == 1
+               @valuesArray.push(value) 
+             end 
+             
+
+            end 
+        end 
+        p 'value array'
+        p @valuesArray
+        @inputID = 'input_requirement_value_id'
+    # end get value
+
 
   end 
 

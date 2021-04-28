@@ -98,6 +98,7 @@
                         </div>
                     </div>
 
+
                     <!-- Report Content Row -->
                     <div class="row">
 
@@ -137,39 +138,25 @@
                                             <div class="col-12" id="generatedChart">
                                                 <p>Filter From Dropdown</p>
 
-
-                                                <table class="table table-stripped" style="width: inherit;">
-                                                  <thead>
-                                                    <tr>
-                                                      <% @masterRow.each do |x| %>
-                                                        <th> <%= x %></th>
-                                                      <% end %>
-
-
-                                                    </tr>
-                                                  </thead>
-
-                                                  <tbody>
-                                                    <% @table_entries.each do |table_entry| %>
-                                                      <tr>
-                                                        <td><%= table_entry.field_one %></td>
-                                                        <td><%= table_entry.field_two %></td>
-                                                        <td><%= table_entry.field_three %></td>
-                                                        <td><%= table_entry.field_four %></td>
-                                                        <td><%= table_entry.field_five %></td>
-                                                        <td><%= table_entry.field_six %></td>
-                                                        <td><%= table_entry.field_seven %></td>
-                                                        <td><%= table_entry.field_eight %></td>
-                                                        <td><%= table_entry.field_nine %></td>
-                                                        <td><%= table_entry.field_ten %></td>
-                                      
-                                                      </tr>
-                                                    <% end %>
-                                                  </tbody>
-                                                </table>
-
-
-
+                                                   <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                            <% @headerValues.each do |value| %>
+                                                                    <td><%= value %></td>        
+                                                            <% end %>
+                                                            </tr>
+                                                        </thead>
+                                                        
+                                                        <tbody>
+                                                            <% @hashHash.each_value do |data| %>
+                                                                <tr>
+                                                                    <% data.each do |k,v| %>
+                                                                        <td><%= v %></td>
+                                                                    <% end %>
+                                                                </tr>
+                                                            <% end %>
+                                                        </tbody>
+                                                    </table>
 
                                             </div>
                                         </div>
@@ -184,7 +171,7 @@
                         <!-- General Reports -->                
                         <div class="col-xl-12 col-lg-12" id="reports">
                                 <!-- Reports -->
-                                <%= render 'report' %>
+                                <%= render 'elasticReportsView' %>
                         </div>
                     </div>
 

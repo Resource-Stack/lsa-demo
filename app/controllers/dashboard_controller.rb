@@ -1,5 +1,7 @@
+# using https://github.com/jnunemaker/httparty
 class DashboardController < ApplicationController
 	require 'date'
+	include HTTParty
 	before_action :authenticate_user!
 	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ] 
 	
@@ -30,9 +32,90 @@ class DashboardController < ApplicationController
 		end   
 
 
+		# GET ALL
+			response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search')
 
-			
+			p '[RESPONSE CODE]'
+			p response.code
+			#Convert To JSON
+			@responseBody = JSON.parse(response.body)
+			p '[RESPONSE BODY]'
+			p @responseBody
+			#Get the HITS
+			@hashHash = Hash.new	
+			count = 0
+			@responseBody['hits']['hits'].each do |k,v|
+				@hashHash[count] = k['_source']
+				count = count + 1
+			end 
+			#ROWS
+			#Get The Header Values
+			@headerValues = []
+			@hashHash[0].each do |kilo,alpha|
+				@headerValues.push(kilo)
+			end 
 
+		#End Get All
+
+			#do a request per headerValue, store 
+			# headervalue = { [value, count], [value, count]}
+		#Graph Data Collection
+
+		  @keyValueCountHash = Hash.new
+
+		  @headerValues.each do |x|
+		          tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search', 
+		                :body => {
+		                  :aggs => {
+		                    :langs => { 
+		                      :terms => {
+		                        'field' => x.to_s + '.keyword','size' => 500
+		                      }
+		                    }
+		                  },
+		                  "fields" => [x.to_s + ".keyword"],
+		                  "_source" => false
+		                }.to_json,
+		                  :headers => {
+		                    "Content-Type" => "application/json"
+		                  }
+		              )
+
+		           @tight = JSON.parse(tightResponse.body)
+		           @importantvalues = @tight['aggregations']['langs']['buckets']
+		           #Get Values From JSON
+		          valueCount = 0
+		          @importantvalues.each do |k,v|
+		              @valuesArray = []
+		              k.each do |key,value| 
+
+		                #other value is count
+		                  valueCount +=1
+
+		                  if valueCount == 2
+		                    valueCount = 0
+		                  end 
+
+		                  if valueCount == 1
+		                   @valuesArray[0] = value
+		                 else
+		                    @valuesArray[1] = value
+		                 end 
+		              end 
+
+
+		            if @keyValueCountHash.include?(x.to_s)
+		              #pre existing
+		              @keyValueCountHash[x] << @valuesArray
+		            else 
+		              #new
+		              @keyValueCountHash[x] = [@valuesArray]
+		            end 
+		          end 
+		          p '[HASH]'
+		          p @keyValueCountHash
+		  end 
+		#### Build Graph Data Collection
 	end 
 
 	def timeRangeReport
