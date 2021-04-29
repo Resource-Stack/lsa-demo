@@ -33,7 +33,7 @@ class DashboardController < ApplicationController
 
 
 		# GET ALL
-			response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search')
+			response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50')
 
 			p '[RESPONSE CODE]'
 			p response.code
@@ -64,7 +64,7 @@ class DashboardController < ApplicationController
 		  @keyValueCountHash = Hash.new
 
 		  @headerValues.each do |x|
-		          tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search', 
+		          tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50', 
 		                :body => {
 		                  :aggs => {
 		                    :langs => { 

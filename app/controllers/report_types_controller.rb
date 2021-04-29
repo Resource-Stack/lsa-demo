@@ -8,6 +8,7 @@ class ReportTypesController < ApplicationController
 
   # GET /report_types/1 or /report_types/1.json
   def show
+    @report_types = ReportType.all
   end
 
   # GET /report_types/new
@@ -17,6 +18,7 @@ class ReportTypesController < ApplicationController
 
   # GET /report_types/1/edit
   def edit
+    @report_types = ReportType.all
   end
 
   # POST /report_types or /report_types.json

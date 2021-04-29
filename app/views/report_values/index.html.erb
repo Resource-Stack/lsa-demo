@@ -1,29 +1,51 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Report Values</h1>
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Report Type Values</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Action:</div>
+                                <!-- enter drop down-->
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Report type</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+                                <%= link_to 'Refresh Data', false_create_path, method: :post, class: 'dropdown-item' %>
+                                <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <p id="notice"><%= notice %></p>
 
-  <tbody>
-    <% @report_values.each do |report_value| %>
-      <tr>
-        <td><%= report_value.title %></td>
-        <td><%= report_value.report_type_id %></td>
-        <td><%= link_to 'Show', report_value %></td>
-        <td><%= link_to 'Edit', edit_report_value_path(report_value) %></td>
-        <td><%= link_to 'Destroy', report_value, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Report type</th>
+                      <th colspan="2"></th>
+                    </tr>
+                  </thead>
 
-<br>
+                  <tbody>
+                    <% @report_values.each do |report_value| %>
+                      <tr>
+                        <td><%= report_value.title %></td>
+                        <td><%= report_value.report_type_id %></td>
+                        <td><%= link_to 'Edit', edit_report_value_path(report_value) %></td>
+                        <td><%= link_to 'Destroy', report_value, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
 
-<%= link_to 'New Report Value', new_report_value_path %>
+                <br>
+                </div>
+                </div>
+                </div>

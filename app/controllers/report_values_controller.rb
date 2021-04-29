@@ -18,6 +18,7 @@ class ReportValuesController < ApplicationController
 
   # GET /report_values/1/edit
   def edit
+    @report_types = ReportType.all
   end
 
   # POST /report_values or /report_values.json

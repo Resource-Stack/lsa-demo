@@ -17,7 +17,7 @@
                         <div class="dropdown-header">Action:</div>
                                 <!-- enter drop down-->
 
-                                <%= link_to 'False Create', false_create_path, method: :post, class: 'dropdown-item' %>
+                                <%= link_to 'Refresh Data', false_create_path, method: :post, class: 'dropdown-item' %>
                                 <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                       </ul>
                     </div>
                   <% end %>
-
+                  <!-- TITLE -->
                   <div class="row">
                     <div class="col">
                       <div class="field">
@@ -44,7 +44,7 @@
                         <%= form.text_field :title,class: 'form-control' %>
                       </div>
                     </div>
-
+                    <!-- SOURCE -->
                     <div class="col">
                       <div class="field">
 
@@ -56,7 +56,7 @@
                     </div>
                   </div>
 
-
+                  <!-- INPUT -->
                   <div class="row">
                     <div class="col">
                         <h5 style="text-align: center;">Input Requirement  <i class="fa fa-plus" id="add_input"></i></h5>
@@ -124,11 +124,11 @@
                   </div>
 
                 <% end %>
-
+                <button id ="submission" class="btn btn-primary"> Submit Policy</button>
             </div>
         </div>
     </div>
-<button id ="submission"> Submit Policy</button>
+
 
     
 <script type="text/javascript">
@@ -272,7 +272,7 @@
       cloneDivSelect.id = 'elastic_policy_report_values_id' + '_' + clickCount
       cloneDivSelectType.id = 'elastic_policy_report_type_id' + '_' + clickCount
       console.log("THIS", cloneDiv.children[1].firstElementChild)
-      cloneDiv.id = "newID" //this needs to be randomized/unique
+      cloneDiv.id = "newID" + clickCount //this needs to be randomized/unique
       output_div.appendChild(cloneDiv);
       //update the collection
       report_type_select = document.getElementsByClassName('report_type_select');
@@ -281,11 +281,19 @@
   //
 
   // Clone Input Requirements
+  var clickCountInput = 0
     add_input.addEventListener('click', function(){
+      clickCountInput += 1
       var cloneInputDiv = input_fields.cloneNode(true);
-      cloneInputDiv.id = "newID" //this needs to be randomized/unique
+      var cloneDivSelectTypeInput = cloneInputDiv.children[0].firstElementChild
+      var cloneDivSelectInput = cloneInputDiv.children[1].firstElementChild
+
+      cloneDivSelectTypeInput.id = "input_requirement_header_id" + '_' + clickCountInput
+      cloneDivSelectInput.id = "input_requirement_value_id" + '_' + clickCountInput
+      cloneInputDiv.id = "input_div_" + clickCountInput //this needs to be randomized/unique
       input_div.appendChild(cloneInputDiv);
     })
+
   //
 
 

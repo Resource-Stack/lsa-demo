@@ -1,22 +1,46 @@
-<%= form_with(model: report_type, local: true) do |form| %>
-  <% if report_type.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(report_type.errors.count, "error") %> prohibited this report_type from being saved:</h2>
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Report Type</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Action:</div>
+                                <!-- enter drop down-->
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
 
-      <ul>
-      <% report_type.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+              <%= form_with(model: report_type, local: true) do |form| %>
+                <% if report_type.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(report_type.errors.count, "error") %> prohibited this report_type from being saved:</h2>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+                    <ul>
+                    <% report_type.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                    </ul>
+                  </div>
+                <% end %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+                <div class="field">
+                  <%= form.label :title %>
+                  <%= form.text_field :title %>
+                </div>
+
+                <div class="actions">
+                  <%= form.submit %>
+                </div>
+              <% end %>
+          </div>
+          </div>
+          </div>

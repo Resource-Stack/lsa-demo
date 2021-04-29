@@ -1,27 +1,50 @@
+
 <p id="notice"><%= notice %></p>
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Report Types</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Action:</div>
+                                <!-- enter drop down-->
+                          <%= link_to 'New Report Type', new_report_type_path, class: 'dropdown-item' %>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
 
-<h1>Report Types</h1>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th colspan="3"></th>
+                  </tr>
+                </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+                <tbody>
+                  <% @report_types.each do |report_type| %>
+                    <tr>
+                      <td><%= report_type.title %></td>
+                      <td><%= link_to 'Show', report_type %></td>
+                      <td><%= link_to 'Edit', edit_report_type_path(report_type) %></td>
+                      <td><%= link_to 'Destroy', report_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
 
-  <tbody>
-    <% @report_types.each do |report_type| %>
-      <tr>
-        <td><%= report_type.title %></td>
-        <td><%= link_to 'Show', report_type %></td>
-        <td><%= link_to 'Edit', edit_report_type_path(report_type) %></td>
-        <td><%= link_to 'Destroy', report_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+              <br>
 
-<br>
-
-<%= link_to 'New Report Type', new_report_type_path %>
+              
+            </div>
+          </div>
+        </div>

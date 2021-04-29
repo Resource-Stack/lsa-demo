@@ -1,3 +1,26 @@
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Report Type Value</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Action:</div>
+                                <!-- enter drop down-->
+
+                                <%= link_to 'Refresh Data', false_create_path, method: :post, class: 'dropdown-item' %>
+                                <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
 <%= form_with(model: report_value, local: true) do |form| %>
   <% if report_value.errors.any? %>
     <div id="error_explanation">
@@ -18,7 +41,7 @@
 
 
   <div class="field">
-    <%= form.label :report_type_id %>
+    <%= form.label :report_type_id %> 
     <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}) %>
   </div>
 
@@ -26,3 +49,7 @@
     <%= form.submit %>
   </div>
 <% end %>
+</div>
+</div>
+</div>
+

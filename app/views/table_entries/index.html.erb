@@ -60,30 +60,7 @@
   <% end %>
 </div>
 <!-- Charts -->
-<hr>
 
-<div class="row justify-content-center">
-  <div class="col-2">
-    <%= pie_chart @table_entries.group(:field_two).count, legend: "bottom", title: "IoT Data" %>
-    <p style="text-align: center;">Total IoT Devices: 602</p>
-  </div>
-  <div class="col-2">
-    <%= pie_chart @table_entries.group(:field_seven).count, legend: "bottom", donut: true, title: "Wireless" %>
-    <p style="text-align: center;">Total Wireless Connections: 367</p>
-  </div>
-  <div class="col-2">
-    <%= pie_chart @table_entries.group(:field_seven).count, legend: "bottom", title: "Endpoint Compliance" %>
-    <p style="text-align: center;">Total Unresolved Agents: 101</p>
-  </div>
-  <div class="col-2">
-    <%= pie_chart @table_entries.group(:field_five).count, legend: "bottom", title: "Security Risks" %>
-    <p style="text-align: center;">Total Potential Security Risks: 98</p>
-  </div>
-  <div class="col-2">
-    <%= pie_chart @table_entries.group(:field_seven).count, legend: "bottom", title: "Software Vulnerabilities" %>
-    <p style="text-align: center;">Total Potential Vulnerabilties: 101</p>
-  </div>
-</div>
 
 
 

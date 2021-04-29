@@ -26,7 +26,7 @@
             	<p id="elasticID" style="display: none;"> <%= @elastic_policy.id %></p>
                 <%= form_with(model: @elastic_policy, local: true) do |form| %>
  
-
+                  <!-- Title -->
                   <div class="row">
                     <div class="col">
                       <div class="field">
@@ -35,6 +35,7 @@
                       </div>
                     </div>
 
+                    <!-- SOURCE -->
                     <div class="col">
                       <div class="field">
 
@@ -52,7 +53,7 @@
                     </div>
                   </div>
 
-
+                   <!-- INPUT -->
                   <div class="row">
                     <div class="col">
                         <h5 style="text-align: center;">Input Requirement  <i class="fa fa-plus" id="add_input"></i></h5>
@@ -66,49 +67,23 @@
                           </thead>
 
                           <tbody id="input_div">
-								<% @elastic_policy.input_requirements.each do |k,v| %>
-								<p class="inputCount" style="display: none;"> <%= k %></p>
-									<tr id="input_fields" >
-								      <td>
-								        <select id="input_requirement_header_id" class="input_requirement_select" name="Device Type">
-								          <option><%= v['key'] %></option>
-								          <option value="1">DeviceWired</option>
-								          <option value="2">DeviceType</option>
-								          <option value="3">DeviceName</option>
-								          <option value="3">@version</option>
-								          <option value="1">DeviceOS</option>
-								          <option value="2">Source</option>
-								          <option value="3">DeviceAV</option>
-								          <option value="1">DeviceChip</option>
-								          <option value="2">Region</option>
-								          <option value="3">DeviceIP</option>
-								          <option value="3">@timestamp</option>
-								          <option value="3">DeviceMac</option>
-								          <option value="3">host</option>
-								        </select>
-								      </td>
+              								<% @elastic_policy.input_requirements.each do |k,v| %>
+              								<p class="inputCount" style="display: none;"> <%= k %></p>
+              									<tr id="input_fields" >
+              								      <td>   
+              								        <select id="<%= 'input_requirement_header_id_' + k %>" class="input_requirement_select" name="Device Type">
+              								          <option><%= v['key'] %></option>
+              								        </select>
+              								      </td>
 
-								      <td>
-								        <select id="input_requirement_value_id" name="Device Type" class="input_requirement_value">
-								          <option><%= v['value'] %></option>
-								          <option value="1">No</option>
-								          <option value="2">Laptop</option>
-								          <option value="3">1</option>
-								          <option value="1">Sameer-laptop</option>
-								          <option value="2">Windows 10</option>
-								          <option value="3">RSI</option>
-								          <option value="1">Symantec</option>
-								          <option value="2">Intel i7</option>
-								          <option value="3">DESKTOP-8NACH6E</option>
-								          <option value="1">Virginia USA</option>
-								          <option value="2">192.168.1.3</option>
-								          <option value="3">2021-04-12T04:42:02.939Z</option>
-								          <option value="1">9C-B6-D0-BD-ED-EB</option>
-								        </select>
-								      </td>
-									  <td> <i class="fa fa-minus minus_row" ></i> </td>
-							      	</tr>
-								<% end %>
+              								      <td>  
+              								        <select id="<%= 'input_requirement_value_id_' + k %>" name="Device Type" class="input_requirement_value">
+              								          <option><%= v['value'] %></option>
+              								        </select>
+              								      </td>
+              									  <td> <i class="fa fa-minus minus_row" ></i> </td>
+              							      	</tr>
+              								<% end %>
                           </tbody>
                         </table>
                     </div>
@@ -127,28 +102,28 @@
 
                           <tbody id="output_div">
                             
-								<% @elastic_policy.policy_output.each do |k,v| %>
-									<tr id="output_fields" >
-										<p class="outputCount" style="display: none;"> <%= k %></p>
-								          <td>	
-								            <select id= "<%= 'elastic_policy_report_type_id_' + k %>" class="report_type_select">
-								              <option><%= v['key'] %></option>
-								              <% @report_types.each do |x| %>
-								               <option><%= x.title %></option>
-								              <% end %>
-								            </select>
-								          </td>
+              								<% @elastic_policy.policy_output.each do |k,v| %>
+              									<tr id="output_fields" >
+              										<p class="outputCount" style="display: none;"> <%= k %></p>
+              								          <td>	
+              								            <select id= "<%= 'elastic_policy_report_type_id_' + k %>" class="report_type_select">
+              								              <option><%= v['key'] %></option>
+              								              <% @report_types.each do |x| %>
+              								               <option><%= x.title %></option>
+              								              <% end %>
+              								            </select>
+              								          </td>
 
-								          <td>
+              								          <td>
 
-								            <select id= "<%= 'elastic_policy_report_values_id_' + k %>" class="report_value_select">
-												      <option><%= v['value'] %></option>
-								            </select>
-								          </td>
+              								            <select id= "<%= 'elastic_policy_report_values_id_' + k %>" class="report_value_select">
+              												      <option><%= v['value'] %></option>
+              								            </select>
+              								          </td>
 
-								          <td> <i class="fa fa-minus minus_row" ></i> </td>
-								    </tr>
-								<% end %>
+              								          <td> <i class="fa fa-minus minus_row" ></i> </td>
+              								    </tr>
+              								<% end %>
                             
                           </tbody>
                         </table>
@@ -157,11 +132,11 @@
                   </div>
 
                 <% end %>
-
+                <button id ="submission" class="btn btn-warning"> Update Policy</button>
             </div>
         </div>
     </div>
-<button id ="submission"> Update Policy</button>
+
     
 <script type="text/javascript">
 
@@ -175,6 +150,9 @@
     var output_div = document.getElementById('output_div');
     var output_county = document.getElementsByClassName('outputCount')
     	var lastCount = output_county[output_county.length-1].innerHTML
+    var input_count = document.getElementsByClassName('inputCount')
+      var lastInputCount = input_count[input_count.length-1].innerHTML
+
     //
     var source_input = document.getElementById('source')
     var add_source = document.getElementById('add_source')
@@ -201,6 +179,8 @@
     var submission = document.getElementById('submission')
 
     var minus_row = document.getElementsByClassName('minus_row');
+
+
   // Ajax Submit
     submission.addEventListener('click', function(){
       //output 
@@ -261,7 +241,6 @@
             })
           }
     }
-
   //
 
   // Ajax Input
@@ -291,7 +270,6 @@
   //
 
   // Add to source 
-    
     add_source.addEventListener('click', function(){
       //var source_collection = source.value.split(',')
       source_collection.push(source_input.value)
@@ -301,9 +279,9 @@
   //
 
   // Clone Output    
+    var clickCount = Number(lastCount)
     add_output.addEventListener('click', function(){
-    	var clickCount = Number(lastCount)
-    	console.log('askdfjals;kfja', clickCount)
+    	
       clickCount += 1
       var cloneDiv = output_fields.cloneNode(true);
       var cloneDivSelectType = cloneDiv.children[0].firstElementChild
@@ -321,11 +299,20 @@
   //
 
   // Clone Input Requirements
+    var clickCountInput = Number(lastInputCount)
     add_input.addEventListener('click', function(){
+      
+      clickCountInput += 1
       var cloneInputDiv = input_fields.cloneNode(true);
-      cloneInputDiv.id = "newID" //this needs to be randomized/unique
+      var cloneDivSelectTypeInput = cloneInputDiv.children[0].firstElementChild
+      var cloneDivSelectInput = cloneInputDiv.children[1].firstElementChild
+
+      cloneDivSelectTypeInput.id = "input_requirement_header_id" + '_' + clickCountInput
+      cloneDivSelectInput.id = "input_requirement_value_id" + '_' + clickCountInput
+      cloneInputDiv.id = "input_div_" + clickCountInput //this needs to be randomized/unique
       input_div.appendChild(cloneInputDiv);
     })
+
   //
 
   //minus row

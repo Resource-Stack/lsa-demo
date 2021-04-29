@@ -13,6 +13,29 @@ class MasterTablesController < ApplicationController
     else
       p 'false'
     end 
+
+    #testing 
+    response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search', 
+      :body => {
+        :query => {
+          :multi_match => { 
+            "query" => "Avast, Desktop",
+            "fields" => ["DeviceAV", "DeviceType"]
+          } 
+        }
+      }.to_json,
+        :headers => {
+          "Content-Type" => "application/json"
+        }
+    )
+
+    @jsonData = JSON.parse(response.body)
+    p @jsonData
+
+
+
+
+
   end
 
   # GET /master_tables/1 or /master_tables/1.json
