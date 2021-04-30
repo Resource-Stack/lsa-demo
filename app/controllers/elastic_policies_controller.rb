@@ -106,6 +106,8 @@ class ElasticPoliciesController < ApplicationController
                   end # End Current Input
             end #End ElasticPolicy
       end #End Data Hash
+
+      redirect_to table_entries_path
   end 
 
   # GET /elastic_policies/1/edit
