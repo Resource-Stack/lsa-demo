@@ -253,17 +253,17 @@ class ElasticPoliciesController < ApplicationController
         end 
         p 'value array'
         p @valuesArray
-        @inputID = 'input_requirement_value_id'
     # end get value
 
 
   
     passed_id = params[:id_selection]
-    if passed_id == 'input_requirement_value_id'
+    if passed_id == 'input_requirement_header_id'
       @inputID = 'input_requirement_value_id'
       p 'here'
     else 
       id_value = passed_id.split('_')
+      p id_value
       @inputID = 'input_requirement_value_id_' + id_value[id_value.length-1].to_s
     end 
 

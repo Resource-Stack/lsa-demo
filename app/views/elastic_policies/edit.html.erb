@@ -84,7 +84,7 @@
               								          <option><%= v['value'] %></option>
               								        </select>
               								      </td>
-              									  <td> <i class="fa fa-minus minus_row" ></i> </td>
+                                    <td> <i class="fa fa-minus minus_row" ></i> </td>
               							      	</tr>
               								<% end %>
                           </tbody>
@@ -298,6 +298,7 @@
       //update the collection
       report_type_select = document.getElementsByClassName('report_type_select');
       output_change_listener()
+      subtractRow()
     })
   //
 
@@ -312,18 +313,24 @@
 
       cloneDivSelectTypeInput.id = "input_requirement_header_id" + '_' + clickCountInput
       cloneDivSelectInput.id = "input_requirement_value_id" + '_' + clickCountInput
-      cloneInputDiv.id = "input_div_" + clickCountInput //this needs to be randomized/unique
+      cloneInputDiv.id = "newID"
       input_div.appendChild(cloneInputDiv);
+       input_change_listener();
+       subtractRow()
     })
 
   //
 
   //minus row
-  for (var i =0; i < minus_row.length; i++){
-  	minus_row[i].addEventListener('click', function(e){
-  		e.srcElement.parentElement.parentElement.remove()
-  	})
+  function subtractRow(){
+    for (var i =0; i < minus_row.length; i++){
+      minus_row[i].addEventListener('click', function(e){
+        console.log(e)
+        e.srcElement.parentElement.parentElement.remove()
+      })
+    }    
   }
+
 
 
 
