@@ -1,7 +1,7 @@
 # using https://github.com/jnunemaker/httparty
 class DashboardController < ApplicationController
 	require 'date'
-	include HTTParty
+	#include HTTParty
 	before_action :authenticate_user!
 	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ] 
 	
