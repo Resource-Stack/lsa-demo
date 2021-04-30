@@ -1,7 +1,6 @@
 # using https://github.com/jnunemaker/httparty
 class DashboardController < ApplicationController
 	require 'date'
-	#include HTTParty
 	before_action :authenticate_user!
 	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ] 
 	
@@ -64,6 +63,7 @@ class DashboardController < ApplicationController
 		  @keyValueCountHash = Hash.new
 
 		  @headerValues.each do |x|
+		  			#if x.to_s == 'path' || 'host '
 		          tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50', 
 		                :body => {
 		                  :aggs => {
@@ -96,7 +96,7 @@ class DashboardController < ApplicationController
 		                    valueCount = 0
 		                  end 
 
-		                  if valueCount == 1
+		                 if valueCount == 1
 		                   @valuesArray[0] = value
 		                 else
 		                    @valuesArray[1] = value

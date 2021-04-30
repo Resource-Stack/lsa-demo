@@ -73,6 +73,9 @@
               								      <td>   
               								        <select id="<%= 'input_requirement_header_id_' + k %>" class="input_requirement_select" name="Device Type">
               								          <option><%= v['key'] %></option>
+                                        <% @headerValues.each do |x| %>
+                                          <option><%= x %></option>
+                                        <% end %>
               								        </select>
               								      </td>
 

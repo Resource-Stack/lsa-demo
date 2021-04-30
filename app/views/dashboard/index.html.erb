@@ -151,7 +151,11 @@
                                                             <% @hashHash.each_value do |data| %>
                                                                 <tr>
                                                                     <% data.each do |k,v| %>
-                                                                        <td><%= v %></td>
+                                                                        <% if v.present? %>
+                                                                            <td><%= k %> :<%= v %></td>
+                                                                        <% else %>
+                                                                            <td>'nil'</td>
+                                                                        <% end %>
                                                                     <% end %>
                                                                 </tr>
                                                             <% end %>

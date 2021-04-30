@@ -28,8 +28,9 @@
                   <tr>
                     <th>Title</th>
                     <th>Source</th>
-                    <th>Policy output</th>
                     <th>Input requirements</th>
+                    <th>Policy output</th>
+                    
                     <th colspan="2"></th>
                   </tr>
                 </thead>
@@ -40,17 +41,18 @@
                       <td><%= elastic_policy.title %></td>
                       <td><%= elastic_policy.source %></td>
                       <td>
+                        <% elastic_policy.input_requirements.values.each do |k,v| %>
+                          <%= k['key'] %> : <%= k['value']%><br>
+                        <% end %>
+                      </td>
+                      <td>
                         <% elastic_policy.policy_output.values.each do |key,value| %>
                           <%= key['key'] %> : <%= key['value']%><br>
                         <% end %>
                         
                       </td>
                       
-                      <td>
-                        <% elastic_policy.input_requirements.values.each do |k,v| %>
-                          <%= k['key'] %> : <%= k['value']%><br>
-                        <% end %>
-                      </td>
+
                       <td><%= link_to 'Edit', edit_elastic_policy_path(elastic_policy) %></td>
                       <td><%= link_to 'Destroy', elastic_policy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                     </tr>

@@ -114,6 +114,27 @@ class ElasticPoliciesController < ApplicationController
   def edit
     @report_values = ReportValue.all
     @report_types = ReportType.all
+    # GET ALL (for input values)
+      response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50')
+        p '[RESPONSE CODE]'
+        p response.code
+      #Convert To JSON
+      @responseBody = JSON.parse(response.body)
+        p '[RESPONSE BODY]'
+        p @responseBody
+      #Get the HITS
+      @responseHash = Hash.new  
+      count = 0
+      @responseBody['hits']['hits'].each do |k,v|
+        @responseHash[count] = k['_source']
+        count = count + 1
+      end 
+      #Get The Header Values
+      @headerValues = []
+      @responseHash[0].each do |kilo,alpha|
+        @headerValues.push(kilo)
+      end 
+    ##
   end
 
   # POST /elastic_policies or /elastic_policies.json
@@ -234,6 +255,17 @@ class ElasticPoliciesController < ApplicationController
         p @valuesArray
         @inputID = 'input_requirement_value_id'
     # end get value
+
+
+  
+    passed_id = params[:id_selection]
+    if passed_id == 'input_requirement_value_id'
+      @inputID = 'input_requirement_value_id'
+      p 'here'
+    else 
+      id_value = passed_id.split('_')
+      @inputID = 'input_requirement_value_id_' + id_value[id_value.length-1].to_s
+    end 
 
 
   end 
