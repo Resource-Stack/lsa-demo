@@ -9,21 +9,15 @@ class DashboardController < ApplicationController
 
 			@all_data = fetch_all
 
-			@summary = fetch_summary
+			@summary = fetch_summary[0]
+			p @summary
 
 
 			@headerValues = []
 			check = JSON.parse(@all_data[0])
-			p 'woof'
-			p check
 			check.each do |kilo,alpha|
 				@headerValues.push(kilo)
 			end 
-
-			p 'moo'
-			p @headerValues
-
-
 
 		if current_user.table_entries.present? || current_user.master_table.present?
 			#only concerned about first row. Need to make conditional based off values 
