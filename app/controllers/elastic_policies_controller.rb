@@ -83,8 +83,8 @@ class ElasticPoliciesController < ApplicationController
                       data.each do |key,value|  
 
 
-                        logger.debug("Keys::: d #{key.to_s} == p #{policy_KV['key'].to_s}")
-                        logger.debug("Values::: d #{value.to_s} == p #{policy_KV['value'].to_s}")
+                        #logger.debug("Keys::: d #{key.to_s} == p #{policy_KV['key'].to_s}")
+                        #logger.debug("Values::: d #{value.to_s} == p #{policy_KV['value'].to_s}")
 
                          if key.to_s == policy_KV['key'].to_s && value.to_s == policy_KV['value'].to_s
                            p ' MATCH'
@@ -245,14 +245,14 @@ class ElasticPoliciesController < ApplicationController
               end 
 
               if valueCount == 1
-               @valuesArray.push(value) 
+               @valuesArray.push(value)  
              end 
              
 
             end 
         end 
         p 'value array'
-        p @valuesArray
+        p @valuesArray 
     # end get value
 
 

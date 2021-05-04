@@ -42,6 +42,12 @@ gem "chartkick"
 gem 'groupdate'
 gem 'httparty'
 
+gem 'redis'
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
+gem 'dotenv-rails', groups: [:development, :test]
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

@@ -2,9 +2,28 @@
 class DashboardController < ApplicationController
 	require 'date'
 	before_action :authenticate_user!
-	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ] 
+	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ]  
+	include ElasticSearchHelper
 	
 	def index
+
+			@all_data = fetch_all
+
+			@summary = fetch_summary
+
+
+			@headerValues = []
+			check = JSON.parse(@all_data[0])
+			p 'woof'
+			p check
+			check.each do |kilo,alpha|
+				@headerValues.push(kilo)
+			end 
+
+			p 'moo'
+			p @headerValues
+
+
 
 		if current_user.table_entries.present? || current_user.master_table.present?
 			#only concerned about first row. Need to make conditional based off values 
@@ -30,16 +49,16 @@ class DashboardController < ApplicationController
 			redirect_to master_tables_path, notice: "Please Create A Master Table"
 		end   
 
-
+=begin
 		# GET ALL
 			response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50')
 
-			p '[RESPONSE CODE]'
-			p response.code
+			#p '[RESPONSE CODE]'
+			#p response.code
 			#Convert To JSON
 			@responseBody = JSON.parse(response.body)
-			p '[RESPONSE BODY]'
-			p @responseBody
+			#p '[RESPONSE BODY]'
+			#p @responseBody
 			#Get the HITS
 			@hashHash = Hash.new	
 			count = 0
@@ -113,9 +132,10 @@ class DashboardController < ApplicationController
 		            end 
 		          end 
 		          p '[HASH]'
-		          p @keyValueCountHash
+		          #p @keyValueCountHash
 		  end 
 		#### Build Graph Data Collection
+=end
 	end 
 
 	def timeRangeReport

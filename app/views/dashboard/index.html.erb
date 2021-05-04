@@ -148,15 +148,18 @@
                                                         </thead>
                                                         
                                                         <tbody>
-                                                            <% @hashHash.each_value do |data| %>
+                                                            <% @all_data.each do |data| %>
                                                                 <tr>
-                                                                    <% data.each do |k,v| %>
-                                                                        <% if v.present? %>
-                                                                            <td><%= k %> :<%= v %></td>
-                                                                        <% else %>
-                                                                            <td>'nil'</td>
+                                                                    <% count = 0 %>
+                                                                        <% JSON.parse(data).each do |k,v| %>
+                                                                            <td>
+                                                                                <% if k == @headerValues[count] %>
+                                                                                    <%= v %>
+                                                                                <% end %>
+                                                                            </td>
+                                                                            <% count +=1 %>
                                                                         <% end %>
-                                                                    <% end %>
+
                                                                 </tr>
                                                             <% end %>
                                                         </tbody>
