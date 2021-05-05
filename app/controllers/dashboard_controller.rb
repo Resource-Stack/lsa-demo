@@ -39,7 +39,7 @@ class DashboardController < ApplicationController
 				end 
 			end 
 
-		elsif !current_user.master_table.present?
+		elsif !current_user.master_table.present? 
 			redirect_to master_tables_path, notice: "Please Create A Master Table"
 		end   
 

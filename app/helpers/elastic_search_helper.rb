@@ -33,8 +33,6 @@ module ElasticSearchHelper
       $redis.expire("elastic_all_values", 1.hour.to_i)
     end 
     JSON.load elastic_all_values
-    
-
   end 
 
   def fetch_summary
@@ -43,12 +41,17 @@ module ElasticSearchHelper
       p elastic_fetch_summ.nil?
 
       if elastic_fetch_summ.nil?
-        elastic_all_values = $redis.get("elastic_all_values") 
+        elastic_all_values = $redis.get("elastic_all_values")  
           headerValues = []
-          check = JSON.parse(elastic_all_values[0])
-          check.each do |kilo,alpha|
+# Issue Here   
+        p 'All Values '       
+        #p elastic_all_values
+        check = JSON.parse(elastic_all_values)[0] 
+          JSON.parse(check).each do |kilo,alpha|
             headerValues.push(kilo)
           end 
+          p 'HEADER VALUES'
+          p headerValues
 
           @keyValueCountHash = Hash.new
           headerValues.each do |x|
@@ -102,8 +105,8 @@ module ElasticSearchHelper
                     end 
                   end 
                   p '[HASH]'
-                  #p @keyValueCountHash
-          end 
+                  p @keyValueCountHash
+         end  
 
           elastic_fetch_summ = [@keyValueCountHash].to_json
           p elastic_fetch_summ
@@ -112,6 +115,9 @@ module ElasticSearchHelper
 
       end 
       JSON.load elastic_fetch_summ
+
+#elastic_fetch_summ = $redis.del('elastic_fetch_summ')
+#elastic_all_values = $redis.del("elastic_all_values")  
 
   end 
 
