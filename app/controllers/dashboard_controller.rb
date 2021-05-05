@@ -7,28 +7,24 @@ class DashboardController < ApplicationController
 	
 	def index
 
+		begin
 			@all_data = fetch_all
-
 			@summary = fetch_summary[0]
-			p @summary
-
+			p 'success'
+		rescue
+			p 'issue'
+		end 
 
 			@headerValues = []
 			check = JSON.parse(@all_data[0])
 			check.each do |kilo,alpha|
 				@headerValues.push(kilo)
 			end 
-
+=begin			
 		if current_user.table_entries.present? || current_user.master_table.present?
-			#only concerned about first row. Need to make conditional based off values 
 			@tableEntry = current_user.table_entries[0]
 			@table_entries = current_user.table_entries
 
-			#Need to add this logic to model to handle these break downs
-			#@field_one = @table_entries.pluck(:field_one)
-			#@field_one_size = @field_one.size
-			#@f_one_avg = @field_one.map(&:to_i).sum / @field_one_size.to_i
-			#@f_one_unique = @field_one.map(&:to_i).uniq.sort
 			@masterTable = current_user.master_table
 			@fieldValues = []
 			@masterTable.attributes.each do |k,v|
@@ -42,93 +38,6 @@ class DashboardController < ApplicationController
 		elsif !current_user.master_table.present? 
 			redirect_to master_tables_path, notice: "Please Create A Master Table"
 		end   
-
-=begin
-		# GET ALL
-			response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50')
-
-			#p '[RESPONSE CODE]'
-			#p response.code
-			#Convert To JSON
-			@responseBody = JSON.parse(response.body)
-			#p '[RESPONSE BODY]'
-			#p @responseBody
-			#Get the HITS
-			@hashHash = Hash.new	
-			count = 0
-			@responseBody['hits']['hits'].each do |k,v|
-				@hashHash[count] = k['_source']
-				count = count + 1
-			end 
-			#ROWS
-			#Get The Header Values
-			@headerValues = []
-			@hashHash[0].each do |kilo,alpha|
-				@headerValues.push(kilo)
-			end 
-
-		#End Get All
-
-			#do a request per headerValue, store 
-			# headervalue = { [value, count], [value, count]}
-		#Graph Data Collection
-
-		  @keyValueCountHash = Hash.new
-
-		  @headerValues.each do |x|
-		  			#if x.to_s == 'path' || 'host '
-		          tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50', 
-		                :body => {
-		                  :aggs => {
-		                    :langs => { 
-		                      :terms => {
-		                        'field' => x.to_s + '.keyword','size' => 500
-		                      }
-		                    }
-		                  },
-		                  "fields" => [x.to_s + ".keyword"],
-		                  "_source" => false
-		                }.to_json,
-		                  :headers => {
-		                    "Content-Type" => "application/json"
-		                  }
-		              )
-
-		           @tight = JSON.parse(tightResponse.body)
-		           @importantvalues = @tight['aggregations']['langs']['buckets']
-		           #Get Values From JSON
-		          valueCount = 0
-		          @importantvalues.each do |k,v|
-		              @valuesArray = []
-		              k.each do |key,value| 
-
-		                #other value is count
-		                  valueCount +=1
-
-		                  if valueCount == 2
-		                    valueCount = 0
-		                  end 
-
-		                 if valueCount == 1
-		                   @valuesArray[0] = value
-		                 else
-		                    @valuesArray[1] = value
-		                 end 
-		              end 
-
-
-		            if @keyValueCountHash.include?(x.to_s)
-		              #pre existing
-		              @keyValueCountHash[x] << @valuesArray
-		            else 
-		              #new
-		              @keyValueCountHash[x] = [@valuesArray]
-		            end 
-		          end 
-		          p '[HASH]'
-		          #p @keyValueCountHash
-		  end 
-		#### Build Graph Data Collection
 =end
 	end 
 

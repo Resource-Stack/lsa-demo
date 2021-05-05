@@ -5,8 +5,9 @@ module ElasticSearchHelper
   def fetch_all  
     p "FETCH ALL"
     elastic_all_values = $redis.get("elastic_all_values") 
+    p elastic_all_values.class
     p elastic_all_values.nil?
-    if elastic_all_values.nil?
+    if elastic_all_values.nil? #&& elastic_all_values.length > 1
     # GET ALL
       response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=100')
 
@@ -39,8 +40,9 @@ module ElasticSearchHelper
       p "FETCH SUMMARY "
       elastic_fetch_summ = $redis.get('elastic_fetch_summ')
       p elastic_fetch_summ.nil?
+      p elastic_fetch_summ.class
 
-      if elastic_fetch_summ.nil?
+      if elastic_fetch_summ.nil? ##&& elastic_all_values.length > 1
         elastic_all_values = $redis.get("elastic_all_values")  
           headerValues = []
 # Issue Here   
