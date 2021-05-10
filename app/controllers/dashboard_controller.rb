@@ -131,23 +131,18 @@ class DashboardController < ApplicationController
 	end 
 
 	def find_by_filter
-		@masterTable = current_user.master_table  
 		@uniqueEntries = []
-		@masterTable.attributes.each do |k,v|
-			#these are the fields associated to with a postgres table we don't care about
-			if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
+		@headerValues.each do |v|
 				if params[:findBy_filter] == v
-					@focusedTableEntries = TableEntry.pluck(k)
-					@uniqueEntries = @focusedTableEntries.uniq.sort
-					p 'here'
-					p @uniqueEntries
+					#perform search in Elastic Search for this value
+					 @uniqueEntries = [1,2,3,4,5]
 				end 
-			end 
+
 		end 
 		#
         respond_to do |format|
           #format.html 
-          format.js
+          format.js 
         end
 	end 
 
