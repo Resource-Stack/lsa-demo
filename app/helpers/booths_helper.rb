@@ -2,7 +2,7 @@ module BoothsHelper
 
   def fetch_booths_16
     # GET ALL
-      response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50')
+      response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
 
       p '[MODULE MODULE MODULE]'
       #p response.code

@@ -9,7 +9,7 @@ module ElasticSearchHelper
     p elastic_all_values.nil?
     if elastic_all_values.nil? #&& elastic_all_values.length > 1
     # GET ALL
-      response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=100')
+      response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
 
       p '[MODULE MODULE MODULE]'
       @responseBody = JSON.parse(response.body)
@@ -58,7 +58,7 @@ module ElasticSearchHelper
           @keyValueCountHash = Hash.new
           headerValues.each do |x|
                 #if x.to_s == 'path' || 'host '
-                  tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=50', 
+                  tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
                         :body => {
                           :aggs => {
                             :langs => { 
