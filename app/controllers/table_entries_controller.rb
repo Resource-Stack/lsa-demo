@@ -1,9 +1,17 @@
 class TableEntriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_table_entry, only: %i[ show edit update destroy ]
+  include ElasticSearchHelper
 
   # GET /table_entries or /table_entries.json
   def index
+
+    begin
+      @all_data = fetch_all
+      p 'success'
+    rescue
+      p 'issue'
+    end 
     #Get Unique Keys
     report_type = ElasticReport.pluck(:report_type_title)
     @unique_keys = report_type.uniq 

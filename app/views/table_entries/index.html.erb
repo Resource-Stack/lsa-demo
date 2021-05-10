@@ -5,7 +5,7 @@
     <div class="col">
       <h3>ABC Company</h3>
       <h3>Cyber and Asset Dashboard</h3>
-      <p>Today's Date is: <%= Date.today %> </p>      
+      <p>Today's Date is: <%= Date.today %> </p>       
     </div>
   </div>
 
@@ -23,6 +23,7 @@
 <hr>
 <!-- Charts -->
 <div class="row">
+  <% count = 0 %>
   <% @brewed.each do |k,v| %>
     <div class="col-lg-4 col-md-4 col-sm-4 d-sm-inline-block">
         <div class="card shadow mb-4">
@@ -39,11 +40,11 @@
                         aria-labelledby="dropdownMenuLink">
                         <div class="dropdown-header">Chart Type</div>
 
-                        <button class="dropdown-item PieChart" id='1'> Pie Chart</button>
+                        <button class="dropdown-item PieChart" id=<%=count.to_s%>> Pie Chart</button>
 
-                        <button class="dropdown-item BarChart" id='2'> Bar Chart</button>
+                        <button class="dropdown-item BarChart" id=<%=count.to_s%>> Bar Chart</button>
 
-                        <button class="dropdown-item ColumnChart" id='3'> Column Chart</button>
+                        <button class="dropdown-item ColumnChart" id=<%=count.to_s%>> Column Chart</button>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Download This Chart</a>
@@ -52,14 +53,94 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-              <%= pie_chart(v, legend: false) %>
-              Total: <%= (v.map{|x| x[1]}).sum %>
+              <!-- -->
+                <div id= <%="field_pie_" + count.to_s%> > 
+                  <%= pie_chart(v, legend: false) %>            
+                </div>
+
+                <div class="displayBarChart" id= <%="field_bar_" + count.to_s%> >
+                    <%= column_chart(v) %>
+                </div>
+
+                <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
+                    <%= bar_chart(v) %>
+                </div>
+                 <% count+=1 %>
+              <!-- -->
+              <%= k %> Total: <%= (v.map{|x| x[1]}).sum %>   
             </div>
         </div>
     </div>
   <% end %>
 </div>
 <!-- Charts -->
+
+<script type="text/javascript">
+// Activate Bar Chart
+    var barcharts = document.getElementsByClassName('BarChart')
+    for (var i =0; i < barcharts.length; i++){
+            barcharts[i].addEventListener('click', function(e){
+
+              hidePie(e.srcElement.id)
+              hideColumn(e.srcElement.id)
+              //Display Bar Chart
+              var barChart = 'field_bar_' + e.srcElement.id
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'block';
+
+          })
+        }
+
+    // Activate Bar Chart
+    var piecharts = document.getElementsByClassName('PieChart')
+    for (var i =0; i < piecharts.length; i++){
+            piecharts[i].addEventListener('click', function(e){
+              hideBar(e.srcElement.id)
+              hideColumn(e.srcElement.id)
+              //Display Pie Chart
+              var currentID = 'field_pie_' + e.srcElement.id
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'block';
+
+          })
+        }
+    // Activate Column Chart
+    var columncharts = document.getElementsByClassName('ColumnChart')
+    for (var i =0; i < columncharts.length; i++){
+            columncharts[i].addEventListener('click', function(e){
+
+              hidePie(e.srcElement.id)
+              hideBar(e.srcElement.id)
+              //Show Column Chart
+              var currentColumn = 'column_bar_' + e.srcElement.id
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'block';
+
+
+          })
+        }
+
+    function hidePie(e){
+            //Hide Pie Chart
+              var currentID = 'field_pie_' + e
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'none';
+    }
+
+    function hideBar(e){
+
+              //Hide Bar Chart
+              var barChart = 'field_bar_' + e
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'none';
+    }
+
+    function hideColumn(e){
+              var currentColumn = 'column_bar_' + e
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'none';
+    }
+</script>
 
 
 

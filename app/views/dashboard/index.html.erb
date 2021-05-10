@@ -119,7 +119,7 @@
                                             <div class="dropdown-header">Filter Types:</div>
 
 
-                                            <button class="dropdown-item" data-toggle="modal" data-target="#timeRangeModal">Filter by Date</button>
+                                            <button class="dropdown-item" data-toggle="modal" data-target="#timeRangeModal" id ='fieldSelection'>Filter by Date</button>
 
 
                                             <button class="dropdown-item" data-toggle="modal" data-target="#restrictedParameterModal">Filter by Parameters</button>
@@ -194,7 +194,7 @@
 <!-- End of Main Content -->
  
     <!-- Modals -->
-    <% if @fieldValues.present? %>
+
         <!-- Time Range  Modal-->
         <div class="modal fade" id="timeRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -221,7 +221,7 @@
                                 <label>Specify Field </label>
                                 <select id="fieldSelection" ><br>
                                     <option></option>
-                                    <% @fieldValues.each do |x| %>
+                                    <% @headerValues.each do |x| %>
                                         <option><%= x %></option>
                                     <% end %>
                                     
@@ -259,7 +259,7 @@
                             <label for="startDate">Specify First Field</label>
                             <select id ='filterFirstParamQuery'>
                                 <option></option>
-                                <% @fieldValues.each do |fe| %>
+                                <% @headerValues.each do |fe| %>
 
                                     <option> <%= fe %></option>
                                 <% end %>
@@ -274,7 +274,7 @@
                             <label for="endDate">Specify Second Field</label>
                             <select id ='filterSecondParamQuery'>
                                 <option></option>
-                                <% @fieldValues.each do |fe| %>
+                                <% @headerValues.each do |fe| %>
                                     <option> <%= fe %></option>
                                 <% end %>
                             </select>
@@ -312,7 +312,7 @@
                             <label for="startDate">Specify Field</label>
                             <select id="findBySelect">
                                 <option></option>
-                                <% @fieldValues.each do |fe| %>
+                                <% @headerValues.each do |fe| %>
 
                                     <option> <%= fe %></option>
                                 <% end %>
@@ -333,7 +333,7 @@
                 </div>
             </div>
         </div>
-    <% end %>
+
 
 <script type="text/javascript">
 

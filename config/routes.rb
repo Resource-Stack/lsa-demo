@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
- 
+  root'table_entries#index'
   
   resources :elastic_policies
   resources :elastic_reports
   resources :report_values
   resources :report_types
-  root'dashboard#index'
   resources :roles
   devise_for :users
   resources :users, only: [:index, :show, :edit, :update]
@@ -38,6 +37,8 @@ Rails.application.routes.draw do
 
   #dummy route
   post 'false_create', to: 'elastic_policies#false_create'
+  #
+  get 'dashboard', to: 'dashboard#index'
 
 
 end

@@ -3,42 +3,23 @@ class DashboardController < ApplicationController
 	require 'date'
 	before_action :authenticate_user!
 	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ]  
+	before_action :set_header_values
 	include ElasticSearchHelper
 	
 	def index
 
 		begin
-			@all_data = fetch_all
+			#@all_data = fetch_all
 			@summary = fetch_summary[0]
 			p 'success'
 		rescue
 			p 'issue'
 		end 
-
-			@headerValues = []
-			check = JSON.parse(@all_data[0])
-			check.each do |kilo,alpha|
-				@headerValues.push(kilo)
-			end 
-=begin			
-		if current_user.table_entries.present? || current_user.master_table.present?
-			@tableEntry = current_user.table_entries[0]
-			@table_entries = current_user.table_entries
-
-			@masterTable = current_user.master_table
-			@fieldValues = []
-			@masterTable.attributes.each do |k,v|
-				p k
-				#these are the fields associated to with a postgres table we don't care about
-				if k != 'id' && k != 'created_at' && k != 'updated_at' && k != 'user_id'
-					@fieldValues.push(v) 
-				end 
-			end 
-
-		elsif !current_user.master_table.present? 
-			redirect_to master_tables_path, notice: "Please Create A Master Table"
-		end   
-=end
+		@headerValues = []
+		check = JSON.parse(@all_data[0])
+		check.each do |kilo,alpha|
+			@headerValues.push(kilo)
+		end  
 	end 
 
 	def timeRangeReport
@@ -236,6 +217,21 @@ class DashboardController < ApplicationController
 	end 
 
 	private 
+
+	def set_header_values
+		begin
+			@all_data = fetch_all
+			p 'success'
+		rescue
+			p 'issue'
+		end 
+
+		@headerValues = []
+		check = JSON.parse(@all_data[0])
+		check.each do |kilo,alpha|
+			@headerValues.push(kilo)
+		end  
+	end 
 
     def set_master_table
 
