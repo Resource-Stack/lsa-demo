@@ -2,7 +2,7 @@
 class DashboardController < ApplicationController
 	require 'date'
 	before_action :authenticate_user!
-	before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ]  
+	#before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ]  
 	before_action :set_header_values
 	include ElasticSearchHelper
 	

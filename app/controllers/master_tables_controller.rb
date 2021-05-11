@@ -20,7 +20,7 @@ class MasterTablesController < ApplicationController
         :query => {
           :multi_match => { 
             "query" => "Avast, Desktop",
-            "fields" => ["DeviceAV", "DeviceType"]
+            "fields" => ["DeviceAV", "DeviceType"],
           } 
         }
       }.to_json,
