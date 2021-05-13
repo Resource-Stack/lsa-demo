@@ -167,21 +167,36 @@ class MasterTablesController < ApplicationController
 
     end 
     logger.debug("final:: #{lock_chain}")
+    @string_array = []
+    lock_chain.each do |k,v|
+      if v.length > 1 
+          v.each do |vvv|
+            @string_array.push({"match" => {k.to_s => vvv.to_s}})  
+          end 
+      else 
+        @string_array.push({"match" => {k.to_s => v[0].to_s}})  
+      end
+      p @string_array
+    end 
+
 
     ### Construct Query
     #testing 
+
     response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
       :body => {
         :query => {
           :bool => {
             :must => {
               :bool => { 
-                :should => [
-                  { "match": { "DeviceWired": "Yes" }},
-                  { "match": { "DeviceWired": "No" }}
-                ],
-                "must": { "match": { "DeviceWired": "Yes" }},
-                "must": { "match": { "DeviceWired": "No" }}  
+                :should => @string_array
+                #[
+                #  { "match": { "Source": "ABC" }},
+                #  { "match": { "Source": "NAVY" }}
+                #]
+                #,
+                #{}"must": { "match": { "Source": "ABC" }},
+                #{}"must": { "match": { "Source": "NAVY"  }}  
               }
             },
             "must_not": { "match": {"authors": "radu gheorge" }}
@@ -194,8 +209,19 @@ class MasterTablesController < ApplicationController
     )
 
     @jsonData = JSON.parse(response.body)
-    p @jsonData
+    p @jsonData['hits']['hits']
+
+      @hashHash = Hash.new  
+      @query_data_rows = []
+      count = 0
+      @jsonData['hits']['hits'].each do |k,v|
+        @hashHash[count] = k['_source']
+        #p k['_source']
+        @query_data_rows.push(k['_source'].to_json)
+        count = count + 1
+      end 
     ### End query
+
 
   end 
 
