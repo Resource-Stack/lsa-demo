@@ -40,5 +40,9 @@ Rails.application.routes.draw do
   #
   get 'dashboard', to: 'dashboard#index'
 
+  #master table testing area
+  post 'update_query_output', to: 'master_tables#update_input' 
+  post 'query_module', to: 'master_tables#query_module'
+
 
 end

@@ -1,3 +1,35 @@
 // Place all the styles related to the master_tables controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+$color: #000;
+$size: 10px;
+
+body {
+  padding:$size * 2;
+  background-color:$color;
+}
+
+#scrub {
+  width: $size * 3;
+  height: $size * 3;
+  background-color: lighten($color, 100);
+  border-radius: 50%;
+  
+  cursor: move;
+  position: relative;
+  bottom: $size;
+  left: -$size;
+  z-index: 1;
+  
+  .active {
+    cursor: move;
+  }
+}
+
+#timeline {
+  width: 100%;
+  height: $size;
+  background-color:lighten($color, 70);
+}
