@@ -107,8 +107,7 @@ class MasterTablesController < ApplicationController
 
               if valueCount == 1
                @valuesArray.push(value)  
-             end 
-             
+              end 
 
             end 
         end 
@@ -130,84 +129,93 @@ class MasterTablesController < ApplicationController
   end 
 
   def query_module
-    p 'hit'
-    #p params[:end_date]
-    #p params[:start_date]
     p params[:key_values]
+
+    condition = params[:query_condition_value]    
     key_value_parse = params[:key_values].split(',')
 
-
+    # PARAMETERS TO KEY VALUE
     lock_chain = Hash.new
     count = 0 
     values = []
     my_index = 0
     kv_length = key_value_parse.length
-
+    #Create Hash
     key_value_parse.each do |kv|
-      if @headerValues.include?(kv) 
-          #account for first key, and then reset when a key is found
-          if count == 0
-            @set_key = kv
-          else
-            lock_chain[@set_key] = values
-            @set_key = kv
-            values = []
-            count = 0
-          end 
-          count = count + 1
-      else 
-        values.push(kv)
-      end 
+        if @headerValues.include?(kv) 
+            #account for first key, and then reset when a key is found
+            if count == 0
+              @set_key = kv
+            else
+              lock_chain[@set_key] = values
+              @set_key = kv
+              values = []
+              count = 0
+            end 
+            count = count + 1
+        else 
+          values.push(kv)
+        end 
 
-      #The End of the array is a VALUE, finalize hash
-      my_index+=1
-      if my_index == kv_length
-        lock_chain[@set_key] = values
-      end 
-
+        #The End of the array is a VALUE, finalize hash
+        my_index+=1
+        if my_index == kv_length
+          lock_chain[@set_key] = values
+        end 
     end 
     logger.debug("final:: #{lock_chain}")
+        
+    # KEY/VALUE TO Elastic Format
     @string_array = []
-    lock_chain.each do |k,v|
-      if v.length > 1 
-          v.each do |vvv|
-            @string_array.push({"match" => {k.to_s => vvv.to_s}})  
-          end 
-      else 
-        @string_array.push({"match" => {k.to_s => v[0].to_s}})  
-      end
+      lock_chain.each do |k,v|
+          if v.length > 1 
+                v.each do |vvv|
+                  @string_array.push({"match" => {k.to_s => vvv.to_s}})   
+                end 
+          else 
+            @string_array.push({"match" => {k.to_s => v[0].to_s}})  
+          end
+      end 
       p @string_array
+
+    #move into seperate logic
+    if condition == "AND"
+        response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
+          :body => {
+            :query => {
+              :bool => {
+                :must => {
+                  :bool => {
+                  :must => @string_array 
+                 }
+                }
+              }
+            }
+          }.to_json,
+            :headers => {
+              "Content-Type" => "application/json"
+            }
+        )
+    else # THIS IS AN OR STATEMENT
+        response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
+          :body => {
+            :query => {
+              :bool => {
+                :must => {
+                  :bool => {
+                  :should => @string_array 
+                 }
+                }
+              }
+            }
+          }.to_json,
+            :headers => {
+              "Content-Type" => "application/json"
+            }
+        )
     end 
 
-
-    ### Construct Query
-    #testing 
-
-    response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
-      :body => {
-        :query => {
-          :bool => {
-            :must => {
-              :bool => { 
-                :should => @string_array
-                #[
-                #  { "match": { "Source": "ABC" }},
-                #  { "match": { "Source": "NAVY" }}
-                #]
-                #,
-                #{}"must": { "match": { "Source": "ABC" }},
-                #{}"must": { "match": { "Source": "NAVY"  }}  
-              }
-            },
-            "must_not": { "match": {"authors": "radu gheorge" }}
-          }
-        }
-      }.to_json,
-        :headers => {
-          "Content-Type" => "application/json"
-        }
-    )
-
+    # Response
     @jsonData = JSON.parse(response.body)
     p @jsonData['hits']['hits']
 
@@ -220,7 +228,47 @@ class MasterTablesController < ApplicationController
         @query_data_rows.push(k['_source'].to_json)
         count = count + 1
       end 
+      logger.debug("ASHY::: #{@jsonData['hits']['hits']}")
+
     ### End query
+
+    #CREATE THE GRAPH VALUE
+    @summarized_hash = Hash.new
+    @headerValues.each do |hv|
+      @summarized_hash[hv] = []
+    end 
+    @hashHash.each do |k,v|
+          v.each do |key,value|
+              current_set = @summarized_hash[key]
+              if current_set.length != 0
+                  #Values Only
+                  value_only_array = []
+                  current_set.each do |x| 
+                    value_only_array.push(x[0])
+                  end 
+                  #Check if it is included 
+                  if value_only_array.include?(value)
+                    #Increment
+                    current_set.each do |x| 
+                        if x[0].to_s == value.to_s
+                          x[1] = x[1].to_i + 1
+                        end
+                    end 
+                  else
+                    #NOT included, push new value
+                    @summarized_hash[key] << [value, 1]
+                  end 
+
+              else 
+                p 'initial push'
+                @summarized_hash[key] << [value, 1]
+              end
+          end 
+    end 
+
+    p 'Final'
+    p  @summarized_hash
+
 
 
   end 

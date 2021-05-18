@@ -38,6 +38,15 @@
 <hr>
                 <h4 style="text-align: center;"> Key Values <i class="fa fa-plus" id="add_query"></i></h4> 
 
+                <div class="row">
+                      <div class="col">
+                        <label for="onlyKey"> Conditional: </label>                                        
+                        <select class="query_condition" id="query_condition">
+                          <option value="or">OR</option>
+                          <option value="and">AND</option>
+                        </select>
+                      </div>
+                </div>
                 <div class="row" id="input_query_fields" >
                       <div class="col" >
                           <label>Specify Key </label>
@@ -48,8 +57,6 @@
                               <% end %>
                           </select>     
                           <br>    
-                          <input class="onlyKey" type="checkbox" name="scales" id='only_key'>
-                          <label for="onlyKey"> Only Key </label>                                        
                       </div>
 
                       <div class="col query_value_selection_class" id ="query_value_selection_id">
@@ -61,23 +68,25 @@
             </div>
       </div>
   </div>
+  <button onclick="submit()" class="btn btn-dark"> submit</button>
   <div class="row">
     <div class="col" id="search_results">
 
     </div>
   </div>
 </div>
-<button onclick="submit()"> submit</button>
+
 
 <hr> 
 
-<
+
 <script type="text/javascript">
   var query_key_selection_id = document.getElementById('query_key_selection_id')
   var query_key = document.getElementsByClassName('query_key_selection')
   var add_input = document.getElementById('add_query');
   var input_fields = document.getElementById('input_query_fields');
   var input_div = document.getElementById('input_query_div');
+  var query_condition = document.getElementById('query_condition');
 
 
 
@@ -85,9 +94,23 @@
   var clickCountInput = 0
     add_query.addEventListener('click', function(){
       clickCountInput += 1
+
+      // var x = document.createElement("SELECT");
+      // var and = document.createElement('option');
+      // and.value = 'AND';
+      // and.innerHTML = 'AND';
+      // var or = document.createElement('option');
+      // or.value = 'OR';
+      // or.innerHTML = 'OR';
+      //add conditional
       var cloneInputDiv = input_fields.cloneNode(true);
       var query_key = cloneInputDiv.children[0].children[1]
       var query_value = cloneInputDiv.children[1]
+      
+      //x.appendChild(and)
+      //x.appendChild(or)
+      //cloneInputDiv.appendChild(x)
+
 
       //cloneInputDiv.id = "input_query_fields_" + clickCountInput //this needs to be 
       input_fields.id = "input_query_fields_" + clickCountInput
@@ -134,6 +157,8 @@
 
     key_value = []
     var key_query_classes = document.getElementsByClassName('query_key_selection');
+    query_condition_value = query_condition.options[query_condition.selectedIndex].text
+
       for (var i =0; i < key_query_classes.length; i++){
         current_key_value = key_query_classes[i]
         
@@ -161,6 +186,7 @@
 
       var mydata = {
           key_values: key_value,
+          query_condition_value: query_condition_value,
           end_date: query_endDate,
           start_date: query_startDate
       }   

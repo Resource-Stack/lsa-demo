@@ -44,8 +44,7 @@ module ElasticSearchHelper
 
       if elastic_fetch_summ.nil? ##&& elastic_all_values.length > 1
         elastic_all_values = $redis.get("elastic_all_values")  
-          headerValues = []
-# Issue Here   
+        headerValues = []
         p 'All Values '       
         #p elastic_all_values
         check = JSON.parse(elastic_all_values)[0] 
@@ -55,7 +54,7 @@ module ElasticSearchHelper
           p 'HEADER VALUES'
           p headerValues
 
-          @keyValueCountHash = Hash.new
+          @keyValueCountHash = Hash.new 
           headerValues.each do |x|
                 #if x.to_s == 'path' || 'host '
                   tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
