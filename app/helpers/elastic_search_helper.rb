@@ -5,13 +5,13 @@ module ElasticSearchHelper
   def fetch_all  
     p "FETCH ALL"
     elastic_all_values = $redis.get("elastic_all_values") 
-    p elastic_all_values.class
-    p elastic_all_values.nil?
+    #p elastic_all_values.class
+    #p elastic_all_values.nil?
     if elastic_all_values.nil? #&& elastic_all_values.length > 1
     # GET ALL
       response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
 
-      p '[MODULE MODULE MODULE]'
+      #p '[MODULE MODULE MODULE]'
       @responseBody = JSON.parse(response.body)
       @hashHash = Hash.new  
       @data_rows = []
@@ -39,20 +39,20 @@ module ElasticSearchHelper
   def fetch_summary
       p "FETCH SUMMARY "
       elastic_fetch_summ = $redis.get('elastic_fetch_summ')
-      p elastic_fetch_summ.nil?
-      p elastic_fetch_summ.class
+      #p elastic_fetch_summ.nil?
+      #p elastic_fetch_summ.class
 
       if elastic_fetch_summ.nil? ##&& elastic_all_values.length > 1
         elastic_all_values = $redis.get("elastic_all_values")  
         headerValues = []
-        p 'All Values '       
+        #p 'All Values '       
         #p elastic_all_values
         check = JSON.parse(elastic_all_values)[0] 
           JSON.parse(check).each do |kilo,alpha|
             headerValues.push(kilo)
           end 
-          p 'HEADER VALUES'
-          p headerValues
+         # p 'HEADER VALUES'
+         # p headerValues
 
           @keyValueCountHash = Hash.new 
           headerValues.each do |x|
@@ -106,11 +106,11 @@ module ElasticSearchHelper
                     end 
                   end 
                   p '[HASH]'
-                  p @keyValueCountHash
+          #        p @keyValueCountHash
          end  
 
           elastic_fetch_summ = [@keyValueCountHash].to_json
-          p elastic_fetch_summ
+          #p elastic_fetch_summ
           $redis.set("elastic_fetch_summ", elastic_fetch_summ)
           $redis.expire("elastic_fetch_summ", 1.hour.to_i)
 
