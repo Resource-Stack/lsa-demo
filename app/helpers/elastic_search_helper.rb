@@ -122,6 +122,64 @@ module ElasticSearchHelper
 
   end 
 
+  def devices_over_time 
+    p 'hit'
+      tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
+                              :body => {
+                                :aggs => {
+                                  :langs => { 
+                                    :terms => {
+                                      'field' => '@timestamp' + '.keyword','size' => 500
+                                    }
+                                  }
+                                },
+                                "fields" => ['@timestamp' + '.keyword'],
+                                "_source" => false
+                              }.to_json,
+                                :headers => {
+                                  "Content-Type" => "application/json"
+                                }
+                            )
+
+                         @time_stamp = JSON.parse(tightResponse.body)
+                         @time_stamp_values = @time_stamp['aggregations']['langs']['buckets']
+
+                         logger.debug("information", @time_stamp_values)
+                         #Get Values From JSON
+=begin
+                        valueCount = 0
+                        @importantvalues.each do |k,v|
+                            @valuesArray = []
+                            k.each do |key,value| 
+
+                              #other value is count
+                                valueCount +=1
+
+                                if valueCount == 2
+                                  valueCount = 0
+                                end 
+
+                               if valueCount == 1
+                                 @valuesArray[0] = value
+                               else
+                                  @valuesArray[1] = value
+                               end 
+                            end 
+
+
+                          if @keyValueCountHash.include?(x.to_s)
+                            #pre existing
+                            @keyValueCountHash[x] << @valuesArray
+                          else 
+                            #new
+                            @keyValueCountHash[x] = [@valuesArray]
+                          end 
+                        end 
+                        p '[HASH]'
+                #        p @keyValueCountHash
+=end
+  end 
+
 
 
 

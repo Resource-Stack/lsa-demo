@@ -8,6 +8,7 @@ class TableEntriesController < ApplicationController
 
     begin
       @all_data = fetch_all
+      #@time_data = devices_over_time
       p 'success'
     rescue
       p 'issue'
@@ -44,16 +45,32 @@ class TableEntriesController < ApplicationController
 
     @table_entries = TableEntry.where("user_id = ? ", current_user.id)
 
-        if current_user.table_entries.present? 
-          @masterTable = current_user.master_table
-          @masterRow = []
-          p @masterTable
-          @masterTable.attributes.each do |k,v|
-            if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
-              @masterRow.push(v)
-            end 
-          end
-        end 
+## test
+      tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
+                              :body => {
+                                :aggs => {
+                                  :langs => { 
+                                    :terms => {
+                                      'field' => '@timestamp.keyword','size' => 500
+                                    }
+                                  }
+                                },
+                                "fields" => ['@timestamp.keyword'],
+                                "_source" => false
+                              }.to_json,
+                                :headers => {
+                                  "Content-Type" => "application/json"
+                                }
+                            )
+
+                         @time_stamp = JSON.parse(tightResponse.body)
+                         @time_stamp_values = @time_stamp['aggregations']['langs']['buckets']
+
+                         logger.debug("information #{@time_stamp_values}")
+
+
+
+
   end
 
   # GET /table_entries/1 or /table_entries/1.json

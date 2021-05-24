@@ -8,27 +8,12 @@
             <!-- Card Header - Dropdown -->
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"> <%= k %> </h6>
-
-                  <ul class="nav justify-content-end">
-                    <li class="nav-item">
-                     <button class="dropdown-item PieChart" id=<%=count.to_s%>> Pie</button>
-                    </li>
-                    <li class="nav-item">
-                      <button class="dropdown-item BarChart" id=<%=count.to_s%>> Bar </button>
-                    </li>
-                    <li class="nav-item">
-                      <button class="dropdown-item ColumnChart" id=<%=count.to_s%>>Column</button>
-                    </li>
-
-                  </ul>
-
-
-
+                
             </div>
             <!-- Card Body -->
             <div class="card-body">
                 <div id= <%="field_pie_" + count.to_s%> > 
+                  <h6 class="m-0 font-weight-bold text-primary"> <%= k %> </h6>
                   <%= pie_chart(v, legend: false) %>            
                 </div>
 
@@ -39,8 +24,22 @@
                 <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
                     <%= bar_chart(v) %>
                 </div>
-                 <% count+=1 %>
+
             </div>
+            <div class="card-body">    
+                <ul class="nav justify-content-left">
+                  <li class="nav-item">
+                   <button class="dropdown-item card-link PieChart" id=<%=count.to_s%>> Pie</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="dropdown-item card-link BarChart" id=<%=count.to_s%>> Bar </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="dropdown-item card-link ColumnChart" id=<%=count.to_s%>>Col</button>
+                  </li>
+                </ul>
+            </div>
+                 <% count+=1 %>
         </div>
     </div>
   <% end %>
