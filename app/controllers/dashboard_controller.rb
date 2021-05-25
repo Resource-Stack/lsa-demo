@@ -7,11 +7,21 @@ class DashboardController < ApplicationController
 	include ElasticSearchHelper
 	
 	def index
-
+		#user charts not desired
+		@user_colors = current_user.user_colors.pluck(:color)
+		#@user_colors = ["#b00", "#666"]
+		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
 		begin
-			#@all_data = fetch_all
 			@summary = fetch_summary[0]
 			p 'success'
+
+			@summary.each do |k,v|
+				if user_pref.include?(k)
+					@summary.delete(k)
+				end 
+				p k
+				#sp v
+			end 
 		rescue
 			p 'issue'
 		end 
@@ -22,6 +32,36 @@ class DashboardController < ApplicationController
 		end  
 	end 
 
+	def hide_chart
+		hide_chart = ChartPreference.new
+		hide_chart.table_name = params[:chart_name]
+		hide_chart.hide_table = true
+		hide_chart.user = current_user
+		hide_chart.save
+
+		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
+		begin
+
+			@summary = fetch_summary[0]
+			p 'success'
+
+			@summary.each do |k,v|
+				if user_pref.include?(k)
+					@summary.delete(k)
+				end 
+				p k
+				#sp v
+			end 
+		rescue
+			p 'issue'
+		end 
+		@headerValues = []
+		check = JSON.parse(@all_data[0])
+		check.each do |kilo,alpha|
+			@headerValues.push(kilo)
+		end 
+	end
+=begin
 	def timeRangeReport
 		p '[time]'
 		#p params[:start_date]
@@ -210,7 +250,7 @@ class DashboardController < ApplicationController
           format.js
         end
 	end 
-
+=end
 	private 
 
 	def set_header_values

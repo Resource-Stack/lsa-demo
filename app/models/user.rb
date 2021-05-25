@@ -8,4 +8,5 @@ class User < ApplicationRecord
     has_many :table_entries
 	has_many :data_dictionaries
 	has_many :csv_uploads
+	has_many :user_colors
 end

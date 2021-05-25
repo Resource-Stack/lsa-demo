@@ -27,6 +27,7 @@
                   <tr>
                     <th>Report type</th>
                     <th>Report value</th>
+                    <th>Elastic ID</th>
                     <th colspan="1"></th>
                   </tr>
                 </thead>
@@ -36,6 +37,7 @@
                     <tr>
                       <td><%= elastic_report.report_type_title %></td>
                       <td><%= elastic_report.report_value_title %></td>
+                      <td><%= elastic_report.elastic_id %></td>
                       <td><%= link_to 'Destroy', elastic_report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                     </tr>
                   <% end %>

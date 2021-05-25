@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :sources
+  resources :user_colors
+  resources :chart_preferences
   root'table_entries#index'
   
   resources :elastic_policies
@@ -43,6 +46,10 @@ Rails.application.routes.draw do
   #master table testing area
   post 'update_query_output', to: 'master_tables#update_input' 
   post 'query_module', to: 'master_tables#query_module'
+
+  #hide a chart
+
+  post 'hide_chart', to: 'dashboard#hide_chart'
 
 
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  color: MyString
+  table_name: MyString
+  user: one
+
+two:
+  color: MyString
+  table_name: MyString
+  user: two

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_19_195525) do
+ActiveRecord::Schema.define(version: 2021_05_25_020928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(version: 2021_04_19_195525) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "chart_preferences", force: :cascade do |t|
+    t.string "table_name"
+    t.boolean "hide_table"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_chart_preferences_on_user_id"
   end
 
   create_table "csv_uploads", force: :cascade do |t|
@@ -92,8 +101,11 @@ ActiveRecord::Schema.define(version: 2021_04_19_195525) do
   create_table "elastic_reports", force: :cascade do |t|
     t.string "report_type_title"
     t.string "report_value_title"
+    t.string "elastic_id"
+    t.bigint "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["source_id"], name: "index_elastic_reports_on_source_id"
   end
 
   create_table "master_tables", force: :cascade do |t|
@@ -132,6 +144,12 @@ ActiveRecord::Schema.define(version: 2021_04_19_195525) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sources", force: :cascade do |t|
+    t.string "source_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "table_entries", force: :cascade do |t|
     t.string "field_one"
     t.string "field_two"
@@ -147,6 +165,14 @@ ActiveRecord::Schema.define(version: 2021_04_19_195525) do
     t.date "csv_upload_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_colors", force: :cascade do |t|
+    t.string "color"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_colors_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -166,4 +192,6 @@ ActiveRecord::Schema.define(version: 2021_04_19_195525) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chart_preferences", "users"
+  add_foreign_key "user_colors", "users"
 end

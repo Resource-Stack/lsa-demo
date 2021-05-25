@@ -62,25 +62,29 @@ class ElasticPoliciesController < ApplicationController
       @data_hash = Hash.new  
       count = 0
       @responseBody['hits']['hits'].each do |k,v|
-        @data_hash[count] = k['_source']
+        logger.debug("HERE WE GOOOOOOOOOOO #{k['_id']}")
+        @data_hash[k['_id']] = k['_source']
+        #@data_hash[count] = k['_source']
         count = count + 1
       end 
       #ROWS
       #Get The Header Values
       @headerValues = []
-      @data_hash[0].each do |kilo,alpha|
+      @data_hash.first.each do |kilo,alpha|
         @headerValues.push(kilo)
       end 
 
     #End Get All 
 
     ##
-        @data_hash.each_value do |data|
+        #@data_hash.each_value do |data|
+        @data_hash.each do |karma, data|
             ElasticPolicy.all.each do |ep|
               logger.debug("POLICY: #{ep.title} input #{ep.input_requirements}")
                   @trueFalse = []
                   ep[:input_requirements].each do |policy_index,policy_KV|
                       data.each do |key,value|  
+                        logger.debug(" YOU NEED THE DATA #{data}")
 
 
                         #logger.debug("Keys::: d #{key.to_s} == p #{policy_KV['key'].to_s}")
@@ -94,9 +98,11 @@ class ElasticPoliciesController < ApplicationController
                             if ep[:input_requirements].size == @trueFalse.length
                               p 'eureka'
                                  ep[:policy_output].each do |kk,vv|
-                                   er = ElasticReport.new 
+                                   er = ElasticReport.new  
                                    er.report_type_title = ReportType.find_by_title(vv['key']).title
                                    er.report_value_title = ReportValue.find_by_title(vv['value']).title
+                                   er.elastic_id = karma.to_s
+                                   er.source_id = "army"#ep.source
                                    er.save
                                  end 
                                  #reset count
