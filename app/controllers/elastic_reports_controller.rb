@@ -3,7 +3,7 @@ class ElasticReportsController < ApplicationController
 
   # GET /elastic_reports or /elastic_reports.json
   def index
-    @elastic_reports = ElasticReport.all
+    @elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title}
   end
 
   # GET /elastic_reports/1 or /elastic_reports/1.json

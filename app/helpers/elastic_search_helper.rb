@@ -31,7 +31,7 @@ module ElasticSearchHelper
 
       elastic_all_values = @data_rows.to_json
       $redis.set("elastic_all_values", elastic_all_values)
-      $redis.expire("elastic_all_values", 1.hour.to_i)
+      $redis.expire("elastic_all_values", 1.hour.to_i) 
     end 
     JSON.load elastic_all_values
   end 
@@ -118,7 +118,7 @@ module ElasticSearchHelper
       JSON.load elastic_fetch_summ
 
 #elastic_fetch_summ = $redis.del('elastic_fetch_summ')
-#elastic_all_values = $redis.del("elastic_all_values")  
+
 
   end 
 

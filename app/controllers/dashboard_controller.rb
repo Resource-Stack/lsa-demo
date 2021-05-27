@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
 		#user charts not desired
 		@user_colors = current_user.user_colors.pluck(:color)
 		#@user_colors = ["#b00", "#666"]
-		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
+		user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
 		begin
 			@summary = fetch_summary[0]
 			p 'success'
@@ -33,11 +33,25 @@ class DashboardController < ApplicationController
 	end 
 
 	def hide_chart
-		hide_chart = ChartPreference.new
-		hide_chart.table_name = params[:chart_name]
-		hide_chart.hide_table = true
-		hide_chart.user = current_user
-		hide_chart.save
+		@user_colors = current_user.user_colors.pluck(:color)
+
+		if ChartPreference.find_by(table_name: params[:chart_name]).present?
+			cp = ChartPreference.find_by(table_name: params[:chart_name])
+		end 
+
+
+		if cp.present?
+			cp.update_attribute(:hide_table, true)
+
+		else
+			hide_chart = ChartPreference.new
+			hide_chart.table_name = params[:chart_name]
+			hide_chart.hide_table = true
+			hide_chart.user = current_user
+			hide_chart.save
+		end 
+		
+
 
 		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
 		begin

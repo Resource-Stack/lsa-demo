@@ -5,7 +5,7 @@ class TableEntriesController < ApplicationController
 
   # GET /table_entries or /table_entries.json
   def index
-
+    @user_colors = current_user.user_colors.pluck(:color)
     begin
       @all_data = fetch_all
       #@time_data = devices_over_time

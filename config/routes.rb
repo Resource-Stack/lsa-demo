@@ -48,8 +48,11 @@ Rails.application.routes.draw do
   post 'query_module', to: 'master_tables#query_module'
 
   #hide a chart
-
   post 'hide_chart', to: 'dashboard#hide_chart'
+  post 'hide_search_chart', to: 'master_tables#hide_search_chart'
+
+  #toggle a chart
+  post 'toggle_chart', to: 'users#toggle_chart'
 
 
 end

@@ -1,32 +1,48 @@
-<%= form_with(model: chart_preference, local: true) do |form| %>
-  <% if chart_preference.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(chart_preference.errors.count, "error") %> prohibited this chart_preference from being saved:</h2>
+<div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Chart Preference</h6>
 
-      <ul>
-      <% chart_preference.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+            <%= form_with(model: chart_preference, local: true) do |form| %>
+              <% if chart_preference.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(chart_preference.errors.count, "error") %> prohibited this chart_preference from being saved:</h2>
 
-  <div class="field">
-    <%= form.label :table_name %>
-    <%= form.select :table_name, options_for_select(@headerValues.collect{ |u| [u, u]}) %>
-  </div>
+                  <ul>
+                  <% chart_preference.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
 
-  <div class="field">
-    <%= form.label :hide_table %>
-    <%= form.check_box :hide_table %>
-  </div>
+              <div class="form-group">
+                <%= form.label :table_name %>
+                <%= form.select :table_name, options_for_select(@headerValues.collect{ |u| [u, u]}), {},{ :class => 'form-control' } %>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
-  </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+              </div>
+
+              <div class="form-check">
+                <%= form.check_box :hide_table, class: 'form-check-input' %>
+                <%= form.label :hide_table, class: 'form-check-label' %>
+                
+              </div>
+
+
+                <%= form.hidden_field :user_id  %>
+
+              <div class="actions">
+                <%= form.submit %>
+              </div>
+            <% end %>
+            </div>
+          </div>
+</div>
+
+

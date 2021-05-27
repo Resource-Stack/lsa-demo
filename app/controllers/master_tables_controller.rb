@@ -4,6 +4,7 @@ class MasterTablesController < ApplicationController
   before_action :set_master_table, only: %i[ show edit update destroy ]
   before_action :set_header_values
   include ElasticSearchHelper
+  require 'json'
 
   # GET /master_tables or /master_tables.json
   def index
@@ -129,11 +130,12 @@ class MasterTablesController < ApplicationController
   end 
 
   def query_module
+    @user_colors = current_user.user_colors.pluck(:color)
     p params[:key_values]
 
     condition = params[:query_condition_value]    
     key_value_parse = params[:key_values].split(',')
-
+    logger.debug("[STEP ONE]")
     # PARAMETERS TO KEY VALUE
     lock_chain = Hash.new
     count = 0 
@@ -163,8 +165,8 @@ class MasterTablesController < ApplicationController
           lock_chain[@set_key] = values
         end 
     end 
-    logger.debug("final:: #{lock_chain}")
-        
+
+    logger.debug("[STEP 2 ] #{lock_chain}")
     # KEY/VALUE TO Elastic Format
     @string_array = []
       lock_chain.each do |k,v|
@@ -178,6 +180,7 @@ class MasterTablesController < ApplicationController
       end 
       p @string_array
 
+    logger.debug("[STEP THREE]")
     #move into seperate logic
     if condition == "AND"
         response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
@@ -214,10 +217,10 @@ class MasterTablesController < ApplicationController
             }
         )
     end 
-
+    logger.debug("[STEP FOUR]")
     # Response
     @jsonData = JSON.parse(response.body)
-    p @jsonData['hits']['hits']
+
 
       @hashHash = Hash.new  
       @query_data_rows = []
@@ -228,10 +231,13 @@ class MasterTablesController < ApplicationController
         @query_data_rows.push(k['_source'].to_json)
         count = count + 1
       end 
-      logger.debug("ASHY::: #{@jsonData['hits']['hits']}")
+      logger.debug("S4 HASH::: #{@hashHash}")
+      logger.debug("S4 HASH:::")
+      logger.debug("S4 ARRAY::: #{@query_data_rows}")
+
 
     ### End query
-
+    logger.debug("[STEP FIVE]")
     #CREATE THE GRAPH VALUE
     @summarized_hash = Hash.new
     @headerValues.each do |hv|
@@ -239,8 +245,13 @@ class MasterTablesController < ApplicationController
     end 
     @hashHash.each do |k,v|
           v.each do |key,value|
+
+
               current_set = @summarized_hash[key]
-              if current_set.length != 0
+
+              logger.debug("S5 current::: #{key}")
+              logger.debug("S5 current::: #{current_set}")
+              if !current_set.nil? && current_set.length != 0
                   #Values Only
                   value_only_array = []
                   current_set.each do |x| 
@@ -256,21 +267,78 @@ class MasterTablesController < ApplicationController
                     end 
                   else
                     #NOT included, push new value
+                    p 'one'                    
                     @summarized_hash[key] << [value, 1]
                   end 
 
-              else 
+              elsif current_set != nil
                 p 'initial push'
                 @summarized_hash[key] << [value, 1]
+              else 
+                p 'two'
+                @summarized_hash[key] = ['nil', 1]
               end
           end 
     end 
 
-    p 'Final'
-    p  @summarized_hash
+    #p 'Final'
+    #p  @summarized_hash 
+
+  new_new = $redis.get("new_new") 
+  if new_new.nil?
+        $redis.set("new_new", [@summarized_hash].to_json)
+        $redis.expire("new_new", 1.hour.to_i)
+  else
+      $redis.del('new_new')
+      $redis.set("new_new", [@summarized_hash].to_json)
+      $redis.expire("new_new", 1.hour.to_i)
+  end 
+  JSON.load new_new
+  p new_new
+
+  user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
+    @summarized_hash.each do |k,v|
+      if user_pref.include?(k)
+        @summarized_hash.delete(k)
+      end 
+    end 
 
 
+ 
+  end 
 
+
+  def hide_search_chart
+        new_new = $redis.get("new_new") 
+
+        @user_colors = current_user.user_colors.pluck(:color)
+        
+        #search for chart first
+        if ChartPreference.find_by(table_name: params[:chart_name]).present?
+          cp = ChartPreference.find_by(table_name: params[:chart_name])
+        end 
+
+        if cp.present?
+          cp.update_attribute(:hide_table, true)
+        else
+          hide_chart = ChartPreference.new
+          hide_chart.table_name = params[:chart_name]
+          hide_chart.hide_table = true
+          hide_chart.user = current_user
+          hide_chart.save
+        end 
+
+        # should only be charts that are true.... 
+        user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
+        
+          after_hash = JSON.parse(new_new)
+          @summarized_hash = after_hash[0] 
+          @summarized_hash.each do |k,v|
+            if user_pref.include?(k)
+              @summarized_hash.delete(k)
+            end 
+          end 
+      ##
   end 
 
 

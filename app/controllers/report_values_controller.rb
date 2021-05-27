@@ -4,6 +4,7 @@ class ReportValuesController < ApplicationController
   # GET /report_values or /report_values.json
   def index
     @report_values = ReportValue.all
+    @report_types = ReportType.all
   end
 
   # GET /report_values/1 or /report_values/1.json

@@ -28,7 +28,7 @@ class ChartPreferencesController < ApplicationController
 
     respond_to do |format|
       if @chart_preference.save
-        format.html { redirect_to @chart_preference, notice: "Chart preference was successfully created." }
+        format.html { redirect_to user_path(current_user), notice: "Chart preference was successfully created." }
         format.json { render :show, status: :created, location: @chart_preference }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -41,7 +41,7 @@ class ChartPreferencesController < ApplicationController
   def update
     respond_to do |format|
       if @chart_preference.update(chart_preference_params)
-        format.html { redirect_to @chart_preference, notice: "Chart preference was successfully updated." }
+        format.html { redirect_to user_path(current_user), notice: "Chart preference was successfully updated." }
         format.json { render :show, status: :ok, location: @chart_preference }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class ChartPreferencesController < ApplicationController
   def destroy
     @chart_preference.destroy
     respond_to do |format|
-      format.html { redirect_to chart_preferences_url, notice: "Chart preference was successfully destroyed." }
+      format.html { redirect_to user_path(current_user), notice: "Chart preference was successfully destroyed." }
       format.json { head :no_content }
     end
   end

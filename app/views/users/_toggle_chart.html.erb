@@ -1,0 +1,31 @@
+  <h1>Chart Preferences</h1>
+
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th>Graph Name</th>
+          <th>Visible</th>
+
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @chart_preferences.each do |chart_preference| %>
+          <tr>
+            <td><%= chart_preference.table_name %></td>
+            <td>
+                <% if chart_preference.hide_table? %>
+                    <input type="checkbox" name="chart_pref" checked onclick="toggleChart(<%= chart_preference.id%>)">  
+                <% else %>
+                    <input type="checkbox" name="chart_pref" onclick="toggleChart(<%= chart_preference.id%>)">
+                <% end %>
+
+
+            </td>
+
+            <td><%= link_to 'Destroy', chart_preference, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %> 
+      </tbody>
+    </table>

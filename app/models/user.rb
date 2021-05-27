@@ -9,4 +9,5 @@ class User < ApplicationRecord
 	has_many :data_dictionaries
 	has_many :csv_uploads
 	has_many :user_colors
+	has_many :chart_preferences
 end

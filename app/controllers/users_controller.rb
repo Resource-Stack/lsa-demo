@@ -5,22 +5,14 @@ class UsersController < ApplicationController
   end 
 
   def show
-    p 'hey'
+
     @selected_user = User.find_by(id: params[:id])
     p @selected_user
 
-        if @selected_user.table_entries.present?
-          @masterTable = @selected_user.master_table
-          @masterRow = []
-          p @masterTable
-          @masterTable.attributes.each do |k,v|
-            if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil
-              @masterRow.push(v)
-            end 
-          end
-        end 
-  	#@selected_user = current_user
-  	p current_user.inspect
+    @user_colors = UserColor.all
+    @chart_preferences = current_user.chart_preferences
+
+
   end
 
   def edit
@@ -39,6 +31,18 @@ class UsersController < ApplicationController
         format.json { render json: @role.errors, status: :unprocessable_entity }
       end
     end
+  end 
+
+  def toggle_chart
+    chart = ChartPreference.find(params[:toggle])
+    chart.update_attribute(:hide_table, !chart.hide_table)
+    @chart_preferences = current_user.chart_preferences 
+
+    respond_to do |format|
+      format.js
+    end
+
+
   end 
 
 

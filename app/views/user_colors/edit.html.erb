@@ -1,6 +1,5 @@
-<h1>Editing User Color</h1>
+
 
 <%= render 'form', user_color: @user_color %>
 
-<%= link_to 'Show', @user_color %> |
-<%= link_to 'Back', user_colors_path %>
+<%= link_to 'Back', user_path(current_user) %>

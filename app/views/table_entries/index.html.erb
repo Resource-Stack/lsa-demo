@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row" style="text-align: center; ">
     <div class="col">
       <h3>ABC Company</h3>
@@ -14,12 +14,17 @@
 
       <%= line_chart @table_entries.group_by_month(:csv_upload_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
     </div>
-
     <div class="col-6">
-      <%= pie_chart @table_entries.group(:field_seven).count, title: "Number of Devices by Operating System" %>
+      <%= line_chart ReportType.all.map { |goal|
+        {name: goal.title, data: ElasticReport.all.group(:report_value_title).count}
+    } %>
+
+    <!-- data: goal.report_values.group(:created_at).count -->
+    <!--  data: ElasticReport.all.group_by_day(:created_at).count -->
+
     </div>
   </div>
-</div>
+
 <hr>
 <!-- Charts -->
 <div class="row">
@@ -37,7 +42,7 @@
               <h6 class="m-0 font-weight-bold text-primary"> <%= k %> </h6>
               <!-- -->
                 <div class="chartKickGraph" id='<%="field_pie_" + count.to_s%>'> 
-                  <%= pie_chart(v, legend: false) %> 
+                  <%= pie_chart(v, legend: false, colors: @user_colors) %> 
                   <hr>
                              
                 </div>
@@ -71,6 +76,7 @@
   <% end %>
 </div>
 <!-- Charts -->
+</div>
 
 <script type="text/javascript">
 

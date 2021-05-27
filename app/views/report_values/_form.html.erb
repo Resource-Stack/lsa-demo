@@ -21,35 +21,40 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-<%= form_with(model: report_value, local: true) do |form| %>
-  <% if report_value.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(report_value.errors.count, "error") %> prohibited this report_value from being saved:</h2>
+                <%= form_with(model: report_value, local: true) do |form| %>
+                  <% if report_value.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(report_value.errors.count, "error") %> prohibited this report_value from being saved:</h2>
 
-      <ul>
-      <% report_value.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+                      <ul>
+                      <% report_value.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
 
 
-  <div class="field">
-    <%= form.label :report_type_id %> 
-    <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}) %>
-  </div>
+                 
+                    <div class="form-group">
+                    <%= form.label :title %>
+                    <%= form.text_field :title, class: 'form-control' %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
-</div>
-</div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                    <%= form.label :report_type_id %>
+                    <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}), {},{ :class => 'form-control' } %>
+                    </div>
+
+
+                  <div class="actions">
+                    <%= form.submit %>
+                  </div>
+                <% end %>
+            </div>
+        </div>
 </div>
 
