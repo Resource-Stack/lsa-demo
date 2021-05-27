@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_020928) do
   end
 
   create_table "elastic_reports", force: :cascade do |t|
+    t.datetime "data_creation_date"
     t.string "report_type_title"
     t.string "report_value_title"
     t.string "elastic_id"

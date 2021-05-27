@@ -33,6 +33,12 @@
 
                     <!-- SOURCE -->
                     <div class="col">
+                      <%= form.label :source_id %>
+                      <%= form.select :source_id, options_for_select(@sources.collect{ |u| [u.source_title, u.id]}), {},{ :class => 'form-control' } %>
+                    </div>
+
+                    <!--
+                    <div class="col">
                       <div class="field">
 
                       		<p id="sources" style="display: none;"> 
@@ -47,6 +53,7 @@
                         <sub id="current_source_values">Added Sources</sub>
                       </div>
                     </div>
+                  -->
                   </div>
 
                    <!-- INPUT -->
@@ -156,13 +163,15 @@
     var source_input = document.getElementById('source')
     var add_source = document.getElementById('add_source')
 
+    /*
     var sources = document.getElementById('sources').innerHTML
     var source_collection = sources.replace(/\s/g, '').split(',');
 		source_collection.pop()
     var current_source_values = document.getElementById('current_source_values')
     	current_source_values.innerHTML = source_collection
     	source_input.value = ''
-
+    */
+    var source_input = document.getElementById('elastic_policy_source_id')
 
     //
     var input_requirement_select = document.getElementsByClassName('input_requirement_select');
@@ -183,6 +192,7 @@
   // Ajax Submit
     submission.addEventListener('click', function(){
       //output 
+      var selected_source = source_input.options[source_input.selectedIndex].text
 
         for (var i =0; i < report_type_select.length; i++){
           report_type =report_type_select[i].options[report_type_select[i].selectedIndex].text
@@ -201,7 +211,7 @@
 
               var mydata = {
                   title: policy_title.value,
-                  source: current_source_values.innerHTML,
+                  source: selected_source,//current_source_values.innerHTML,
                   output_keys: output_key,
                   output_values: output_value,
                   input_keys: input_key,
@@ -267,7 +277,7 @@
           }
     }
   //
-
+/*
   // Add to source 
     add_source.addEventListener('click', function(){
       //var source_collection = source.value.split(',')
@@ -276,7 +286,7 @@
       source_input.value = ''
     })
   //
-
+*/
   // Clone Output    
     var clickCount = Number(lastCount)
     add_output.addEventListener('click', function(){

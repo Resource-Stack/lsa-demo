@@ -15,8 +15,17 @@
       <%= line_chart @table_entries.group_by_month(:csv_upload_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
     </div>
     <div class="col-6">
-      <%= line_chart ReportType.all.map { |goal|
-        {name: goal.title, data: ElasticReport.all.group(:report_value_title).count}
+
+<!-- We would need to iterate over ElasticReports -->
+
+
+
+
+
+
+
+      <%= line_chart ReportValue.all.map { |goal|
+        {name: goal.title, data: ElasticReport.all.group_by_month(:data_creation_date).count}
     } %>
 
     <!-- data: goal.report_values.group(:created_at).count -->
@@ -75,7 +84,31 @@
     </div>
   <% end %>
 </div>
-<!-- Charts -->
+<!-- Charts
+ <@%= line_chart v.map { |goal| {
+          {name: 'test', data: goal.group_by_month(:data_creation_date).count }
+        } %>
+ -->
+
+
+
+
+    <div class="row">
+      <% @over_all.each do |k,v| %>
+        <%= k %><!-- The DIV -->
+          <% v.each do |x| %>
+            <% x.each do |eee| %> 
+              <%= eee.inspect %>
+              <p>here</p>
+            <% end %>
+          <% end %>
+
+        <hr>
+      <% end %>
+
+
+
+    </div>
 </div>
 
 <script type="text/javascript">

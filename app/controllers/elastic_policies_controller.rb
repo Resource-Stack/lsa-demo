@@ -1,7 +1,7 @@
 class ElasticPoliciesController < ApplicationController
   before_action :set_elastic_policy, only: %i[ show edit update destroy ]
-
   # GET /elastic_policies or /elastic_policies.json
+  include ElasticPoliciesHelper
   def index
     @elastic_policies = ElasticPolicy.all
 
@@ -18,6 +18,7 @@ class ElasticPoliciesController < ApplicationController
     @elastic_policy = ElasticPolicy.new
     @report_values = ReportValue.all
     @report_types = ReportType.all
+    @sources = Source.all
 
     # GET ALL (for input values)
       response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
@@ -71,7 +72,7 @@ class ElasticPoliciesController < ApplicationController
       #Get The Header Values
       @headerValues = []
       @data_hash.first.each do |kilo,alpha|
-        @headerValues.push(kilo)
+        @headerValues.push(kilo) 
       end 
 
     #End Get All 
@@ -102,7 +103,9 @@ class ElasticPoliciesController < ApplicationController
                                    er.report_type_title = ReportType.find_by_title(vv['key']).title
                                    er.report_value_title = ReportValue.find_by_title(vv['value']).title
                                    er.elastic_id = karma.to_s
-                                   er.source_id = "army"#ep.source
+                                   er.source_id = ep.source 
+                                   #data_creation will eventually be associated to the DATA
+                                   er.data_creation_date = random_datetime
                                    er.save
                                  end 
                                  #reset count
@@ -120,6 +123,7 @@ class ElasticPoliciesController < ApplicationController
   def edit
     @report_values = ReportValue.all
     @report_types = ReportType.all
+    @sources = Source.all
     # GET ALL (for input values)
       response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
         p '[RESPONSE CODE]'
@@ -162,7 +166,8 @@ class ElasticPoliciesController < ApplicationController
   def update
     p "update"
     #source
-    policy_sources = params[:source].split(',')
+    policy_sources = [params[:source]]
+    #params[:source].split(',')
     #output
     output_keys = params[:output_keys].split(',')
     output_values = params[:output_values].split(',')
@@ -280,8 +285,9 @@ class ElasticPoliciesController < ApplicationController
   def create_policy
     p ' hit'
     #source
-    policy_sources = params[:source].split(',')
+    #policy_sources = params[:source].split(',')
     #output
+    policy_sources = [params[:source]]
     output_keys = params[:output_keys].split(',')
     output_values = params[:output_values].split(',')
     output = Hash.new 
@@ -303,7 +309,7 @@ class ElasticPoliciesController < ApplicationController
 
     @new_policy = ElasticPolicy.new
     @new_policy.title = params[:title]
-    @new_policy.source = policy_sources
+    @new_policy.source = policy_sources 
     @new_policy.policy_output = output
     @new_policy.input_requirements = input
     
@@ -322,6 +328,8 @@ class ElasticPoliciesController < ApplicationController
   end 
 
   private
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_elastic_policy
       @elastic_policy = ElasticPolicy.find(params[:id])

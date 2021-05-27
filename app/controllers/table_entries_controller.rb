@@ -20,56 +20,89 @@ class TableEntriesController < ApplicationController
 
     @brewed = Hash.new
 
-    @unique_keys.each do |x|
-      #Get Unique Values
-      unique_value = ElasticReport.where(report_type_title: x)
-      unique = unique_value.pluck(:report_value_title)
-      #count per unique value
+      @unique_keys.each do |x|
+        #Get Unique Values
+        unique_value = ElasticReport.where(report_type_title: x)
+        unique = unique_value.pluck(:report_value_title)
+        #count per unique value
 
-      unique.uniq.each do |q|
-          countdrac = ElasticReport.where(report_value_title: q)
-          p q
-          p countdrac.count
-          #@brewed[count] = {report: x, key: q, value: countdrac.count}
-          if @brewed.include?(x.to_s)
-            #pre existing
-            @brewed[x] << [q , countdrac.count]
-          else 
-            #new
-            @brewed[x] = [[q , countdrac.count]]
-          end 
+        unique.uniq.each do |q|
+            countdrac = ElasticReport.where(report_value_title: q)
+            p q
+            p countdrac.count
+            #@brewed[count] = {report: x, key: q, value: countdrac.count}
+            if @brewed.include?(x.to_s)
+              #pre existing
+              @brewed[x] << [q , countdrac.count]
+            else 
+              #new
+              @brewed[x] = [[q , countdrac.count]]
+            end 
+        end 
+
+        p @brewed
       end 
-
-      p @brewed
-    end 
 
     @table_entries = TableEntry.where("user_id = ? ", current_user.id)
 
-## test
-      tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
-                              :body => {
-                                :aggs => {
-                                  :langs => { 
-                                    :terms => {
-                                      'field' => '@timestamp.keyword','size' => 500
-                                    }
-                                  }
-                                },
-                                "fields" => ['@timestamp.keyword'],
-                                "_source" => false
-                              }.to_json,
-                                :headers => {
-                                  "Content-Type" => "application/json"
-                                }
-                            )
 
-                         @time_stamp = JSON.parse(tightResponse.body)
-                         @time_stamp_values = @time_stamp['aggregations']['langs']['buckets']
+    #build cool graphs
+    @graph_hash = Hash.new
+    ReportValue.all.each do |rv|
 
-                         logger.debug("information #{@time_stamp_values}")
+      value_collection = ElasticReport.where(report_value_title: rv.title)
+      @graph_hash[rv.title] = value_collection
+
+    end 
+    p 'hollow tune'
+    p @graph_hash
+
+    @over_all = Hash.new
+    ReportType.all.each do |rt|
+      @over_all[rt.title] = []
+
+      hash_writer_array = []
+      rt.report_values.each do |rv|
+        value_collection = ElasticReport.where(report_value_title: rv.title)
+        #hash_writer_array.push({name: rv.title, data: value_collection})
+        hash_writer_array.push(value_collection)
+      end 
+      @over_all[rt.title] << hash_writer_array
+    end 
+
+p 'could you be'
+p @over_all
 
 
 
+#####
+
+=begin
+    ReportType.all.each do |rt|
+      over_all[rt.title] = []
+
+      current_report_value_array = []
+      rt.report_values.each do |rv|
+        value_collection = ElasticReport.where(report_value_title: rv.title)
+        current_report_value_array.push(value_collection)
+      end 
+    end 
+  Report_Type { name: Report_value data: ElasticReport.where(report_value_title: tv)}
+  
+report_type[mobile] =     [
+      { name: report_value, data: ElasticReport.where()}
+    ]
+
+    each array will belong to a report value
+    [
+      { name: report_value, data: ElasticReport.where()}
+    ]
+
+        <%= line_chart [
+          {name: "Series A", data: series_a},
+          {name: "Series B", data: series_b}
+        ] %>
+=end
 
   end
 
