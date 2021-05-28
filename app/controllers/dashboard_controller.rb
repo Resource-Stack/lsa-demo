@@ -22,14 +22,16 @@ class DashboardController < ApplicationController
 				p k
 				#sp v
 			end 
+
+			@headerValues = []
+			check = JSON.parse(@all_data[0])
+			check.each do |kilo,alpha|
+				@headerValues.push(kilo)
+			end  
 		rescue
 			p 'issue'
 		end 
-		@headerValues = []
-		check = JSON.parse(@all_data[0])
-		check.each do |kilo,alpha|
-			@headerValues.push(kilo)
-		end  
+
 	end 
 
 	def hide_chart
