@@ -231,6 +231,7 @@
 
 
                         <div class="row" id="input_query_fields" >
+                             <% if @headerValues.present? %>
                               <div class="col" >
                                   <label> </label><!--blank for js-->
                                   <select class="query_key_selection" id="query_key_selection_id" ><br> 
@@ -241,6 +242,9 @@
                                   </select>     
                                   <br>    
                               </div>
+                              <% else %>
+                              <p>error</p>
+                              <% end %>
 
                               <div class="col query_value_selection_class" id ="query_value_selection_id">
                                   <p>Select Key</p>
