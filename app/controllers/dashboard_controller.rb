@@ -271,15 +271,16 @@ class DashboardController < ApplicationController
 		begin
 			@all_data = fetch_all
 			p 'success'
+			@headerValues = []
+			check = JSON.parse(@all_data[0])
+			check.each do |kilo,alpha|
+				@headerValues.push(kilo)
+			end 
 		rescue
 			p 'issue'
 		end 
 
-		@headerValues = []
-		check = JSON.parse(@all_data[0])
-		check.each do |kilo,alpha|
-			@headerValues.push(kilo)
-		end  
+ 
 	end 
 
     def set_master_table
