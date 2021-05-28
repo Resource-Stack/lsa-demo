@@ -59,49 +59,33 @@ class TableEntriesController < ApplicationController
 
     @over_all = Hash.new
     ReportType.all.each do |rt|
+      #init key
       @over_all[rt.title] = []
 
-      hash_writer_array = []
+      report_value_hash = Hash.new
       rt.report_values.each do |rv|
-        value_collection = ElasticReport.where(report_value_title: rv.title)
-        #hash_writer_array.push({name: rv.title, data: value_collection})
-        hash_writer_array.push(value_collection)
+          find_dates = ElasticReport.where(report_value_title: rv.title).pluck(:data_creation_date)
+          woof = find_dates.uniq.map{|t| [t, find_dates.count(t)]}.to_a
+          if !woof.empty?
+            logger.debug("WOOF #{woof}")
+            report_value_hash[rv.title] = woof
+            @over_all[rt.title] << report_value_hash
+          end 
       end 
-      @over_all[rt.title] << hash_writer_array
+      # end loop
+      p 'why why why'
+      p @over_all    
     end 
-
-p 'could you be'
-p @over_all
 
 
 
 #####
 
 =begin
-    ReportType.all.each do |rt|
-      over_all[rt.title] = []
-
-      current_report_value_array = []
-      rt.report_values.each do |rv|
-        value_collection = ElasticReport.where(report_value_title: rv.title)
-        current_report_value_array.push(value_collection)
-      end 
-    end 
-  Report_Type { name: Report_value data: ElasticReport.where(report_value_title: tv)}
-  
-report_type[mobile] =     [
-      { name: report_value, data: ElasticReport.where()}
-    ]
-
-    each array will belong to a report value
-    [
-      { name: report_value, data: ElasticReport.where()}
-    ]
-
-        <%= line_chart [
-          {name: "Series A", data: series_a},
-          {name: "Series B", data: series_b}
-        ] %>
+  hash[ReportType] = 
+  [
+    {name: report_value.title, data: [["2016-02-10", 19], ["2016-02-11", 5]]; }
+  ]
 =end
 
   end

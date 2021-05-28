@@ -91,25 +91,36 @@
  -->
 
 
-
-
+<%  @over_all.each do |k,v| %>
+  <% if !v[0].nil? %>
     <div class="row">
-      <% @over_all.each do |k,v| %>
-        <%= k %><!-- The DIV -->
-          <% v.each do |x| %>
-            <% x.each do |eee| %> 
-              <%= eee.inspect %>
-              <p>here</p>
-            <% end %>
-          <% end %>
+        <div class="col-lg-12 col-md-12 col-sm-12 d-sm-inline-block">
+            <div class="card shadow mb-4">
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6><%= k%></h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
 
-        <hr>
-      <% end %>
+                  
 
+                        <%= line_chart v[0].map { |kilo,vega|
+                            {name: kilo, data: vega}
+                        } %>
 
-
+                  
+               
+              </div>
+          </div>
     </div>
-</div>
+  </div>
+  <% end %>
+ <% end %>
+
+
+
+
 
 <script type="text/javascript">
 

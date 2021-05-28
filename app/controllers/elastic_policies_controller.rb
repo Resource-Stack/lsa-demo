@@ -105,7 +105,7 @@ class ElasticPoliciesController < ApplicationController
                                    er.elastic_id = karma.to_s
                                    er.source_id = ep.source 
                                    #data_creation will eventually be associated to the DATA
-                                   er.data_creation_date = random_datetime
+                                   er.data_creation_date = random_datetime.strftime('%F')
                                    er.save
                                  end 
                                  #reset count
