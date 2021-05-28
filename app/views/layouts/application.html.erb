@@ -150,8 +150,8 @@
                         <li class="nav-item dropdown no-arrow">
 
                             <% if user_signed_in? %>
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="$('.navbar-toggler').click()">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= current_user.email %></span>
 
                                 </a>
@@ -206,7 +206,7 @@
             <%= link_to 'Report Values', report_values_path, class: 'dropdown-item' %>
             <%= link_to 'Data Sets', elastic_reports_path, class: 'dropdown-item' %>
 
-            <%= link_to 'sources', sources_path, class: 'dropdown-item' %>
+            <%= link_to 'Sources', sources_path, class: 'dropdown-item' %>
 
           <!--   <h6 class="dropdown-header" style="padding-top: 25px;"><u>UPLOADS</u></h6>
             <# %= link_to 'My Uploads', new_elastic_policy_path, class: 'dropdown-item' %> -->
