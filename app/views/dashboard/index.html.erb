@@ -128,7 +128,7 @@
                                     <div class="chart-area">   
                                         <div class="row">
                                             <div class="col-12" id="generatedChart">
-
+                                                <% if @headerValues.present? %>
                                                    <table class="table table-striped dashboardTable">
                                                         <thead>
                                                             <tr>
@@ -155,6 +155,9 @@
                                                             <% end %>
                                                         </tbody>
                                                     </table>
+                                                    <% else %>
+                                                    <p>Elastic Error</p>
+                                                    <%end %>
 
                                             </div>
                                         </div>
