@@ -11,17 +11,18 @@ class DashboardController < ApplicationController
 		@user_colors = current_user.user_colors.pluck(:color)
 		#@user_colors = ["#b00", "#666"]
 		user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
-		
+		p 'test'
 		begin
-			@summary = fetch_summary[0]
 			p 'success'
+			@summary = fetch_summary[0]
+			
 
 			@summary.each do |k,v|
 				if user_pref.include?(k)
 					@summary.delete(k)
 				end 
 				p k
-				#sp v
+
 			end 
 
 			@headerValues = []
