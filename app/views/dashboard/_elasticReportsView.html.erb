@@ -1,4 +1,4 @@
-
+<% if @summary.present? %>
 <div class="row">
     <% count = 0 %>
   <!-- <# % @keyValueCountHash.each do |k,v| %> -->
@@ -48,6 +48,10 @@
     </div>
   <% end %>
 </div>
+
+<% else %>
+<p>Error</p>
+<% end %>
 
 <script type="text/javascript">
   function hideSection(data){
