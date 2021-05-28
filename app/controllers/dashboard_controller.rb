@@ -15,8 +15,7 @@ class DashboardController < ApplicationController
 		begin
 			p 'success'
 			@summary = fetch_summary[0]
-			
-
+		
 			@summary.each do |k,v|
 				if user_pref.include?(k)
 					@summary.delete(k)
@@ -30,8 +29,9 @@ class DashboardController < ApplicationController
 			check.each do |kilo,alpha|
 				@headerValues.push(kilo)
 			end  
-		rescue
+		rescue => err
 			p 'issue'
+			p err
 		end 
 
 	end 
@@ -280,8 +280,10 @@ class DashboardController < ApplicationController
 			check.each do |kilo,alpha|
 				@headerValues.push(kilo)
 			end 
-		rescue
+		rescue => err
 			p 'issue'
+			p err
+
 		end 
 
  
