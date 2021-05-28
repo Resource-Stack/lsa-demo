@@ -10,27 +10,9 @@
   </div>
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-12">
 
-      <%= line_chart @table_entries.group_by_month(:csv_upload_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
-    </div>
-    <div class="col-6">
-
-<!-- We would need to iterate over ElasticReports -->
-
-
-
-
-
-
-
-      <%= line_chart ReportValue.all.map { |goal|
-        {name: goal.title, data: ElasticReport.all.group_by_month(:data_creation_date).count}
-    } %>
-
-    <!-- data: goal.report_values.group(:created_at).count -->
-    <!--  data: ElasticReport.all.group_by_day(:created_at).count -->
-
+      <%= line_chart ElasticReport.all.group_by_month(:data_creation_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
     </div>
   </div>
 
@@ -102,15 +84,9 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-
-                  
-
                         <%= line_chart v[0].map { |kilo,vega|
                             {name: kilo, data: vega}
                         } %>
-
-                  
-               
               </div>
           </div>
     </div>
