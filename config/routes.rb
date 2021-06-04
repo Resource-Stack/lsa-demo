@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   post 'false_create', to: 'elastic_policies#false_create'
   #
   get 'dashboard', to: 'dashboard#index'
+  get 'table_view', to: 'dashboard#tableView'
+  get 'downloads', to: 'dashboard#downloads'
 
   #master table testing area
   post 'update_query_output', to: 'master_tables#update_input' 
@@ -53,6 +55,11 @@ Rails.application.routes.draw do
 
   #toggle a chart
   post 'toggle_chart', to: 'users#toggle_chart'
+
+  #find elastic by id 
+  post 'find_by_id', to: 'elastic_reports#find_by_id'
+  get 'download_policies', to: 'table_entries#download_policies'
+
 
 
 end

@@ -34,7 +34,80 @@ class DashboardController < ApplicationController
 			p err
 		end 
 
+		### For Small Cards
+    begin
+      @all_data = fetch_all
+      #@time_data = devices_over_time
+      p 'success'
+    rescue
+      p 'issue'
+    end 
+    #Get Unique Keys
+    report_type = ElasticReport.pluck(:report_type_title)
+    @unique_keys = report_type.uniq 
+    logger.debug("Unique Keys:: #{@unique_keys}")
+
+    @brewed = Hash.new
+
+      @unique_keys.each do |x|
+        #Get Unique Values
+        unique_value = ElasticReport.where(report_type_title: x)
+        unique = unique_value.pluck(:report_value_title)
+        #count per unique value
+
+        unique.uniq.each do |q|
+            countdrac = ElasticReport.where(report_value_title: q)
+            p q
+            p countdrac.count
+            #@brewed[count] = {report: x, key: q, value: countdrac.count}
+            if @brewed.include?(x.to_s)
+              #pre existing
+              @brewed[x] << [q , countdrac.count]
+            else 
+              #new
+              @brewed[x] = [[q , countdrac.count]]
+            end 
+        end 
+
+        p @brewed
+      end 
+
 	end 
+
+	def tableView
+
+		begin
+			p 'success'
+			@summary = fetch_summary[0]
+		
+			@summary.each do |k,v|
+				if user_pref.include?(k)
+					@summary.delete(k)
+				end 
+				p k
+
+			end 
+
+			@headerValues = []
+			check = JSON.parse(@all_data[0])
+			check.each do |kilo,alpha|
+				@headerValues.push(kilo)
+			end  
+		rescue => err
+			p 'issue'
+			p err
+		end 
+	end 
+
+	def download_policies
+		#Fetch all elastic reports and generate a summarized CSV
+		### For Small Cards
+		send_data ElasticReport.to_csv, filename: "policies-#{Date.today}.csv"
+		#ElasticReport.to_csv
+
+
+	end 
+
 
 	def hide_chart
 		@user_colors = current_user.user_colors.pluck(:color)
@@ -270,44 +343,41 @@ class DashboardController < ApplicationController
 	end 
 =end
 	private 
+		def set_header_values
+			begin
+				@all_data = fetch_all
+				p 'success'
+				@headerValues = []
+				check = JSON.parse(@all_data[0])
+				check.each do |kilo,alpha|
+					@headerValues.push(kilo)
+				end 
+			rescue => err
+				p 'issue'
+				p err
 
-	def set_header_values
-		begin
-			@all_data = fetch_all
-			p 'success'
-			@headerValues = []
-			check = JSON.parse(@all_data[0])
-			check.each do |kilo,alpha|
-				@headerValues.push(kilo)
 			end 
-		rescue => err
-			p 'issue'
-			p err
-
 		end 
 
- 
-	end 
-
-    def set_master_table
+	  def set_master_table
 
 
-      if current_user.master_table.present?
+	    if current_user.master_table.present?
 
-        #this should be the master table belonging to the user.
-        @masterTable = current_user.master_table   
-        @masterRow = []
-        @masterWithIndex = []
-        @masterTable.attributes.each do |k,v|
-            logger.debug("K:#{k} V: #{v}")
-          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil && k != 'user_id'
+	      #this should be the master table belonging to the user.
+	      @masterTable = current_user.master_table   
+	      @masterRow = []
+	      @masterWithIndex = []
+	      @masterTable.attributes.each do |k,v|
+	          logger.debug("K:#{k} V: #{v}")
+	        if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil && k != 'user_id'
 
-            @masterRow.push(v)
-            @masterWithIndex.push([k,v])
-          end 
-        end 
-      #
-      end
-    end
+	          @masterRow.push(v)
+	          @masterWithIndex.push([k,v])
+	        end 
+	      end 
+	    #
+	    end
+	  end
 	
 end

@@ -1,0 +1,135 @@
+
+<!-- Area Chart -->
+<div class="col-xl-12 col-lg-12">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Generate Reports</h6>
+
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <p class="nav-link" data-toggle="modal" data-target="#timeRangeModal" id ='fieldSelection'> Filter</p>
+                  </li>
+                </ul>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body dashboardTable">
+
+            <div class="chart-area">   
+                <div class="row">
+                    <div class="col-12" id="generatedChart">
+
+                        <% if @headerValues.present? %>
+                           <table class="table table-striped dashboardTable">
+                                <thead>
+                                    <tr>
+                                    <% @headerValues.each do |value| %>
+                                            <td><%= value %></td>        
+                                    <% end %>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <% @all_data.each do |data| %>
+                                        <tr>
+                                            <% count = 0 %>
+                                                <% JSON.parse(data).each do |k,v| %>
+                                                    <td>
+                                                        <% if k == @headerValues[count] %>
+                                                            <%= v %>
+                                                        <% end %>
+                                                    </td>
+                                                    <% count +=1 %>
+                                                <% end %>
+
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        <% else %>
+                            <p>Error, contact admin</p>
+                        <%end %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modals -->
+<div class="modal fade" id="timeRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <!-- -->
+            <div class="container-fluid" id ="input_query_div">
+                <h4 style="text-align: center;">Time Range</h4>
+                <div class="row">
+                    <div class="col">
+                        <label for="queryStartDate">Start Date:</label><br>
+                        <input type="date" id="queryStartDate" name="start_date">
+                    </div>
+                    <div class="col">
+                        <label for="queryEndDate">End Date:</label><br>
+                        <input type="date" id="queryEndDate" name="end_date">
+                    </div>
+                </div>
+                <hr>
+
+
+                <h4 style="text-align: center;"> Key Values <i class="fa fa-plus" id="add_query"></i></h4> 
+
+                <div class="row">
+                      <div class="col">
+                        <label for="onlyKey"> Conditional: </label>                                        
+                        <select class="query_condition" id="query_condition">
+                          <option value="or">OR</option>
+                          <option value="and">AND</option>
+                        </select>
+                      </div>
+                </div>
+
+
+                <div class="row" id="input_query_fields" >
+                     <% if @headerValues.present? %>
+                      <div class="col" >
+                          <label> </label><!--blank for js-->
+                          <select class="query_key_selection" id="query_key_selection_id" ><br> 
+                              <option> Select Key </option>
+                              <% @headerValues.each do |x| %>
+                                  <option><%= x %></option>
+                              <% end %>
+                          </select>     
+                          <br>    
+                      </div>
+                      <% else %>
+                      <p>error</p>
+                      <% end %>
+
+                      <div class="col query_value_selection_class" id ="query_value_selection_id">
+                          <p>Select Key</p>
+                      </div>
+                      <div class="col" id ="minus_row_id">
+                          <i class="fa fa-minus minus_row" ></i>
+                      </div>
+                </div> 
+            </div>
+            <!-- -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+                <button onclick="submit()" class="btn btn-primary"> submit</button>
+            </div>
+        </div> 
+    </div>
+</div>

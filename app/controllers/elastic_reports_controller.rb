@@ -6,6 +6,38 @@ class ElasticReportsController < ApplicationController
     @elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title}
   end
 
+  def find_by_id
+      selected_id = params[:selected_id]
+        response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
+          :body => {
+            :query => {
+              :bool => {
+                :must => {
+                  :bool => {
+                  :must => {"match": { "_id": selected_id }}
+                 }
+                }
+              }
+            }
+          }.to_json,
+            :headers => {
+              "Content-Type" => "application/json" 
+            }
+        )
+
+        p response.body
+      @hashHash = Hash.new
+      @responseBody = JSON.parse(response.body) 
+      count = 0
+      @responseBody['hits']['hits'].each do |k,v|
+        @hashHash[count] = k['_source']
+        #p k['_source']
+        count = count + 1
+      end 
+
+      @id_details = @hashHash
+  end 
+
   # GET /elastic_reports/1 or /elastic_reports/1.json
   def show
   end

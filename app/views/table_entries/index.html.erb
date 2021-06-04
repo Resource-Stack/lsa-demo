@@ -1,12 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <div class="container-fluid">
+
   <div class="row" style="text-align: center; ">
     <div class="col">
       <h3>ABC Company</h3>
       <h3>Cyber and Asset Dashboard</h3>
       <p>Today's Date is: <%= Date.today %> </p>       
     </div>
+            <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <%= link_to 'Download Policies', download_policies_path %> 
+          </li>
+        </ul>
   </div>
 
   <div class="row">
@@ -33,17 +39,17 @@
               <h6 class="m-0 font-weight-bold text-primary"> <%= k %> </h6>
               <!-- -->
                 <div class="chartKickGraph" id='<%="field_pie_" + count.to_s%>'> 
-                  <%= pie_chart(v, legend: false, colors: @user_colors) %> 
+                  <%= pie_chart(v, legend: true, colors: @user_colors) %> 
                   <hr>
                              
                 </div>
 
                 <div class="displayBarChart chartKickGraph" id= <%="field_bar_" + count.to_s%> >
-                    <%= column_chart(v) %>
+                    <%= column_chart(v, download: true) %>
                 </div>
 
                 <div class="displayColumnChart chartKickGraph" id= <%="column_bar_" + count.to_s%> >
-                    <%= bar_chart(v) %>
+                    <%= bar_chart(v, download: true) %>
                 </div>
               
               <!-- -->

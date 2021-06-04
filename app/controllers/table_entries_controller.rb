@@ -46,13 +46,11 @@ class TableEntriesController < ApplicationController
     @table_entries = TableEntry.where("user_id = ? ", current_user.id)
 
 
-    #build cool graphs
+    #Line Graph Algo
     @graph_hash = Hash.new
     ReportValue.all.each do |rv|
-
       value_collection = ElasticReport.where(report_value_title: rv.title)
       @graph_hash[rv.title] = value_collection
-
     end 
     p 'hollow tune'
     p @graph_hash
@@ -78,7 +76,9 @@ class TableEntriesController < ApplicationController
     end 
 
 
-
+ def download_policies
+  send_data ElasticReport.to_csv, filename: "policy-#{Date.today}.csv"
+ end 
 #####
 
 =begin

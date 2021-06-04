@@ -18,67 +18,43 @@
     <div id="wrapper">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                   <a class="navbar-brand" href="/">
                     <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
                   </a>
-
-
                     <!-- Topbar Navbar -->
-
                 </nav>
                 <!-- End of Topbar -->
-
         <!-- -->
         <div id="sideNav">
             <div class="sidebar-header">
                 <h6 class="dropdown-header" ><u>INTERFACE</u></h6>
             </div>
-            <%= link_to 'Graph View', table_entries_path, class: 'dropdown-item' %>
-            <%= link_to 'Dashboard', dashboard_path, class: 'dropdown-item' %>
-            
-          <!--<# %= link_to 'TESTING', master_tables_path, class: 'dropdown-item' %> 
-            
-           <h6 class="dropdown-header" style="padding-top: 25px;"><u>DATA RULES</u></h6>
+                <%= link_to 'Dashboard', dashboard_path, class: 'dropdown-item' %>
+                <%= link_to 'Policies', table_entries_path, class: 'dropdown-item' %>
+                <%= link_to 'Table', table_view_path, class: 'dropdown-item' %>
 
-            <# %= link_to 'Data Dictionary', data_dictionaries_path, class: 'dropdown-item' %>
-            <# %= link_to 'Data Dump', data_dump_dictionaries_path, class: 'dropdown-item' %> -->
-
-            <h6 class="dropdown-header" style="padding-top: 25px;"><u>ELASTIC</u></h6>
-             <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
-            <%= link_to 'Report Types', report_types_path, class: 'dropdown-item' %>
-            <%= link_to 'Report Values', report_values_path, class: 'dropdown-item' %>
-            <%= link_to 'Data Sets', elastic_reports_path, class: 'dropdown-item' %>
-
-            <%= link_to 'Sources', sources_path, class: 'dropdown-item' %>
-            <h6 class="dropdown-header" style="padding-top: 25px;"><u>USER</u></h6>
+                <h6 class="dropdown-header" style="padding-top: 25px;"><u>ELASTIC</u></h6>
+                <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
+                <%= link_to 'Report Types', report_types_path, class: 'dropdown-item' %>
+                <%= link_to 'Report Values', report_values_path, class: 'dropdown-item' %>
+                <%= link_to 'Data Sets', elastic_reports_path, class: 'dropdown-item' %>
+                <%= link_to 'Sources', sources_path, class: 'dropdown-item' %>
+                <h6 class="dropdown-header" style="padding-top: 25px;"><u>USER</u></h6>
             <% if user_signed_in? %>
-            <%= link_to 'Settings', user_path(current_user.id), class: 'dropdown-item' %>
-            <%= link_to 'Edit User', edit_user_path(current_user.id), class: 'dropdown-item' %>
-            <!-- <# %= link_to 'Users', users_path, class: 'dropdown-item' %> -->
-            <!-- <# %= link_to 'Roles', roles_path, class: 'dropdown-item' %> -->
-
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
-            </a>
+                    <%= link_to 'Settings', user_path(current_user.id), class: 'dropdown-item' %>
+                    <%= link_to 'Edit User', edit_user_path(current_user.id), class: 'dropdown-item' %>
+                    <div class="dropdown-divider"></div>
+                    <%= link_to 'Sign Out', destroy_user_session_path,method: :delete, class: 'dropdown-item' %>
             <% else %>
-                <a class="dropdown-item" href="#">
                     <%= link_to 'Sign In', new_user_session_path, class: 'dropdown-item' %>
-                </a>
-            <% end %>
 
-          <!--   <h6 class="dropdown-header" style="padding-top: 25px;"><u>UPLOADS</u></h6>
-            <# %= link_to 'My Uploads', new_elastic_policy_path, class: 'dropdown-item' %> -->
+            <% end %>
             
         </div>          
         <!-- -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-
-                <!-- Logout Modal-->
+                <!-- Logout Modal  CURRENTLY NOT USING-->
                 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -108,15 +84,15 @@
     <div class="content-spacer">
     <%= yield %>
     </div>
-                    <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Lifescale Analytics</span>
-                        </div>
-                    </div>
-                </footer>
-                <!-- End of Footer -->
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Lifescale Analytics</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
 
 
 
