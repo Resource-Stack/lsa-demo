@@ -6,7 +6,8 @@
             <h3 class="text-dark mb-0">Dashboard</h3>
                 <ul class="nav justify-content-end">
                   <li class="nav-item">
-                    <p class="nav-link" data-toggle="modal" data-target="#timeRangeModal" id ='fieldSelection'> Filter</p>
+                    <p class="nav-link" data-toggle="modal" data-target="#timeRangeModal" id ='fieldSelection' onclick="$('#fieldSelection').modal('show')"> Filter</p>
+
                   </li>
                 </ul>
         </div> 
@@ -337,7 +338,7 @@
     function generateTimeReport(){
         var endDate = document.getElementById('endDate').value
         var startDate = document.getElementById('startDate').value
-        var fieldSelection = document.getElementById('fieldSelection')
+        var fieldSelection = document.getElementById('fieldSelection')  
         var field_selected = fieldSelection.options[fieldSelection.selectedIndex].text
         var uniqueSelection = document.getElementById('TimeRangeUniqueSelection')
         var uniqueValue = uniqueSelection.options[uniqueSelection.selectedIndex].text
