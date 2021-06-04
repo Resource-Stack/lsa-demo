@@ -5,8 +5,12 @@
             <!-- Card Header - Dropdown -->
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Report Types</h6>
-
+                <h6 class="m-0 font-weight-bold text-primary">Report Types</h6> 
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <%= link_to 'New Report Type', new_report_type_path %>
+                  </li>
+                </ul>
             </div>
             <!-- Card Body -->
             <div class="card-body">

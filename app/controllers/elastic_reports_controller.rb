@@ -1,5 +1,6 @@
 class ElasticReportsController < ApplicationController
   before_action :set_elastic_report, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /elastic_reports or /elastic_reports.json
   def index

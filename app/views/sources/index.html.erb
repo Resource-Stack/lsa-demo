@@ -4,6 +4,11 @@
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Sources</h6>
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <%= link_to 'New Source', new_source_path %>
+                  </li>
+                </ul>
 
             </div>
             <!-- Card Body -->
@@ -13,7 +18,7 @@
               <table class="table table-stripped">
                 <thead>
                   <tr>
-                    <th>Source title</th>
+                    <th>Title</th>
                     <th colspan="2"></th>
                   </tr>
                 </thead>
@@ -31,7 +36,6 @@
 
               <br>
 
-              <%= link_to 'New Source', new_source_path, class: 'btn btn-primary text-white' %>
         </div>
     </div>
 </div>

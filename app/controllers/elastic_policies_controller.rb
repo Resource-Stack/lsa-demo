@@ -1,5 +1,6 @@
 class ElasticPoliciesController < ApplicationController
   before_action :set_elastic_policy, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
   # GET /elastic_policies or /elastic_policies.json
   include ElasticPoliciesHelper
   def index

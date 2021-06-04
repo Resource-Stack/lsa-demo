@@ -17,23 +17,19 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                  <a class="navbar-brand" href="/">
-                    <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
-                  </a>
-                    <!-- Topbar Navbar -->
-                </nav>
+                <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
+      
                 <!-- End of Topbar -->
         <!-- -->
-        <div id="sideNav">
+        <div id="sideNav"> 
             <div class="sidebar-header">
                 <h6 class="dropdown-header" ><u>INTERFACE</u></h6>
             </div>
                 <%= link_to 'Dashboard', dashboard_path, class: 'dropdown-item' %>
-                <%= link_to 'Policies', table_entries_path, class: 'dropdown-item' %>
+                <%= link_to 'Graphs', table_entries_path, class: 'dropdown-item' %>
                 <%= link_to 'Table', table_view_path, class: 'dropdown-item' %>
 
-                <h6 class="dropdown-header" style="padding-top: 25px;"><u>ELASTIC</u></h6>
+                <h6 class="dropdown-header" style="padding-top: 25px;"><u>POLICY</u></h6>
                 <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
                 <%= link_to 'Report Types', report_types_path, class: 'dropdown-item' %>
                 <%= link_to 'Report Values', report_values_path, class: 'dropdown-item' %>
