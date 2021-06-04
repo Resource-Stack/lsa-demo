@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post 'timeRangeReport', to: 'dashboard#timeRangeReport'
   post 'restrictParam', to: 'dashboard#restrictParam'
   post 'findBy', to: 'dashboard#findBy'
+  post 'filter_toggle', to: 'dashboard#filter_toggle'
   #update Field Selections
   post 'update_time_field_selection', to: 'dashboard#updateTimeFieldSelection'
   post 'update_filter_one', to: 'dashboard#update_filter_one'

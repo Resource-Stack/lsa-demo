@@ -100,14 +100,11 @@ class DashboardController < ApplicationController
 	end 
 
 	def download_policies
-		#Fetch all elastic reports and generate a summarized CSV
-		### For Small Cards
 		send_data ElasticReport.to_csv, filename: "policies-#{Date.today}.csv"
-		#ElasticReport.to_csv
-
-
 	end 
 
+	def filter_toggle
+	end 
 
 	def hide_chart
 		@user_colors = current_user.user_colors.pluck(:color)
