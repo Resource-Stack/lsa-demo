@@ -1,0 +1,48 @@
+// Place all the styles related to the dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.displayBarChart{ 
+	display: none;
+} 
+
+.displayColumnChart{
+	display: none;
+} 
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+	display:inline-block;
+} 
+
+.dashboardTable{
+	width: 100%;
+	overflow-y: scroll;
+	height: 600px;
+	overflow-x: scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #17A2B8; 
+}

@@ -1,0 +1,40 @@
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <%= link_to 'New Report Values', new_report_value_path %>
+  </li>
+</ul>
+<% @report_types.each do |type| %>
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><%= type.title %></h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% type.report_values.each do |report_value| %>
+                  <tr>
+                    <td><%= report_value.title %></td>
+                    <td><%= link_to 'Edit', edit_report_value_path(report_value) %></td>
+                    <td><%= link_to 'Destroy', report_value, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div> 
+
+
+<% end %>

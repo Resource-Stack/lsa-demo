@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Table name:</strong>
+  <%= @chart_preference.table_name %>
+</p>
+
+<p>
+  <strong>Hide table:</strong>
+  <%= @chart_preference.hide_table %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @chart_preference.user %>
+</p>
+
+<%= link_to 'Edit', edit_chart_preference_path(@chart_preference) %> |
+<%= link_to 'Back', chart_preferences_path %>

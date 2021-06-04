@@ -1,0 +1,30 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <%= form_with(model: @data_dump_dictionary, local: true) do |form| %>
+
+
+        <div class="field">
+          <%= form.label :user_id %>
+          <%= form.text_field :user_id, :value => current_user.id %>
+        </div>
+
+        <div class="field">
+          <%= form.label :source_id %>
+          <%= form.number_field :source_id %>
+        </div>
+
+        <div class="field">
+          <%= form.label :csv_header_name %>
+          <%= form.text_field :csv_header_name %>
+        </div>
+
+        <div class="actions">
+          <%= form.submit %>
+        </div>
+      <% end %>
+
+</div>
+</div>
+</div>

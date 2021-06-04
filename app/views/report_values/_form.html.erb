@@ -1,0 +1,51 @@
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Report Type Value</h6>
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <%= link_to 'Report Values', report_values_path %>
+                  </li>
+                </ul>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <%= form_with(model: report_value, local: true) do |form| %>
+                  <% if report_value.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(report_value.errors.count, "error") %> prohibited this report_value from being saved:</h2>
+
+                      <ul>
+                      <% report_value.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
+
+
+                 
+                    <div class="form-group">
+                    <%= form.label :title %>
+                    <%= form.text_field :title, class: 'form-control' %>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                    <%= form.label :report_type_id %>
+                    <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}), {},{ :class => 'form-control' } %>
+                    </div>
+
+
+                  <div class="actions">
+                    <%= form.submit %>
+                  </div>
+                <% end %>
+            </div>
+        </div>
+</div>
+

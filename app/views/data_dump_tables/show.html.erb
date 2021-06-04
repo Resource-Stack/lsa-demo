@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @data_dump_table.user_id %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @data_dump_table.source_id %>
+</p>
+
+<p>
+  <strong>Csv header name:</strong>
+  <%= @data_dump_table.csv_header_name %>
+</p>
+
+<p>
+  <strong>Csv row value:</strong>
+  <%= @data_dump_table.csv_row_value %>
+</p>
+
+<%= link_to 'Edit', edit_data_dump_table_path(@data_dump_table) %> |
+<%= link_to 'Back', data_dump_tables_path %>

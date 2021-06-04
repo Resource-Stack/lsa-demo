@@ -1,0 +1,286 @@
+
+<div class="col-xl-12 col-lg-12">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Upload Mapping</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Action:</div>
+                        <% if current_user.master_table.present? %>
+                        <%= link_to 'Edit', edit_master_table_path(@master_table.id), class: 'dropdown-item' %>
+                        <% end %>
+                </div>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+
+            <div class="container-fluid" id ="input_query_div">
+                <h1>Search</h1>
+                <h5>Time Range</h5>
+                <div class="row">
+                    <div class="col">
+                        <label for="queryStartDate">Start Date:</label><br>
+                        <input type="date" id="queryStartDate" name="start_date">
+                    </div>
+                    <div class="col">
+                        <label for="queryEndDate">End Date:</label><br>
+                        <input type="date" id="queryEndDate" name="end_date">
+                    </div>
+                </div>
+<hr>
+                <h4 style="text-align: center;"> Key Values <i class="fa fa-plus" id="add_query"></i></h4> 
+
+                <div class="row">
+                      <div class="col">
+                        <label for="onlyKey"> Conditional: </label>                                        
+                        <select class="query_condition" id="query_condition">
+                          <option value="or">OR</option>
+                          <option value="and">AND</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="row" id="input_query_fields" >
+                      <div class="col" >
+                          <label>Specify Key </label>
+                          <select class="query_key_selection" id="query_key_selection_id" ><br> 
+                              <option> Select Key </option>
+                              <% @headerValues.each do |x| %>
+                                  <option><%= x %></option>
+                              <% end %>
+                          </select>     
+                          <br>    
+                      </div>
+
+                      <div class="col query_value_selection_class" id ="query_value_selection_id">
+                          <p>Select Key</p>
+                      </div>
+                </div> 
+
+
+            </div>
+      </div>
+  </div>
+  <button onclick="submit()" class="btn btn-dark"> submit</button>
+  <div class="row">
+    <div class="col" id="search_results">
+
+    </div>
+  </div>
+</div>
+
+
+<hr> 
+
+
+<script type="text/javascript">
+  var query_key_selection_id = document.getElementById('query_key_selection_id')
+  var query_key = document.getElementsByClassName('query_key_selection')
+  var add_input = document.getElementById('add_query');
+  var input_fields = document.getElementById('input_query_fields');
+  var input_div = document.getElementById('input_query_div');
+  var query_condition = document.getElementById('query_condition');
+
+
+
+  // Clone 
+  var clickCountInput = 0
+    add_query.addEventListener('click', function(){
+      clickCountInput += 1
+
+      // var x = document.createElement("SELECT");
+      // var and = document.createElement('option');
+      // and.value = 'AND';
+      // and.innerHTML = 'AND';
+      // var or = document.createElement('option');
+      // or.value = 'OR';
+      // or.innerHTML = 'OR';
+      //add conditional
+      var cloneInputDiv = input_fields.cloneNode(true);
+      var query_key = cloneInputDiv.children[0].children[1]
+      var query_value = cloneInputDiv.children[1]
+      
+      //x.appendChild(and)
+      //x.appendChild(or)
+      //cloneInputDiv.appendChild(x)
+
+
+      //cloneInputDiv.id = "input_query_fields_" + clickCountInput //this needs to be 
+      input_fields.id = "input_query_fields_" + clickCountInput
+      query_key.id = "query_key_selection_id_" + clickCountInput
+      query_value.id = "query_value_selection_id_" + clickCountInput
+
+      input_div.appendChild(cloneInputDiv);
+      input_change_listener();
+    })
+
+  //
+
+  //Input
+    input_change_listener();
+    function input_change_listener(){
+        for (var i =0; i < query_key.length; i++){
+          query_key[i].addEventListener('change', function(e){
+              //console.log("What am i clicking on", e);
+              var report_values_type = e.srcElement
+              console.log("values type", report_values_type.id)
+              
+              var field_selected = report_values_type.options[report_values_type.selectedIndex].text
+              //console.log("here",field_selected)
+              var mydata = {
+                  field_selection: field_selected,
+                  id_selection: report_values_type.id
+              }   
+
+               Rails.ajax({
+                    type: "POST", 
+                    url: "/update_query_output", 
+                    data: new URLSearchParams(mydata).toString(), 
+                })
+            })
+          }
+    }
+  //
+
+  // Submit
+  function submit(){
+        var query_endDate = document.getElementById('queryEndDate').value
+        var query_startDate = document.getElementById('queryStartDate').value
+
+
+    key_value = []
+    var key_query_classes = document.getElementsByClassName('query_key_selection');
+    query_condition_value = query_condition.options[query_condition.selectedIndex].text
+
+      for (var i =0; i < key_query_classes.length; i++){
+        current_key_value = key_query_classes[i]
+        
+          if (current_key_value.id != 'query_key_selection_id'){
+            id_value =  current_key_value.id.split('_')
+            current_id = id_value[id_value.length - 1]
+            current_div = document.getElementById('query_value_selection_id_' + current_id)
+            current_key = document.getElementById('query_key_selection_id_' + current_id)
+            the_key = current_key.options[current_key.selectedIndex].text
+          } else {
+            current_div = document.getElementById('query_value_selection_id');
+            current_key = document.getElementById('query_key_selection_id');
+            the_key = current_key.options[current_key.selectedIndex].text
+          }
+
+        checked_values = []
+        checked_inputs = current_div.querySelectorAll('input:checked');
+
+        for (var e = 0; e < checked_inputs.length; e++) {
+          checked_values.push(checked_inputs[e].id)
+        }
+
+        key_value.push([the_key,checked_values])
+      };
+
+      var mydata = {
+          key_values: key_value,
+          query_condition_value: query_condition_value,
+          end_date: query_endDate,
+          start_date: query_startDate
+      }   
+
+       Rails.ajax({
+            type: "POST", 
+            url: "/query_module", 
+            data: new URLSearchParams(mydata).toString(), 
+        })
+  }
+
+
+  //
+
+</script>
+
+
+  <div class="col-xl-12 col-lg-12">
+      <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div
+              class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Upload Mapping</h6>
+              <div class="dropdown no-arrow">
+                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                      aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Action:</div>
+                          <% if current_user.master_table.present? %>
+                          <%= link_to 'Edit', edit_master_table_path(@master_table.id), class: 'dropdown-item' %>
+                          <% end %>
+                  </div>
+              </div>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+              <% if current_user.master_table.present? %> 
+              <p>
+                <strong>Field 1:</strong>
+                <%= @master_table.field_one %>
+              </p>
+
+              <p>
+                <strong>Field 2:</strong>
+                <%= @master_table.field_two %>
+              </p>
+
+              <p>
+                <strong>Field 3:</strong>
+                <%= @master_table.field_three %>
+              </p>
+
+              <p>
+                <strong>Field 4:</strong>
+                <%= @master_table.field_four %>
+              </p>
+
+              <p>
+                <strong>Field 5:</strong>
+                <%= @master_table.field_five %>
+              </p>
+
+              <p>
+                <strong>Field 6:</strong>
+                <%= @master_table.field_six %>
+              </p>
+
+              <p>
+                <strong>Field 7:</strong>
+                <%= @master_table.field_seven %>
+              </p>
+
+              <p>
+                <strong>Field 8:</strong>
+                <%= @master_table.field_eight %>
+              </p>
+
+              <p>
+                <strong>Field 9:</strong>
+                <%= @master_table.field_nine %>
+              </p>
+
+              <p>
+                <strong>Field 10:</strong>
+                <%= @master_table.field_ten %>
+              </p>
+
+              <% else %>
+                  <p>Create A Master Table </p>
+                  <%= link_to 'New Master Table', new_master_table_path %>
+              <% end %>
+          </div>
+      </div>
+  </div>

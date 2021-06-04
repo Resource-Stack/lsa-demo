@@ -1,0 +1,423 @@
+<!-- Main Content -->
+<div id="content"> 
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <div class="d-sm-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-dark mb-0">Dashboard</h3>
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <p class="nav-link" data-toggle="modal" data-target="#timeRangeModal" id ='fieldSelection'> Filter</p>
+                  </li>
+                </ul>
+        </div> 
+
+        <!-- CARD HEADER Content Row -->
+        <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+              <% @brewed.each do |k,v| %>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                <%= k  %></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <%= (v.map{|x| x[1]}).sum %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-desktop fa-4x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              <% end %> 
+
+        </div>
+
+        <!-- Graphs and such -->
+        <div class="row">
+            <!-- General Reports -->                
+            <div class="col-xl-12 col-lg-12" id="reports">
+                    <!-- Reports -->
+                    <%= render 'elasticReportsView' %>
+            </div>
+        </div>
+
+        <div class="row" id="elasticTableView">
+            
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+ 
+<!-- Modals -->
+<div class="modal fade" id="timeRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <!-- -->
+            <div class="container-fluid" id ="input_query_div">
+                <h4 style="text-align: center;">Time Range</h4>
+                <div class="row">
+                    <div class="col">
+                        <label for="queryStartDate">Start Date:</label><br>
+                        <input type="date" id="queryStartDate" name="start_date">
+                    </div>
+                    <div class="col">
+                        <label for="queryEndDate">End Date:</label><br>
+                        <input type="date" id="queryEndDate" name="end_date">
+                    </div>
+                </div>
+                <hr>
+
+
+                <h4 style="text-align: center;"> Key Values <i class="fa fa-plus" id="add_query"></i></h4> 
+
+                <div class="row">
+                      <div class="col">
+                        <label for="onlyKey"> Conditional: </label>                                        
+                        <select class="query_condition" id="query_condition">
+                          <option value="or">OR</option>
+                          <option value="and">AND</option>
+                        </select>
+                      </div>
+                </div>
+
+
+                <div class="row" id="input_query_fields" >
+                     <% if @headerValues.present? %>
+                      <div class="col" >
+                          <label> </label><!--blank for js-->
+                          <select class="query_key_selection" id="query_key_selection_id" ><br> 
+                              <option> Select Key </option>
+                              <% @headerValues.each do |x| %>
+                                  <option><%= x %></option>
+                              <% end %>
+                          </select>     
+                          <br>    
+                      </div>
+                      <% else %>
+                      <p>error</p>
+                      <% end %>
+
+                      <div class="col query_value_selection_class" id ="query_value_selection_id">
+                          <p>Select Key</p>
+                      </div>
+                      <div class="col" id ="minus_row_id">
+                          <i class="fa fa-minus minus_row" ></i>
+                      </div>
+                </div> 
+            </div>
+            <!-- -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+                <button onclick="submit()" class="btn btn-primary"> submit</button>
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+<script type="text/javascript">
+  var query_key_selection_id = document.getElementById('query_key_selection_id')
+  var query_key = document.getElementsByClassName('query_key_selection')
+  var add_input = document.getElementById('add_query');
+  var input_fields = document.getElementById('input_query_fields');
+  var input_div = document.getElementById('input_query_div');
+  var query_condition = document.getElementById('query_condition');
+  var minus_rows = document.getElementsByClassName('minus_row');
+  
+  // Clone 
+    var clickCountInput = 0
+    add_query.addEventListener('click', function(){
+      clickCountInput += 1
+
+
+      var cloneInputDiv = input_fields.cloneNode(true);
+      
+      var query_key = cloneInputDiv.children[0].children[1]
+      console.log("query_key", cloneInputDiv.children[0].children[1])  
+      var query_value = cloneInputDiv.children[1]
+      console.log("query_value", cloneInputDiv.children[1])
+      var query_value = cloneInputDiv.children[1]
+      console.log("find minus", cloneInputDiv.children[2])
+      var minus_div = cloneInputDiv.children[2]
+
+
+
+      cloneInputDiv.id = "input_query_fields_" + clickCountInput 
+
+      query_key.id = "query_key_selection_id_" + clickCountInput
+      query_value.id = "query_value_selection_id_" + clickCountInput
+      minus_div.id = "minus_row_id_" + clickCountInput
+
+      input_div.appendChild(cloneInputDiv);
+      minus_row()
+      input_change_listener();
+    })
+  //
+
+  //Remove Row
+    minus_row()
+    function minus_row() {
+        for (var i =0; i < minus_rows.length; i++){
+                minus_rows[i].addEventListener('click', function(e){
+                    row_id = e.srcElement.parentElement.id;
+                    if (row_id === 'minus_row_id'){
+                        alert('cannot delete')
+                    } else {
+                        console.log("ROW_ID", row_id)
+                        target_id = row_id.split('_');
+                        id_id = target_id[target_id.length - 1]
+                        console.log("idid", id_id)
+                        document.getElementById('input_query_fields_' + id_id).remove()
+                    }
+                //
+              })
+            }        
+    }
+
+  //
+
+  //Input
+    input_change_listener();
+    function input_change_listener(){
+        for (var i =0; i < query_key.length; i++){
+          query_key[i].addEventListener('change', function(e){
+              //console.log("What am i clicking on", e);
+              var report_values_type = e.srcElement
+              console.log("values type", report_values_type.id)
+              
+              var field_selected = report_values_type.options[report_values_type.selectedIndex].text
+              //console.log("here",field_selected)
+              var mydata = {
+                  field_selection: field_selected,
+                  id_selection: report_values_type.id
+              }   
+
+               Rails.ajax({
+                    type: "POST", 
+                    url: "/update_query_output", 
+                    data: new URLSearchParams(mydata).toString(), 
+                })
+            })
+          }
+    }
+  //
+
+  // Submit
+  function submit(){
+        var query_endDate = document.getElementById('queryEndDate').value
+        var query_startDate = document.getElementById('queryStartDate').value
+
+
+        key_value = []
+        var key_query_classes = document.getElementsByClassName('query_key_selection');
+        query_condition_value = query_condition.options[query_condition.selectedIndex].text
+
+          for (var i =0; i < key_query_classes.length; i++){
+            current_key_value = key_query_classes[i]
+            
+              if (current_key_value.id != 'query_key_selection_id'){
+                id_value =  current_key_value.id.split('_')
+                current_id = id_value[id_value.length - 1]
+                current_div = document.getElementById('query_value_selection_id_' + current_id)
+                current_key = document.getElementById('query_key_selection_id_' + current_id)
+                the_key = current_key.options[current_key.selectedIndex].text
+              } else {
+                current_div = document.getElementById('query_value_selection_id');
+                current_key = document.getElementById('query_key_selection_id');
+                the_key = current_key.options[current_key.selectedIndex].text
+              }
+
+            checked_values = []
+            checked_inputs = current_div.querySelectorAll('input:checked');
+
+            for (var e = 0; e < checked_inputs.length; e++) {
+              checked_values.push(checked_inputs[e].id)
+            }
+
+            key_value.push([the_key,checked_values])
+          };
+
+          var mydata = {
+              key_values: key_value,
+              query_condition_value: query_condition_value,
+              end_date: query_endDate,
+              start_date: query_startDate
+          }   
+
+           Rails.ajax({
+                type: "POST", 
+                url: "/query_module", 
+                data: new URLSearchParams(mydata).toString(), 
+            })
+  }
+
+
+  //
+</script>
+<script type="text/javascript"> 
+
+    // Activate Bar Chart
+    var barcharts = document.getElementsByClassName('BarChart')
+    for (var i =0; i < barcharts.length; i++){
+            barcharts[i].addEventListener('click', function(e){
+
+              hidePie(e.srcElement.id)
+              hideColumn(e.srcElement.id)
+              //Display Bar Chart
+              var barChart = 'field_bar_' + e.srcElement.id
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'block';
+
+          })
+        }
+
+    // Activate Bar Chart
+    var piecharts = document.getElementsByClassName('PieChart')
+    for (var i =0; i < piecharts.length; i++){
+            piecharts[i].addEventListener('click', function(e){
+              hideBar(e.srcElement.id)
+              hideColumn(e.srcElement.id)
+              //Display Pie Chart
+              var currentID = 'field_pie_' + e.srcElement.id
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'block';
+
+          })
+        }
+    // Activate Column Chart
+    var columncharts = document.getElementsByClassName('ColumnChart')
+    for (var i =0; i < columncharts.length; i++){
+            columncharts[i].addEventListener('click', function(e){
+
+              hidePie(e.srcElement.id)
+              hideBar(e.srcElement.id)
+              //Show Column Chart
+              var currentColumn = 'column_bar_' + e.srcElement.id
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'block';
+
+
+          })
+        }
+
+    function hidePie(e){
+            //Hide Pie Chart
+              var currentID = 'field_pie_' + e
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'none';
+    }
+
+    function hideBar(e){
+
+              //Hide Bar Chart
+              var barChart = 'field_bar_' + e
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'none';
+    }
+
+    function hideColumn(e){
+              var currentColumn = 'column_bar_' + e
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'none';
+    }
+
+    function generateTimeReport(){
+        var endDate = document.getElementById('endDate').value
+        var startDate = document.getElementById('startDate').value
+        var fieldSelection = document.getElementById('fieldSelection')
+        var field_selected = fieldSelection.options[fieldSelection.selectedIndex].text
+        var uniqueSelection = document.getElementById('TimeRangeUniqueSelection')
+        var uniqueValue = uniqueSelection.options[uniqueSelection.selectedIndex].text
+
+        var mydata = {
+            start_date: startDate,
+            end_date: endDate,
+            field_selection: field_selected,
+            unique_selection: uniqueValue,
+        }   
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/timeRangeReport", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+    }
+
+    function generateRestrictedReport(){
+        var filterFirstParamQuery = document.getElementById('filterFirstParamQuery')
+        var filter_one_selected = filterFirstParamQuery.options[filterFirstParamQuery.selectedIndex].text
+
+        var filterOne = document.getElementById('filterOneSelection')
+        var filterOneValue = filterOne.options[filterOne.selectedIndex].text
+
+        var filterSecondParamQuery = document.getElementById('filterSecondParamQuery')
+        var filter_two_selected = filterSecondParamQuery.options[filterSecondParamQuery.selectedIndex].text
+
+        var filterTwo = document.getElementById('filterTwoSelection')
+        var filterTwoValue = filterTwo.options[filterTwo.selectedIndex].text
+
+
+        var mydata = {
+            first_field: filter_one_selected,
+            second_field: filter_two_selected,
+            filter_one: filterOneValue,
+            filter_two: filterTwoValue,
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/restrictParam", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+    }
+
+    function generateFindByReport(){
+        let checkedValues = []
+        var findByOptions = document.getElementsByClassName('findbyOption')
+        for (var i =0; i < findByOptions.length; i++){
+            iteratedOption = findByOptions[i]
+            console.log("here", iteratedOption.id, "checked?", iteratedOption.checked)
+            if (iteratedOption.checked == true){
+                checkedValues.push(iteratedOption.id)
+            }
+        }
+
+        var selectedField = document.getElementById('findBySelect')
+        var filter_one_selected = selectedField.options[selectedField.selectedIndex].text
+
+
+
+
+        var mydata = {
+            findby_field: filter_one_selected,
+            values: checkedValues,
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/findBy", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+    }
+</script>
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+<p id="notice"><%= notice %></p>
+
+
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Data Sets</h6>
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <%= link_to 'Reset', elastic_reports_path %>
+                  </li>
+                </ul>
+  
+            </div>
+            <!-- Card Body -->
+            <div class="card-body" id="data_set">
+
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Report type</th>
+                    <th>Report value</th>
+                    <th>Elastic ID</th>
+                    <th>data_creation_date</th>
+                    <th colspan="1"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @elastic_reports.each do |elastic_report| %>
+                    <tr>
+                      <td><%= elastic_report.report_type_title %></td>
+                      <td><%= elastic_report.report_value_title %></td>
+                      <td>
+                        <button onclick="display_id('<%= elastic_report.elastic_id %>')"><%= elastic_report.elastic_id %></button>
+                        
+                      </td>
+                      <td><%= elastic_report.data_creation_date %></td>
+                      <td><%= link_to 'Destroy', elastic_report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+
+              <br>
+            </div>
+          </div>
+        </div>
+
+<script type="text/javascript">
+  function display_id(id){
+    console.log("here", id)
+
+        var mydata = {
+            selected_id: id,
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/find_by_id", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+  }
+</script>

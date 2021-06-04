@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LsaRuby</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  </head>
+
+  <body>
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+                <!-- Topbar -->
+                <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
+      
+                <!-- End of Topbar -->
+        <!-- -->
+        <div id="sideNav"> 
+            <div class="sidebar-header">
+                <h6 class="dropdown-header" ><u>INTERFACE</u></h6>
+            </div>
+                <%= link_to 'Dashboard', dashboard_path, class: 'dropdown-item' %>
+                <%= link_to 'Graphs', table_entries_path, class: 'dropdown-item' %>
+                <%= link_to 'Table', table_view_path, class: 'dropdown-item' %>
+
+                <h6 class="dropdown-header" style="padding-top: 25px;"><u>POLICY</u></h6>
+                <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
+                <%= link_to 'Report Types', report_types_path, class: 'dropdown-item' %>
+                <%= link_to 'Report Values', report_values_path, class: 'dropdown-item' %>
+                <%= link_to 'Data Sets', elastic_reports_path, class: 'dropdown-item' %>
+                <%= link_to 'Sources', sources_path, class: 'dropdown-item' %>
+                <h6 class="dropdown-header" style="padding-top: 25px;"><u>USER</u></h6>
+            <% if user_signed_in? %>
+                    <%= link_to 'Settings', user_path(current_user.id), class: 'dropdown-item' %>
+                    <%= link_to 'Edit User', edit_user_path(current_user.id), class: 'dropdown-item' %>
+                    <div class="dropdown-divider"></div>
+                    <%= link_to 'Sign Out', destroy_user_session_path,method: :delete, class: 'dropdown-item' %>
+            <% else %>
+                    <%= link_to 'Sign In', new_user_session_path, class: 'dropdown-item' %>
+
+            <% end %>
+            
+        </div>          
+        <!-- -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Logout Modal  CURRENTLY NOT USING-->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "btn btn-primary" %> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <div class="content-spacer">
+    <%= yield %>
+    </div>
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Lifescale Analytics</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+
+
+  </body>
+</html>
+
+
+
+

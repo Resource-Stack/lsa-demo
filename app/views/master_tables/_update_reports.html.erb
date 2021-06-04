@@ -1,0 +1,53 @@
+
+<div class="row">
+    <% count = 0 %>
+  <!-- <# % @keyValueCountHash.each do |k,v| %> -->
+    <% @summarized_hash.each do |k,v| %>
+    <div class="col-lg-4 col-md-4 col-sm-4 d-sm-inline-block">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                
+                <p></p>
+                <p></p>
+              <i class="fa fa-times-circle float-right" onclick="hideSearchSection('<%= k %>')"></i> 
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div id= <%="field_pie_" + count.to_s%> > 
+                  <h6 class="m-0 font-weight-bold text-primary"> <%= k %> </h6>
+                  <%= pie_chart(v, colors: @user_colors) %>            
+                </div>
+
+                <div class="displayBarChart" id= <%="field_bar_" + count.to_s%> >
+                    <%= column_chart(v) %>
+                </div>
+
+                <div class="displayColumnChart" id= <%="column_bar_" + count.to_s%> >
+                    <%= bar_chart(v) %>
+                </div>
+                 <% count+=1 %>
+            </div>
+        </div>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  function hideSearchSection(data){
+    console.log("here", data)
+
+        var mydata = {
+            chart_name: data,
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/hide_search_chart", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+
+  }
+</script>

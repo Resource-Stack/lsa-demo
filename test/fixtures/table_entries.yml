@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  field_one: MyString
+  field_two: MyString
+  field_three: MyString
+
+two:
+  field_one: MyString
+  field_two: MyString
+  field_three: MyString

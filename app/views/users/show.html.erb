@@ -1,0 +1,102 @@
+
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">User: <%= @selected_user.email %></h6>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <p>First Name</p>
+                <p><%= @selected_user.user_first_name %></p>
+                <hr>
+                <p>Last Name</p>
+                <p><%= @selected_user.user_last_name %></p>
+                <hr>
+
+                <p>Created At</p>
+                <p><%= @selected_user.created_at %></p>
+                <hr>
+            </div>
+            <div class="card-body" id="user_chart_pref">
+                <h1>Chart Preferences</h1>
+
+                <!--   <# %= link_to 'New Chart Preference', new_chart_preference_path, class: 'btn btn-primary text-white' %> -->
+                
+
+                <table class="table table-stripped">
+                  <thead>
+                    <tr>
+                      <th>Graph Name</th>
+                      <th>Visible</th>
+
+                      <th colspan="1"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% @chart_preferences.each do |chart_preference| %>
+                      <tr>
+                        <td><%= chart_preference.table_name %></td>
+                        <td>
+                            <% if chart_preference.hide_table? %>
+                                <input type="checkbox" name="chart_pref" checked onclick="toggleChart(<%= chart_preference.id%>)">  
+                            <% else %>
+                                <input type="checkbox" name="chart_pref" onclick="toggleChart(<%= chart_preference.id%>)">
+                            <% end %>
+
+
+                        </td>
+
+                        <td><%= link_to 'Destroy', chart_preference, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                      </tr>
+                    <% end %> 
+                  </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                    <h1>Chart Colors</h1>
+                    <%= link_to 'New Color', new_user_color_path, class: 'btn btn-primary text-white' %>
+
+                    <table class="table table-stripped">
+                      <thead>
+                        <tr>
+                          <th colspan="2">Color</th>
+                          <th colspan="2"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <% @user_colors.each do |user_color| %>
+                          <tr>
+                            <td><%= user_color.color %></td>
+                            <td style="background-color: <%= user_color.color %> "></td>
+                            <td><%= link_to 'Edit', edit_user_color_path(user_color) %></td>
+                            <td><%= link_to 'Destroy', user_color, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+            </div>
+        </div>
+      </div>
+
+<script type="text/javascript">
+  function toggleChart(data){
+    console.log("here", data)
+
+        var mydata = {
+            toggle: data,
+        }   
+
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/toggle_chart", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+
+  }
+</script>

@@ -1,0 +1,61 @@
+
+  
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">New Upload</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Action:</div>
+
+                                            <%= link_to 'New Upload', new_csv_upload_path, class: 'dropdown-item' %>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                  <%= form_with(model: csv_upload, local: true) do |form| %>
+                                  <% if csv_upload.errors.any? %>
+                                    <div id="error_explanation">
+                                      <h2><%= pluralize(csv_upload.errors.count, "error") %> prohibited this csv_upload from being saved:</h2>
+
+                                      <ul>
+                                      <% csv_upload.errors.full_messages.each do |message| %>
+                                        <li><%= message %></li>
+                                      <% end %>
+                                      </ul>
+                                    </div>
+                                  <% end %>
+
+                                      <div class="field " style="opacity: 0">
+                                        <%= form.label :user_id %>
+                                        <%= form.text_field :user_id, :value => current_user.id %>
+                                      </div>
+
+                                      <div class="field">
+                                        <%= form.label :csv_file %>
+                                        <%= form.file_field :csv_file %>
+                                      </div>
+
+                                      <div class="field">
+                                        <%= form.label :csv_upload_date %> 
+                                        <%= form.date_field :csv_upload_date %>
+                                      </div>
+
+                                      <div class="actions">
+                                        <%= form.submit %>
+                                      </div>
+                                  
+                                <% end %>
+                                </div>
+                            </div>
+                        </div>
+

@@ -1,0 +1,65 @@
+
+<!-- Area Chart -->
+<div class="col-xl-12 col-lg-12">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Generate Reports</h6>
+
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                    <p class="nav-link" data-toggle="modal" data-target="#timeRangeModal" id ='fieldSelection'> Filter</p>
+                  </li>
+                  <li class="nav-item">
+                    <p class="nav-link" id ='reset_dashboard'> 
+                    <%= link_to 'Reset', dashboard_path %>
+                    </p>
+                  </li>
+
+                </ul>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body dashboardTable">
+
+            <div class="chart-area">   
+                <div class="row">
+                    <div class="col-12" id="generatedChart">
+
+                        <% if @headerValues.present? %>
+                           <table class="table table-striped dashboardTable">
+                                <thead>
+                                    <tr>
+                                    <% @headerValues.each do |value| %>
+                                            <td><%= value %></td>        
+                                    <% end %>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <% @all_data.each do |data| %>
+                                        <tr>
+                                            <% count = 0 %>
+                                                <% JSON.parse(data).each do |k,v| %>
+                                                    <td>
+                                                        <% if k == @headerValues[count] %>
+                                                            <%= v %>
+                                                        <% end %>
+                                                    </td>
+                                                    <% count +=1 %>
+                                                <% end %>
+
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        <% else %>
+                            <p>Error, contact admin</p>
+                        <%end %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

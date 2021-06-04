@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Chart Preferences</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Table name</th>
+      <th>Hide table</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chart_preferences.each do |chart_preference| %>
+      <tr>
+        <td><%= chart_preference.table_name %></td>
+        <td><%= chart_preference.hide_table %></td>
+        <td><%= chart_preference.user %></td>
+        <td><%= link_to 'Show', chart_preference %></td>
+        <td><%= link_to 'Edit', edit_chart_preference_path(chart_preference) %></td>
+        <td><%= link_to 'Destroy', chart_preference, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Chart Preference', new_chart_preference_path %>

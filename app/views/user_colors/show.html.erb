@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @user_color.color %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_color.user %>
+</p>
+
+<%= link_to 'Edit', edit_user_color_path(@user_color) %> |
+<%= link_to 'Back', user_colors_path %>

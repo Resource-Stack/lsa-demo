@@ -1,0 +1,306 @@
+
+<p id="notice"><%= notice %></p>
+
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">New Elastic Policy</h6>
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+
+                    <%= link_to 'Elastic Policies', elastic_policies_path, class: 'dropdown-item' %>
+                  </li>
+                </ul>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <%= form_with(model: elastic_policy, local: true) do |form| %>
+                  <% if elastic_policy.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(elastic_policy.errors.count, "error") %> prohibited this elastic_policy from being saved:</h2>
+
+                      <ul>
+                      <% elastic_policy.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
+                  <!-- TITLE -->
+                  <div class="row">
+                    <div class="col">
+                      <div class="field">
+                        <%= form.label :title  %>
+                        <%= form.text_field :title,class: 'form-control' %>
+                      </div>
+                    </div>
+                    <!-- SOURCE -->
+              <div class="col">
+                <%= form.label :source_id %>
+                <%= form.select :source_id, options_for_select(@sources.collect{ |u| [u.source_title, u.id]}), {},{ :class => 'form-control' } %>
+              </div>
+              <!--Removing to use a dropdown. Potentially will need to add multiple souces
+                   <div class="col">
+                      <div class="field">
+
+                        <label>Source <i class="fa fa-plus" id="add_source"></i></label>
+                        <# %= form.text_field :source, id: 'source' ,class: 'form-control'%> 
+
+                        <sub id="current_source_values">Added Sources</sub>
+                      </div>
+                    </div>
+                  
+              -->
+              </div>
+                  <!-- INPUT -->
+                  <div class="row">
+                    <div class="col">
+                        <h5 style="text-align: center;">Input Requirement  <i class="fa fa-plus" id="add_input"></i></h5>
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Header Value</th>
+                              <th>Value</th>
+                            </tr>
+                          </thead>
+
+                          <tbody id="input_div">
+                            <tr id="input_fields" >
+                              <td>
+                                <select id="input_requirement_header_id" class="input_requirement_select" name="Device Type">
+                                  <option>Select</option>
+                                  <% @headerValues.each do |x| %>
+                                    <option><%= x %></option>
+                                  <% end %>
+                                </select>
+                              </td>
+ 
+                              <td>
+                                <select id="input_requirement_value_id" name="Device Type" class="input_requirement_value">
+                                  <option>Header 1st</option>                                  
+                                </select>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+
+                    <!-- OutPut-->
+                    <div class="col">
+                        <h5 style="text-align: center;">Output Mapping <i class="fa fa-plus" id="add_output"></i></h5>
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Report Type</th>
+                              <th>Report Value</th>
+                            </tr>
+                          </thead>
+
+                          <tbody id="output_div">
+                            <tr id="output_fields" >
+                              <td>
+                                <select id= 'elastic_policy_report_type_id' class="report_type_select">
+                                  <option>Select</option>
+                                  <% @report_types.each do |x| %>
+                                    <option><%= x.title %></option>
+                                  <% end %>
+                                </select>
+                              </td>
+
+                              <td>
+                                <select id="elastic_policy_report_values_id" class="report_value_select">
+                                  <option>Select Type</option>
+                                </select>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+
+                  </div>
+
+                <% end %>
+                <button id ="submission" class="btn btn-primary"> Submit Policy</button>
+            </div>
+        </div>
+    </div>
+
+
+    
+<script type="text/javascript">
+
+    var add_input = document.getElementById('add_input');
+    var input_fields = document.getElementById('input_fields');
+    var input_div = document.getElementById('input_div');
+    //
+    var add_output = document.getElementById('add_output');
+    var output_fields = document.getElementById('output_fields');
+    var output_div = document.getElementById('output_div');
+    //
+
+    //var source_input = document.getElementById('source')
+    //var add_source = document.getElementById('add_source')
+    //var current_source_values = document.getElementById('current_source_values')
+    var source_input = document.getElementById('elastic_policy_source_id')
+    //
+    var input_requirement_select = document.getElementsByClassName('input_requirement_select');
+    var input_requirement_value = document.getElementsByClassName('input_requirement_value')
+    var report_type_select = document.getElementsByClassName('report_type_select');
+    var report_value_select = document.getElementsByClassName('report_value_select')
+    var policy_title = document.getElementById('elastic_policy_title')
+
+    var output_key = []
+    var output_value = []
+    var input_key = []
+    var input_value = []
+    var submission = document.getElementById('submission')
+  // Ajax Submit
+    submission.addEventListener('click', function(){
+
+        //source
+        var selected_source = source_input.options[source_input.selectedIndex].text
+
+        for (var i =0; i < report_type_select.length; i++){
+          report_type =report_type_select[i].options[report_type_select[i].selectedIndex].text
+          report_value = report_value_select[i].options[report_value_select[i].selectedIndex].text
+          output_key.push(report_type)
+          output_value.push(report_value)
+        };
+
+      // input 
+        for (var i =0; i < input_requirement_select.length; i++){
+          key =input_requirement_select[i].options[input_requirement_select[i].selectedIndex].text
+          value = input_requirement_value[i].options[input_requirement_value[i].selectedIndex].text
+          input_key.push(key)
+          input_value.push(value)
+        }; 
+
+              var mydata = {
+                  title: policy_title.value,
+                  source: selected_source, //current_source_values.innerHTML,
+                  output_keys: output_key,
+                  output_values: output_value,
+                  input_keys: input_key,
+                  input_values: input_value
+              }   
+
+               Rails.ajax({
+                    type: "POST", 
+                    url: "/create_policy", 
+                    data: new URLSearchParams(mydata).toString(), 
+                })
+    })
+
+
+
+
+
+
+  //
+
+  //Ajax Output
+    output_change_listener();
+    function output_change_listener(){
+        for (var i =0; i < report_type_select.length; i++){
+          report_type_select[i].addEventListener('change', function(e){
+              //console.log("What am i clicking on", e);
+              var report_values_type = e.srcElement
+              console.log("values type", report_values_type.id)
+              
+              var field_selected = report_values_type.options[report_values_type.selectedIndex].text
+              //console.log("here",field_selected)
+              var mydata = {
+                  field_selection: field_selected,
+                  id_selection: report_values_type.id
+              }   
+
+               Rails.ajax({
+                    type: "POST", 
+                    url: "/update_output", 
+                    data: new URLSearchParams(mydata).toString(), 
+                })
+            })
+          }
+    }
+
+  //
+
+  // Ajax Input
+    input_change_listener();
+    function input_change_listener(){
+        for (var i =0; i < input_requirement_select.length; i++){
+          input_requirement_select[i].addEventListener('change', function(e){
+              //console.log("What am i clicking on", e);
+              var report_values_type = e.srcElement
+              console.log("values type", report_values_type.id)
+              
+              var field_selected = report_values_type.options[report_values_type.selectedIndex].text
+              //console.log("here",field_selected)
+              var mydata = {
+                  field_selection: field_selected,
+                  id_selection: report_values_type.id
+              }   
+
+               Rails.ajax({
+                    type: "POST", 
+                    url: "/update_input", 
+                    data: new URLSearchParams(mydata).toString(), 
+                })
+            })
+          }
+    }
+  //
+
+/*
+  // Add to source 
+    var source_collection = []
+    add_source.addEventListener('click', function(){
+      //var source_collection = source.value.split(',')
+      source_collection.push(source_input.value)
+      current_source_values.innerHTML = source_collection
+      source_input.value = ''
+    })
+  //
+*/
+  // Clone Output
+    var clickCount = 0
+    add_output.addEventListener('click', function(){
+      clickCount += 1
+      var cloneDiv = output_fields.cloneNode(true);
+      var cloneDivSelectType = cloneDiv.children[0].firstElementChild
+      var cloneDivSelect = cloneDiv.children[1].firstElementChild
+
+      cloneDivSelect.id = 'elastic_policy_report_values_id' + '_' + clickCount
+      cloneDivSelectType.id = 'elastic_policy_report_type_id' + '_' + clickCount
+      console.log("THIS", cloneDiv.children[1].firstElementChild)
+      cloneDiv.id = "newID" + clickCount //this needs to be randomized/unique
+      output_div.appendChild(cloneDiv);
+      //update the collection
+      report_type_select = document.getElementsByClassName('report_type_select');
+      output_change_listener()
+    })
+  //
+
+  // Clone Input Requirements
+  var clickCountInput = 0
+    add_input.addEventListener('click', function(){
+      clickCountInput += 1
+      var cloneInputDiv = input_fields.cloneNode(true);
+      var cloneDivSelectTypeInput = cloneInputDiv.children[0].firstElementChild
+      var cloneDivSelectInput = cloneInputDiv.children[1].firstElementChild
+
+      cloneDivSelectTypeInput.id = "input_requirement_header_id" + '_' + clickCountInput
+      cloneDivSelectInput.id = "input_requirement_value_id" + '_' + clickCountInput
+      cloneInputDiv.id = "input_div_" + clickCountInput //this needs to be randomized/unique
+      input_div.appendChild(cloneInputDiv);
+      input_change_listener();
+    })
+
+  //
+
+
+
+
+</script>

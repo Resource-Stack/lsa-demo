@@ -1,0 +1,41 @@
+
+<% if notice.present? %>
+  <div id="notice" class="alert alert-dark" role="alert">
+      <%= notice %>
+  </div>
+<% end %>
+
+
+<p>
+  <strong>Error:</strong>
+  <%= @csv_upload.flagged %> 
+</p>
+
+<p>
+  <strong>Mapped Fields :</strong>
+  <%= @masterRow %>
+</p>
+
+<p>
+  <strong>Uploaded Fields :</strong>
+  <%= @current_row %>
+</p>
+
+<p>
+  <strong>Unidentified Fields :</strong>
+  <%= @unidentifiedValues %>
+</p>
+
+
+<h3>Add Rule</h3>
+  <%= link_to 'Add Rule', add_data_dictionary_path, class: 'btn btn-primary text-white', remote: true  %>
+  <%= link_to 'Add Exception', add_data_dump_path, class: 'btn btn-primary text-white', remote: true  %>
+
+<div id="rule_div"></div>
+
+
+
+<hr>
+
+<%= link_to 'Edit', edit_csv_upload_path(@csv_upload) %> |
+<%= link_to 'Back', csv_uploads_path %>

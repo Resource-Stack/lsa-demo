@@ -1,0 +1,27 @@
+
+	<table class="table table-striped dashboardTable">
+	    <thead>
+	        <tr>
+	        <% @headerValues.each do |value| %>
+	                <td><%= value %></td>        
+	        <% end %>
+	        </tr>
+	    </thead>
+	    
+	    <tbody>
+	        <% @query_data_rows.each do |data| %>
+	            <tr>
+	                <% count = 0 %>
+	                    <% JSON.parse(data).each do |k,v| %>
+	                        <td>
+	                            <% if k == @headerValues[count] %>
+	                                <%= v %>
+	                            <% end %>
+	                        </td>
+	                        <% count +=1 %>
+	                    <% end %>
+
+	            </tr>
+	        <% end %>
+	    </tbody>
+	</table>

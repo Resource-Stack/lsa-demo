@@ -1,0 +1,180 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container-fluid">
+
+  <div class="row" style="text-align: center; ">
+    <div class="col">
+      <h3>ABC Company</h3>
+      <h3>Cyber and Asset Dashboard</h3>
+      <p>Today's Date is: <%= Date.today %> </p>       
+    </div>
+            <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <%= link_to 'Download Policies', download_policies_path %> 
+          </li>
+        </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+
+      <%= line_chart ElasticReport.all.group_by_month(:data_creation_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
+    </div>
+  </div>
+
+<hr>
+<!-- Charts -->
+<div class="row">
+  <% count = 0 %>
+  <% @brewed.each do |k,v| %>
+    <div class="col-lg-4 col-md-4 col-sm-4 d-sm-inline-block">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6>  Total: <%= (v.map{|x| x[1]}).sum %>   </h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <h6 class="m-0 font-weight-bold text-primary"> <%= k %> </h6>
+              <!-- -->
+                <div class="chartKickGraph" id='<%="field_pie_" + count.to_s%>'> 
+                  <%= pie_chart(v, legend: true, colors: @user_colors) %> 
+                  <hr>
+                             
+                </div>
+
+                <div class="displayBarChart chartKickGraph" id= <%="field_bar_" + count.to_s%> >
+                    <%= column_chart(v, download: true) %>
+                </div>
+
+                <div class="displayColumnChart chartKickGraph" id= <%="column_bar_" + count.to_s%> >
+                    <%= bar_chart(v, download: true) %>
+                </div>
+              
+              <!-- -->
+            </div>
+            <div class="card-body">    
+                <ul class="nav justify-content-left">
+                  <li class="nav-item">
+                   <button class="dropdown-item card-link PieChart" id=<%=count.to_s%>> Pie</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="dropdown-item card-link BarChart" id=<%=count.to_s%>> Bar </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="dropdown-item card-link ColumnChart" id=<%=count.to_s%>>Col</button>
+                  </li>
+                </ul>
+            </div>
+               <% count+=1 %>
+        </div>
+    </div>
+  <% end %>
+</div>
+
+
+<%  @over_all.each do |k,v| %>
+  <% if !v[0].nil? %>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 d-sm-inline-block">
+            <div class="card shadow mb-4">
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6><%= k%></h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                        <%= line_chart v[0].map { |kilo,vega|
+                            {name: kilo, data: vega}
+                        } %>
+              </div>
+          </div>
+    </div>
+  </div>
+  <% end %>
+ <% end %>
+
+
+
+
+
+<script type="text/javascript">
+
+    //add data tag with chart data
+    var chartKickGraph = document.getElementsByClassName('chartKickGraph')
+      for (var i =0; i < chartKickGraph.length; i++){
+            var current_chart = chartKickGraph[i]
+            var chart = Chartkick.charts[current_chart.firstElementChild.id]
+            current_chart.setAttribute('data-chart-data', JSON.stringify(chart.getData()));
+          }
+
+    // Activate Bar Chart
+    var barcharts = document.getElementsByClassName('BarChart')
+    for (var i =0; i < barcharts.length; i++){
+            barcharts[i].addEventListener('click', function(e){
+
+              hidePie(e.srcElement.id)
+              hideColumn(e.srcElement.id)
+              //Display Bar Chart
+              var barChart = 'field_bar_' + e.srcElement.id
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'block';
+
+          })
+        }
+
+    // Activate Bar Chart
+    var piecharts = document.getElementsByClassName('PieChart')
+    for (var i =0; i < piecharts.length; i++){
+            piecharts[i].addEventListener('click', function(e){
+              hideBar(e.srcElement.id)
+              hideColumn(e.srcElement.id)
+              //Display Pie Chart
+              var currentID = 'field_pie_' + e.srcElement.id
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'block';
+
+          })
+        }
+    // Activate Column Chart
+    var columncharts = document.getElementsByClassName('ColumnChart')
+    for (var i =0; i < columncharts.length; i++){
+            columncharts[i].addEventListener('click', function(e){
+
+              hidePie(e.srcElement.id)
+              hideBar(e.srcElement.id)
+              //Show Column Chart
+              var currentColumn = 'column_bar_' + e.srcElement.id
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'block';
+
+
+          })
+        }
+
+    function hidePie(e){
+            //Hide Pie Chart
+              var currentID = 'field_pie_' + e
+              var currentCard = document.getElementById(currentID);
+              currentCard.style.display = 'none';
+    }
+
+    function hideBar(e){
+
+              //Hide Bar Chart
+              var barChart = 'field_bar_' + e
+              var activateBar = document.getElementById(barChart);
+              activateBar.style.display = 'none';
+    }
+
+    function hideColumn(e){
+              var currentColumn = 'column_bar_' + e
+              var columnDiv = document.getElementById(currentColumn);
+              columnDiv.style.display = 'none';
+    }
+</script>
+
+
+
+

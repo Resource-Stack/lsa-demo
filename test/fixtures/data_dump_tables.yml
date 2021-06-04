@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  source_id: 1
+  csv_header_name: MyString
+  csv_row_value: MyString
+
+two:
+  user_id: 1
+  source_id: 1
+  csv_header_name: MyString
+  csv_row_value: MyString

@@ -1,0 +1,54 @@
+
+
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<%= form_with(model: @data_dictionary, local: true) do |form| %>
+
+
+			  <div class="field">
+			    <%= form.label :user_id %>
+			    <%= form.text_field :user_id, :value => current_user.id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :forescout_id %>
+			    <%= form.number_field :forescout_id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :source_id %>
+			    <%= form.number_field :source_id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :admin_id %>
+			    <%= form.number_field :admin_id %>
+			  </div>
+
+			  <p>For testing, use user 1</p>
+			  <div class="field">
+			    <%= form.label :admin_id %>
+			    <%= form.number_field :admin_id %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :csv_header_name %>
+			    <%= form.text_field :csv_header_name %>
+			  </div>
+
+			  <div class="field">
+			    <%= form.label :maps_to %>
+			    <%= form.select :maps_to, options_for_select(@masterRow) %> 
+			  </div>
+
+			  <div class="actions">
+			    <%= form.submit %>
+			  </div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+

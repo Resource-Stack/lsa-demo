@@ -1,0 +1,61 @@
+
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Elastic Policies</h6>
+                  <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                      <%= link_to 'New Elastic Policy', new_elastic_policy_path, class: 'dropdown-item' %>
+                    </li>
+                    <li class="nav-item">
+                      <%= link_to 'Refresh Data', false_create_path, method: :post, class: 'dropdown-item' %>
+                    </li>
+
+                  </ul>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <p id="notice"><%= notice %></p>
+
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Source</th>
+                    <th>Input requirements</th>
+                    <th>Policy output</th>
+                    
+                    <th colspan="2"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @elastic_policies.each do |elastic_policy| %>
+                    <tr>
+                      <td><%= elastic_policy.title %></td>
+                      <td><%= elastic_policy.source %></td>
+                      <td>
+                        <% elastic_policy.input_requirements.values.each do |k,v| %>
+                          <%= k['key'] %> : <%= k['value']%><br>
+                        <% end %>
+                      </td>
+                      <td>
+                        <% elastic_policy.policy_output.values.each do |key,value| %>
+                          <%= key['key'] %> : <%= key['value']%><br>
+                        <% end %>
+                        
+                      </td>
+                      
+
+                      <td><%= link_to 'Edit', edit_elastic_policy_path(elastic_policy) %></td>
+                      <td><%= link_to 'Destroy', elastic_policy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
