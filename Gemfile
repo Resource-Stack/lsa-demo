@@ -41,6 +41,7 @@ gem 'jquery-rails'
 gem "chartkick"
 gem 'groupdate'
 gem 'httparty'
+gem 'elasticsearch'
 
 gem 'redis'
 gem 'redis-namespace'

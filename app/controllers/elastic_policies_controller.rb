@@ -3,9 +3,10 @@ class ElasticPoliciesController < ApplicationController
   before_action :authenticate_user!
   # GET /elastic_policies or /elastic_policies.json
   include ElasticPoliciesHelper
+  require 'elasticsearch'
   def index
     @elastic_policies = ElasticPolicy.all
-
+    hello = User.search("divyanshu").records
    
 
   end

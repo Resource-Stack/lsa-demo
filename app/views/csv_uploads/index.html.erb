@@ -1,116 +1,50 @@
-<p id="notice"><%= notice %></p>
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">My Uploads</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Action:</div>
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">My Uploads</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Action:</div>
 
-                                            <%= link_to 'New Upload', new_csv_upload_path, class: 'dropdown-item' %>
+                        <%= link_to 'New Upload', new_csv_upload_path, class: 'dropdown-item' %>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <table class="table table-striped">
-                                      <thead>
-                                        <tr>
-                                          <th style="text-align: center;">Error</th>
-                                          <th style="text-align: center;">Submitted</th>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
 
-                                          <th colspan="3"></th>
+                        <th> csv_file </th>
+                        <th> csv_upload_date </th>
+                        <th> logstash_path </th>
+                        <th> logstash_host </th>
+                        <th> logstash_index </th>
 
-                                        </tr>
-                                      </thead>
+                    </tr>
+                  </thead>
 
-                                      <tbody>
-                                        <% @csv_uploads.each do |csv_upload| %>
-                                          <tr>
-
-                                            <% if csv_upload.flagged == true %>
-                                              <td style="background-color: #C82333; text-align: center;"><button id="validate_order" onclick="validation(<%= csv_upload.id %>)">Validate</button></i></td>
-                                            <% else %>
-                                              <td style=" text-align: center;">
-                                                No Error <i class="fa fa-check">
-                                              </td>
-                                            <% end %>
-
-
-                                            <% if csv_upload.uploaded == false && csv_upload.flagged == false  %>
-                                              <td style="text-align: center;">
-                                                <button id="submit_csv" onclick="submit(<%= csv_upload.id %>)">Submit</button>
-                                              </td>
-                                              
-                                            <% elsif csv_upload.uploaded == false && csv_upload.flagged == true %>
-                                              <td style="background-color: #C82333; text-align: center;">
-                                                Please Validate
-                                              </td>
-
-                                            <% else %>
-                                              <td style="text-align: center;">
-                                                <p>Submitted</p>
-                                              </td>
-                                            <% end %>
-
-
-                                            <td><%= link_to 'Show', csv_upload %></td>
-                                            <td><%= link_to 'Edit', edit_csv_upload_path(csv_upload) %></td>
-                                            <td><%= link_to 'Destroy', csv_upload, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-
-                                          </tr>
-                                        <% end %>
-                                      </tbody>
-                                    </table>
-
-                                    <br>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
-
-
-<script type="text/javascript">
-  
-  var validate = document.getElementById('validate_order');
-  var validate = document.getElementById('submit_csv');
-
-
-  function validation(csv_id) {
-    console.log(csv_id)
-    var mydata = { csv_id: csv_id } 
-      var data = new URLSearchParams(mydata).toString()
-
-      Rails.ajax({
-        type: "POST", 
-        url: "/validate",
-        data: data,
-      })
-  }
-  function submit(csv_id) {
-    console.log(csv_id)
-    var mydata = { csv_id: csv_id } 
-      var data = new URLSearchParams(mydata).toString()
-
-      Rails.ajax({
-        type: "POST", 
-        url: "/submit",
-        data: data,
-      })
-  }
-
-</script>
-
+                  <tbody>
+                    <% @csv_uploads.each do |csv_upload| %>
+                    <tr>
+                        <td> <%= csv_upload.csv_file %> </td>
+                        <td> <%= csv_upload.csv_upload_date %> </td>
+                        <td> <%= csv_upload.logstash_path %> </td>
+                        <td> <%= csv_upload.logstash_host %> </td>
+                        <td> <%= csv_upload.logstash_index %> </td>
+                    </tr>
+                    <% end %>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>

@@ -1,5 +1,5 @@
 class ElasticPolicy < ApplicationRecord
 
-	
+
 
 end

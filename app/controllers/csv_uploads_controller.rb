@@ -7,12 +7,32 @@ class CsvUploadsController < ApplicationController
 
   # GET /csv_uploads or /csv_uploads.json
   def index
-    #@csv_uploads = CsvUpload.all
-    @csv_uploads = current_user.csv_uploads
+    @csv_uploads = CsvUpload.all
+
   end
 
   # GET /csv_uploads/1 or /csv_uploads/1.json
   def show
+    if @csv_upload.logstash_column == [] || @csv_upload.logstash_column == nil
+      p 'first time?'
+      up_logstash_column = []
+      @count = 0
+      CSV.parse( @csv_upload.csv_file.download, headers: false) do |row|
+        if @count == 0
+          p row
+          up_logstash_column = row
+        end 
+        @count+=1
+      end 
+      @csv_upload.update_attribute(:logstash_column, up_logstash_column)
+    end 
+
+    #Create LogStash Conf and Copy CSV
+    @csv_upload.process_attachment
+    @csv_upload.construct_conf_file
+    #system("bin/logstash -f /csv_uploads/logstash_conf.conf")
+
+=begin
     logger.debug("csv show:: #{@csv_}")
     @count = 0
     @current_row = []
@@ -51,15 +71,15 @@ class CsvUploadsController < ApplicationController
         end 
       end  
     end 
-
-
-
-
+=end
   end 
 
   # GET /csv_uploads/news
   def new
     @csv_upload = CsvUpload.new
+    @default_path = Dir.pwd + '/csv_uploads/'
+    @default_host = 'http://dev15.resourcestack.com:9200/'
+    @default_index = 'cyberapplicationplatformv2'
   end
 
   # GET /csv_uploads/1/edit
@@ -70,6 +90,9 @@ class CsvUploadsController < ApplicationController
   def create
     #we do this step to gain access to the CSV. CHANGE
     @csv_upload = CsvUpload.new(csv_upload_params)
+
+
+=begin
     @modified_paramters = csv_upload_params
 
     validation_array = []
@@ -106,13 +129,16 @@ class CsvUploadsController < ApplicationController
     end 
 
     @csv_offical_upload = CsvUpload.new(@modified_paramters)
+
+
+=end
     respond_to do |format|
-      if @csv_offical_upload.save
-        format.html { redirect_to @csv_offical_upload, notice: "Csv upload was successfully created." }
-        format.json { render :show, status: :created, location: @csv_offical_upload }
+      if @csv_upload.save
+        format.html { redirect_to @csv_upload, notice: "Csv upload was successfully created." }
+        format.json { render :show, status: :created, location: @csv_upload }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @csv_offical_upload.errors, status: :unprocessable_entity }
+        format.json { render json: @csv_upload.errors, status: :unprocessable_entity }
       end
     end
 
@@ -315,7 +341,7 @@ class CsvUploadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def csv_upload_params
-      params.require(:csv_upload).permit(:user_id, :source_id, :policy_id, :forescout_id, :flagged, :uploaded, :csv_file, :csv_upload_date)
+      params.require(:csv_upload).permit( :source_id, :uploaded, :csv_upload_date, :logstash_path, :logstash_column, :logstash_host, :logstash_index, :csv_file)
     end
 
 

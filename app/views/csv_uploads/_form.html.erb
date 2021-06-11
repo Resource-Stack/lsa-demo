@@ -35,11 +35,6 @@
                                     </div>
                                   <% end %>
 
-                                      <div class="field " style="opacity: 0">
-                                        <%= form.label :user_id %>
-                                        <%= form.text_field :user_id, :value => current_user.id %>
-                                      </div>
-
                                       <div class="field">
                                         <%= form.label :csv_file %>
                                         <%= form.file_field :csv_file %>
@@ -49,6 +44,24 @@
                                         <%= form.label :csv_upload_date %> 
                                         <%= form.date_field :csv_upload_date %>
                                       </div>
+
+
+<!-- -->
+
+                                      <div class="field">
+                                        <%= form.label :logstash_path %>
+                                        <%= form.text_field :logstash_path, value: @default_path %>
+                                      </div>
+                              
+                                      <div class="field">
+                                        <%= form.label :logstash_host %>
+                                        <%= form.text_field :logstash_host, value: @default_host  %>
+                                      </div>
+                                      <div class="field">
+                                        <%= form.label :logstash_index %>
+                                        <%= form.text_field :logstash_index, value: @default_index  %>
+                                      </div>
+<!-- -->
 
                                       <div class="actions">
                                         <%= form.submit %>
