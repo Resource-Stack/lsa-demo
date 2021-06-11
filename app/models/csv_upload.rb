@@ -18,7 +18,9 @@ has_one_attached :csv_file
 
 	def process_attachment      
 		p 'Process Attachment'
-	   pdf_attachment_path = Dir.pwd + '/logstash_folder' + "/#{csv_file.filename}"
+		#On Server, write to /home/esadmin/es_data/
+		pdf_attachment_path = "/home/esadmin/es_data" + "/#{csv_file.filename}"
+	  #pdf_attachment_path = Dir.pwd + '/logstash_folder' + "/#{csv_file.filename}"
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
 	       file.write(csv_file.download)
@@ -47,8 +49,8 @@ has_one_attached :csv_file
 							  }
 							stdout {}
 							}"
-
-		path = Dir.pwd + '/logstash_folder' + "/logstash_conf.conf"
+		path = "/home/esadmin/es_data/" + "/logstash_conf.conf"
+		#path = Dir.pwd + '/logstash_folder' + "/logstash_conf.conf"
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
 		end

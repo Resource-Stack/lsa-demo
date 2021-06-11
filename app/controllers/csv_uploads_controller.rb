@@ -29,8 +29,8 @@ class CsvUploadsController < ApplicationController
 
     #Create LogStash Conf and Copy CSV
     @csv_upload.process_attachment
-    @csv_upload.construct_conf_file
-    #system("bin/logstash -f /csv_uploads/logstash_conf.conf")
+    @csv_upload.construct_conf_file 
+    #system("bin/logstash -f /etc/logstash/conf.d/logstash_conf.conf")
 
 =begin
     logger.debug("csv show:: #{@csv_}")
