@@ -30,7 +30,9 @@ class CsvUploadsController < ApplicationController
     #Create LogStash Conf and Copy CSV
     @csv_upload.process_attachment
     @csv_upload.construct_conf_file 
-    #system("bin/logstash -f /etc/logstash/conf.d/logstash_conf.conf")
+    #system("sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/csv-read.conf")
+    #Somehow, we need to stop logstash after it is finished syste(control + C)
+    # killall -2 Logstash
 
 =begin
     logger.debug("csv show:: #{@csv_}")
@@ -78,7 +80,7 @@ class CsvUploadsController < ApplicationController
   def new
     @csv_upload = CsvUpload.new
     @default_path = Dir.pwd + '/csv_uploads/'
-    @default_host = 'http://dev15.resourcestack.com:9200/'
+    @default_host = "159.203.165.143:9200"
     @default_index = 'cyberapplicationplatformv2'
   end
 

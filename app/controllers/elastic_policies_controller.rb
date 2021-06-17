@@ -6,9 +6,6 @@ class ElasticPoliciesController < ApplicationController
   require 'elasticsearch'
   def index
     @elastic_policies = ElasticPolicy.all
-    hello = User.search("divyanshu").records
-   
-
   end
 
   # GET /elastic_policies/1 or /elastic_policies/1.json

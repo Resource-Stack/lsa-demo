@@ -18,8 +18,9 @@ has_one_attached :csv_file
 
 	def process_attachment      
 		p 'Process Attachment'
-		#On Server, write to /home/esadmin/es_data/
-		pdf_attachment_path = "/home/esadmin/es_data" + "/#{csv_file.filename}"
+		#On Server, write to /home/alpha/csv-data/
+		pdf_attachment_path = "/home/alpha/csv-data/" + "#{csv_file.filename}"
+		#local
 	  #pdf_attachment_path = Dir.pwd + '/logstash_folder' + "/#{csv_file.filename}"
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
@@ -33,7 +34,7 @@ has_one_attached :csv_file
 							  file {
 							    path => #{self.logstash_path} 
 							    start_position => 'beginning'
-							   sincedb_path => '/dev/null'
+							    sincedb_path => '/dev/null'
 							  }
 							}
 							filter {
@@ -41,16 +42,24 @@ has_one_attached :csv_file
 							      separator => ','
 							      columns => #{self.logstash_column}
 							  }
+							    mutate {
+          					remove_field => ['message','@timestamp','path','host','@version']
+  								}
 							}
 							output {
 							   elasticsearch {
-							     hosts => #{self.logstash_host}
+							     hosts => 'http://localhost:9200'
 							     index => #{self.logstash_index}
 							  }
 							stdout {}
 							}"
-		path = "/home/esadmin/es_data/" + "/logstash_conf.conf"
+
+		#server path
+		path = "/etc/logstash/conf.d/logstash_conf.conf"
+
+		#local path
 		#path = Dir.pwd + '/logstash_folder' + "/logstash_conf.conf"
+		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
 		end
