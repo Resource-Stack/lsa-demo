@@ -20,6 +20,9 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: lsa-demo
+  password: 
+  host: localhost
 
 development:
   <<: *default
@@ -81,5 +84,5 @@ test:
 production:
   <<: *default
   database: lsa_Ruby_production
-  username: lsa_Ruby
-  password: <%= ENV['LSA_RUBY_DATABASE_PASSWORD'] %>
+  #username: lsa_Ruby
+  #password: <%= ENV['LSA_RUBY_DATABASE_PASSWORD'] %>
