@@ -45,18 +45,13 @@ has_one_attached :csv_file
 							}
 							output {
 							   elasticsearch {
-							     hosts => 'http://localhost:9200'
-							     index => 'testing_index'
+							     hosts => ['http://localhost:9200', 'http://165.227.192.85:9200']
+							     index => #{self.logstash_index}
 							  }
 							stdout {}
 							}"
 
-		#server path
-		#path = "/etc/logstash/conf.d/rails_conf.conf"
 		path = Dir.pwd + "/logstash_folder/" + "rails_conf.conf"
-
-		#local path
-		#path = Dir.pwd + '/logstash_folder' + "/logstash_conf.conf"
 		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
