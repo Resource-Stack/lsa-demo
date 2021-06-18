@@ -19,7 +19,7 @@ has_one_attached :csv_file
 	def process_attachment      
 		p 'Process Attachment'
 		#On Server, write to /home/alpha/csv-data/
-		pdf_attachment_path = "/home/alpha/csv-data/" + "#{csv_file.filename}"
+		pdf_attachment_path = "/home/augustus/csv-data/" + "#{csv_file.filename}"
 		#local
 	  #pdf_attachment_path = Dir.pwd + '/logstash_folder' + "/#{csv_file.filename}"
 	   
@@ -55,7 +55,7 @@ has_one_attached :csv_file
 							}"
 
 		#server path
-		path = "/etc/logstash/conf.d/logstash_conf.conf"
+		path = "/etc/logstash/conf.d/rails_conf.conf"
 
 		#local path
 		#path = Dir.pwd + '/logstash_folder' + "/logstash_conf.conf"
