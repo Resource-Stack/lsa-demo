@@ -16,10 +16,10 @@ has_one_attached :csv_file
   end
 
 
-	def process_attachment      
+	def process_attachment       
 		p 'Process Attachment'
 		#On Server, write to /home/alpha/csv-data/
-		pdf_attachment_path = "/home/augustus/csv-data/" + "#{csv_file.filename}"
+		pdf_attachment_path = "/home/augustus/csv-data/new_csv.csv" #+ "#{csv_file.filename}"
 		#local
 	  #pdf_attachment_path = Dir.pwd + '/logstash_folder' + "/#{csv_file.filename}"
 	   
@@ -30,32 +30,33 @@ has_one_attached :csv_file
 
 	def construct_conf_file
 				
-			conf_string = "input {
+			conf_string = 'input {
 							  file {
-							    path => #{self.logstash_path} 
-							    start_position => 'beginning'
-							    sincedb_path => '/dev/null'
+							    path => "/home/augustus/csv-data/new_csv.csv"
+							    start_position => "beginning"
+							    sincedb_path => "/dev/null"
 							  }
 							}
 							filter {
 							  csv {
-							      separator => ','
+							      separator => ","
 							      columns => #{self.logstash_column}
 							  }
 							    mutate {
-          					remove_field => ['message','@timestamp','path','host','@version']
+          					remove_field => ["message","@timestamp","path","host","@version"]
   								}
 							}
 							output {
 							   elasticsearch {
-							     hosts => 'http://localhost:9200'
-							     index => #{self.logstash_index}
+							     hosts => "http://localhost:9200"
+							     index => "testing_index"
 							  }
 							stdout {}
-							}"
+							}'
 
 		#server path
-		path = "/etc/logstash/conf.d/rails_conf.conf"
+		#path = "/etc/logstash/conf.d/rails_conf.conf"
+		path = "/home/augustus/csv-data/"
 
 		#local path
 		#path = Dir.pwd + '/logstash_folder' + "/logstash_conf.conf"
