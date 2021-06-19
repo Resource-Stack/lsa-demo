@@ -75,7 +75,7 @@ class MasterTablesController < ApplicationController
   def update_input
     p 'update input' 
     #Get A Value
-        tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
+        tightResponse = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500', 
               :body => {
                 :aggs => {
                   :langs => { 
@@ -183,7 +183,7 @@ class MasterTablesController < ApplicationController
     logger.debug("[STEP THREE]")
     #move into seperate logic
     if condition == "AND"
-        response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
+        response = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500',  
           :body => {
             :query => {
               :bool => {
@@ -200,7 +200,7 @@ class MasterTablesController < ApplicationController
             }
         )
     else # THIS IS AN OR STATEMENT
-        response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
+        response = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500',  
           :body => {
             :query => {
               :bool => {

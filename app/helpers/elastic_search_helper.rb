@@ -10,7 +10,7 @@ module ElasticSearchHelper
     if elastic_all_values.nil? #&& elastic_all_values.length > 1
     # GET ALL
       #response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
-      response = HTTParty.get('http://165.227.192.85:9200/cyberapplicationplatformv2/_search?size=500')
+      response = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500')
       #p '[MODULE MODULE MODULE]'
       @responseBody = JSON.parse(response.body)
       @hashHash = Hash.new  
@@ -57,7 +57,7 @@ module ElasticSearchHelper
           @keyValueCountHash = Hash.new 
           headerValues.each do |x|
                 #if x.to_s == 'path' || 'host '
-                  tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
+                  tightResponse = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500', 
                         :body => {
                           :aggs => {
                             :langs => { 
@@ -125,7 +125,7 @@ module ElasticSearchHelper
   def devices_over_time 
     p 'hit'
       #tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
-      tightResponse = HTTParty.get('http://165.227.192.85:9200/cyberapplicationplatformv2/_search?size=500', 
+      tightResponse = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500', 
                               :body => {
                                 :aggs => {
                                   :langs => { 

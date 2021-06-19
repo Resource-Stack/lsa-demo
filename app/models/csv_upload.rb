@@ -45,7 +45,7 @@ has_one_attached :csv_file
 							}
 							output {
 							   elasticsearch {
-							     hosts => ['http://localhost:9200', 'http://165.227.192.85:9200']
+							     hosts => 'http://localhost:9200'
 							     index => #{self.logstash_index}
 							  }
 							stdout {}

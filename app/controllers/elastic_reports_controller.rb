@@ -9,7 +9,7 @@ class ElasticReportsController < ApplicationController
 
   def find_by_id
       selected_id = params[:selected_id]
-        response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500',  
+        response = HTTParty.get('localhost:9200/cyberapplicationplatformv2/_search?size=500',  
           :body => {
             :query => {
               :bool => {
