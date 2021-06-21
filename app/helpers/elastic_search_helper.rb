@@ -1,16 +1,27 @@
 module ElasticSearchHelper
+  include AlphaHelper 
   require 'json'
 
-
   def fetch_all  
-    p "FETCH ALL"
+    #find index
+    begin
+      @getter = get_elastic_index
+      p 'getter success' 
+      logger.debug("one two #{@getter}")
+    rescue
+      p 'getter fail'
+      @getter = 'cyberapplicationplatformv2'
+    end 
+
+
+    #p "FETCH ALL"
     elastic_all_values = $redis.get("elastic_all_values") 
     #p elastic_all_values.class
     #p elastic_all_values.nil?
     if elastic_all_values.nil? #&& elastic_all_values.length > 1
     # GET ALL
       #response = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500')
-      response = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500')
+      response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500')
       #p '[MODULE MODULE MODULE]'
       @responseBody = JSON.parse(response.body)
       @hashHash = Hash.new  
@@ -37,7 +48,7 @@ module ElasticSearchHelper
   end 
 
   def fetch_summary
-      p "FETCH SUMMARY "
+      #p "FETCH SUMMARY "
       elastic_fetch_summ = $redis.get('elastic_fetch_summ')
       #p elastic_fetch_summ.nil?
       #p elastic_fetch_summ.class
@@ -57,7 +68,7 @@ module ElasticSearchHelper
           @keyValueCountHash = Hash.new 
           headerValues.each do |x|
                 #if x.to_s == 'path' || 'host '
-                  tightResponse = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500', 
+                  tightResponse = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500', 
                         :body => {
                           :aggs => {
                             :langs => { 
@@ -125,7 +136,7 @@ module ElasticSearchHelper
   def devices_over_time 
     p 'hit'
       #tightResponse = HTTParty.get('http://dev15.resourcestack.com:9200/cyberapplicationplatformv2/_search?size=500', 
-      tightResponse = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500', 
+      tightResponse = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500', 
                               :body => {
                                 :aggs => {
                                   :langs => { 

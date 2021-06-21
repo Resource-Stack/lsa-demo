@@ -2,6 +2,7 @@ class ChartPreferencesController < ApplicationController
   before_action :set_chart_preference, only: %i[ show edit update destroy ]
   before_action :set_header_values
   include ElasticSearchHelper
+  include AlphaHelper
 
   # GET /chart_preferences or /chart_preferences.json
   def index

@@ -1,6 +1,7 @@
 class ReportValuesController < ApplicationController
   before_action :set_report_value, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  include AlphaHelper
   # GET /report_values or /report_values.json
   def index
     @report_values = ReportValue.all

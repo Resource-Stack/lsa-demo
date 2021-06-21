@@ -1,7 +1,8 @@
 class CsvUploadsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_csv_upload, only: %i[ show edit update destroy ]
-  before_action :set_master_table, only: %i[ show edit validate submit create add_data_dictionary add_data_dump update destroy ]
+  include AlphaHelper
+  
 
   require 'csv'
 
@@ -33,52 +34,12 @@ class CsvUploadsController < ApplicationController
     #system("sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/csv-read.conf")
     #Somehow, we need to stop logstash after it is finished syste(control + C)
     # killall -2 Logstash
-
-=begin
-    logger.debug("csv show:: #{@csv_}")
-    @count = 0
-    @current_row = []
-
-    if @csv_upload.uploaded_from != nil 
-      associated_csv = CsvUpload.find_by(id: @csv_upload.uploaded_from)
-      CSV.parse( associated_csv.csv_file.download, headers: false) do |row|
-        if @count == 0
-          @current_row = row
-        end 
-        @count+=1
-      end 
-
-      @unidentifiedValues = []
-      @current_row.each do |i|
-        ind = i.to_s.rstrip
-        if !@masterRow.include?(ind) && !DataDictionary.find_by_csv_header_name(ind).present? && !DataDumpDictionary.find_by_csv_header_name(ind).present?
-          @unidentifiedValues.push(i)
-        end 
-      end  
-
-
-    else 
-      CSV.parse( @csv_upload.csv_file.download, headers: false) do |row|
-        if @count == 0
-          @current_row = row
-        end 
-        @count+=1
-      end 
-
-      @unidentifiedValues = []
-      @current_row.each do |i|
-        ind = i.to_s.rstrip
-        if !@masterRow.include?(ind) && !DataDictionary.find_by_csv_header_name(ind).present? && !DataDumpDictionary.find_by_csv_header_name(ind).present?
-          @unidentifiedValues.push(i)
-        end 
-      end  
-    end 
-=end
   end 
 
   # GET /csv_uploads/news
   def new
     @csv_upload = CsvUpload.new
+    @sources = Source.all
     @default_path = Dir.pwd + '/csv_uploads/'
     @default_host = "159.203.165.143:9200"
     @default_index = 'cyberapplicationplatformv2'
@@ -93,47 +54,6 @@ class CsvUploadsController < ApplicationController
     #we do this step to gain access to the CSV. CHANGE
     @csv_upload = CsvUpload.new(csv_upload_params)
 
-
-=begin
-    @modified_paramters = csv_upload_params
-
-    validation_array = []
-    @count = 0
-    CSV.parse( @csv_upload.csv_file.download, headers: false) do |row|
-      if @count == 0
-        current_row = row
-        p @masterRow
-        p current_row
-        ###The Money
-        row.each do |ind|
-          if ind != nil
-            p @masterRow
-              currentIndex = ind.to_s.rstrip
-              #need to change this to be user
-              #DataDictionary.where("user_id = current_user.id && csv_header_name")
-              #same with DataDump
-              if @masterRow.include?(currentIndex) || DataDictionary.find_by_csv_header_name(ind).present? || DataDumpDictionary.find_by_csv_header_name(ind).present?
-                validation_array.push("true")
-              else
-                validation_array.push("false")
-              end 
-            end 
-        end 
-
-      end 
-      @count+=1
-    end 
-    #Validate our finds
-    if validation_array.include?('false')
-      @modified_paramters['flagged'] = true
-    else
-      @modified_paramters['flagged'] = false
-    end 
-
-    @csv_offical_upload = CsvUpload.new(@modified_paramters)
-
-
-=end
     respond_to do |format|
       if @csv_upload.save
         format.html { redirect_to @csv_upload, notice: "Csv upload was successfully created." }
@@ -167,7 +87,8 @@ class CsvUploadsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+=begin
+###REMOVE
   def validate 
 
     my_csv = CsvUpload.find_by_id(params[:csv_id])
@@ -217,6 +138,7 @@ class CsvUploadsController < ApplicationController
 
   end 
 
+###REMOVE
   def submit     
     my_csv = CsvUpload.find_by_id(params[:csv_id])
     @current_row = []
@@ -334,6 +256,7 @@ class CsvUploadsController < ApplicationController
           format.js
         end
   end 
+=end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -347,9 +270,9 @@ class CsvUploadsController < ApplicationController
     end
 
 
-
+    #Could use to validate header against new updates
+    #before_action :set_master_table, only: %i[ show edit validate submit create add_data_dictionary add_data_dump update destroy ]
     def set_master_table
-
       if current_user.master_table.present?
 
         #this should be the master table belonging to the user.
@@ -369,7 +292,4 @@ class CsvUploadsController < ApplicationController
       end
     end
 
-    def upload_csv_first_row
-
-    end  
 end

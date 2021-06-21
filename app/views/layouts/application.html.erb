@@ -16,9 +16,20 @@
     <div id="wrapper">
                 <!-- Topbar -->
                 <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
-      
+                <ul class="nav justify-content-end">
+                  <li>Current: <%= @getter %></li><br>
+                  <li class="nav-item">
+                    <select id="elasticSelect" onchange="updateIndex()">
+                        <option>Select</option>
+                        <option>cyberapplicationplatformv2</option>
+                        <% @sources.each do |x| %>
+                            <option> <%= x.source_title %></option>
+                        <% end %>
+                    </select>
+                  </li>
+                </ul>
                 <!-- End of Topbar -->
-        <!-- -->
+        <!-- --> 
         <div id="sideNav"> 
             <div class="sidebar-header">
                 <h6 class="dropdown-header" ><u>INTERFACE</u></h6>
@@ -95,6 +106,21 @@
   </body>
 </html>
 
+
+<script type="text/javascript">
+    function updateIndex() {
+      var index_value = document.getElementById("elasticSelect").value;
+        var mydata = {
+            new_index: index_value
+        }
+
+         Rails.ajax({
+              type: "POST", 
+              url: "/update_index", 
+              data: new URLSearchParams(mydata).toString(), 
+          })
+    }
+</script>
 
 
 

@@ -1,6 +1,7 @@
 class SourcesController < ApplicationController
   before_action :set_source, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  include AlphaHelper
 
   # GET /sources or /sources.json
   def index

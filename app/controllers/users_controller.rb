@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+    include AlphaHelper
 
   def index
     @users = User.all

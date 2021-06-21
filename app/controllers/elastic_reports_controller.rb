@@ -1,6 +1,7 @@
 class ElasticReportsController < ApplicationController
   before_action :set_elastic_report, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  include AlphaHelper
 
   # GET /elastic_reports or /elastic_reports.json
   def index
@@ -8,8 +9,17 @@ class ElasticReportsController < ApplicationController
   end
 
   def find_by_id
+    begin
+      @getter = get_elastic_index
+      p 'getter success' 
+      logger.debug("one two #{@getter}")
+    rescue
+      p 'getter fail'
+      @getter = 'cyberapplicationplatformv2'
+    end 
+
       selected_id = params[:selected_id]
-        response = HTTParty.get('localhost:9200/cyberapplicationplatformv2/_search?size=500',  
+        response = HTTParty.get('localhost:9200/' + @getter +'/_search?size=500',  
           :body => {
             :query => {
               :bool => {

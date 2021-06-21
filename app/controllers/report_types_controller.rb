@@ -1,6 +1,7 @@
 class ReportTypesController < ApplicationController
   before_action :set_report_type, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  include AlphaHelper
 
   # GET /report_types or /report_types.json
   def index

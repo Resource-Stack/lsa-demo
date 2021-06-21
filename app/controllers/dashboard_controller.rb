@@ -5,13 +5,13 @@ class DashboardController < ApplicationController
 	#before_action :set_master_table, only: %i[ index timeRangeReport restrictParam findBy ]  
 	before_action :set_header_values
 	include ElasticSearchHelper
+	include AlphaHelper 
 	
 	def index
 		#user charts not desired
 		@user_colors = current_user.user_colors.pluck(:color)
-		#@user_colors = ["#b00", "#666"]
 		user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
-		p 'test'
+		#Summary
 		begin
 			p 'success'
 			@summary = fetch_summary[0]
@@ -73,6 +73,11 @@ class DashboardController < ApplicationController
       end 
 
 	end 
+
+	def update_index
+		set_elastic_index(params[:new_index])
+	end 
+
 
 	def tableView
 

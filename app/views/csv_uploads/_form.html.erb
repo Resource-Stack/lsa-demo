@@ -1,68 +1,56 @@
 
   
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">New Upload</h6>
-                                  <ul class="nav justify-content-end">
-                                    <li class="nav-item">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">New Upload</h6>
+              <ul class="nav justify-content-end">
+                <li class="nav-item">
 
-                                      <%= link_to 'New Upload', new_csv_upload_path, class: 'dropdown-item' %>
+                  <%= link_to 'New Upload', new_csv_upload_path, class: 'dropdown-item' %>
 
-                                    </li>
-                                  </ul>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                  <%= form_with(model: csv_upload, local: true) do |form| %>
-                                  <% if csv_upload.errors.any? %>
-                                    <div id="error_explanation">
-                                      <h2><%= pluralize(csv_upload.errors.count, "error") %> prohibited this csv_upload from being saved:</h2>
+                </li>
+              </ul>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <%= form_with(model: csv_upload, local: true) do |form| %>
+              <% if csv_upload.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(csv_upload.errors.count, "error") %> prohibited this csv_upload from being saved:</h2>
 
-                                      <ul>
-                                      <% csv_upload.errors.full_messages.each do |message| %>
-                                        <li><%= message %></li>
-                                      <% end %>
-                                      </ul>
-                                    </div>
-                                  <% end %>
+                  <ul>
+                  <% csv_upload.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
 
-                                      <div class="field">
-                                        <%= form.label :csv_file %>
-                                        <%= form.file_field :csv_file %>
-                                      </div>
+                  <div class="form-group">
+                    <%= form.label :csv_file %>
+                    <%= form.file_field :csv_file, class: 'form-control-file' %>
+                  </div> 
 
-                                      <div class="field">
-                                        <%= form.label :csv_upload_date %> 
-                                        <%= form.date_field :csv_upload_date %>
-                                      </div>
+                  <div class="form-group">
+                    <%= form.label :csv_upload_date %> 
+                    <%= form.date_field :csv_upload_date, class: 'form-control"' %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= form.label :logstash_index %>
+                    <%= form.select :logstash_index, options_for_select(@sources.collect{ |u| [u.source_title, u.source_title]}), {},{ :class => 'form-control' } %>
+                  </div>
 
 
-<!-- -->
-
-                                      <div class="field">
-                                        <%= form.label :logstash_path %>
-                                        <%= form.text_field :logstash_path, value: @default_path %>
-                                      </div>
-                              
-                                      <div class="field">
-                                        <%= form.label :logstash_host %>
-                                        <%= form.text_field :logstash_host, value: @default_host  %>
-                                      </div>
-                                      <div class="field">
-                                        <%= form.label :logstash_index %>
-                                        <%= form.text_field :logstash_index, value: @default_index  %>
-                                      </div>
-<!-- -->
-
-                                      <div class="actions">
-                                        <%= form.submit %>
-                                      </div>
-                                  
-                                <% end %>
-                                </div>
-                            </div>
-                        </div>
+                  <div class="actions">
+                    <%= form.submit %>
+                  </div>
+              
+            <% end %>
+            </div>
+        </div>
+    </div>
 

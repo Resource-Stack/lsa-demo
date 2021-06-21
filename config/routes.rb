@@ -61,6 +61,10 @@ Rails.application.routes.draw do
   post 'find_by_id', to: 'elastic_reports#find_by_id'
   get 'download_policies', to: 'table_entries#download_policies'
 
+  #update elastic_index
+  post 'update_index', to: 'dashboard#update_index'
+
+
 
 
 end
