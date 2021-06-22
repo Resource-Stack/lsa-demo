@@ -36,7 +36,7 @@ class CsvUploadsController < ApplicationController
     # killall -2 Logstash
     
     #CALL SYSTEM SCRIPT
-    #system(./)
+    system(./elastic_runner_script.sh)
   end 
 
   # GET /csv_uploads/news
