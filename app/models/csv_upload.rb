@@ -1,5 +1,5 @@
 class CsvUpload < ApplicationRecord
-
+require 'fileutils'
 after_create :set_filename
 has_one_attached :csv_file
 
@@ -18,9 +18,9 @@ has_one_attached :csv_file
 
 	def process_attachment       
 		p 'Process Attachment'
-		p "#{self.logstash_index}"
-		p "#{self.csv_file.filename}"
-	  pdf_attachment_path = Dir.pwd + "/logstash_folder/" + "#{self.logstash_index}/" + "#{self.csv_file.filename}"
+		directory_name = Dir.pwd + "/logstash_folder/" + "#{self.logstash_index}/" 
+		Dir.mkdir(directory_name) unless File.exists?(directory_name)
+	  pdf_attachment_path = directory_name + "/#{self.csv_file.filename}"
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
 	       file.write(csv_file.download)
