@@ -39,7 +39,7 @@
                     <!-- SOURCE -->
               <div class="col">
                 <%= form.label :source_id %> 
-                <%= form.text_field :title, class: 'form-control',value: @getter, disabled: true %>
+                <%= form.text_field :source_id, class: 'form-control',value: @getter, disabled: true %>
 
                <!-- < #%= form.select :source_id, options_for_select(@sources.collect{ |u| [u.source_title, u.id]}), {},{ :class => 'form-control' } %> -->
               </div> 
@@ -145,8 +145,7 @@
     //var source_input = document.getElementById('source')
     //var add_source = document.getElementById('add_source')
     //var current_source_values = document.getElementById('current_source_values')
-    //var source_input = document.getElementById('elastic_policy_source_id')
-    var source_input = document.getElementById('elastic_policy_title')
+    var source_input = document.getElementById('elastic_policy_source_id')
     //
     var input_requirement_select = document.getElementsByClassName('input_requirement_select');
     var input_requirement_value = document.getElementsByClassName('input_requirement_value')
@@ -163,7 +162,6 @@
     submission.addEventListener('click', function(){
 
         //source
-        var selected_source = source_input.options[source_input.selectedIndex].text
 
         for (var i =0; i < report_type_select.length; i++){
           report_type =report_type_select[i].options[report_type_select[i].selectedIndex].text
