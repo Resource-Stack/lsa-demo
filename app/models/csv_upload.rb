@@ -6,7 +6,7 @@ has_one_attached :csv_file
   def set_filename
     if self.csv_file.attached?
 
-      self.csv_file.blob.update(filename: "elastic_csv.#{self.csv_file.filename.extension}")
+      self.csv_file.blob.update(filename: "#{self.csv_file.filename.extension}")
       p csv_file
     end
   end
@@ -18,7 +18,7 @@ has_one_attached :csv_file
 
 	def process_attachment       
 		p 'Process Attachment'
-	  pdf_attachment_path = Dir.pwd + "/logstash_folder/#{csv_file.filename}" #"elastic_csv.csv" 
+	  pdf_attachment_path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + '/'+ csv_file.filename #"elastic_csv.csv" 
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
 	       file.write(csv_file.download)
@@ -57,7 +57,7 @@ has_one_attached :csv_file
 							stdout {}
 							}"
 
-		path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + "rails_conf.conf"
+		path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + "/rails_conf.conf"
 		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
