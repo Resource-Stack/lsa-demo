@@ -5,8 +5,8 @@ has_one_attached :csv_file
 
   def set_filename
     if self.csv_file.attached?
-
-      self.csv_file.blob.update(filename: "#{self.csv_file.filename.extension}")
+    	random = (0...8).map { (65 + rand(26)).chr }.join
+      self.csv_file.blob.update(filename: "#{random}.#{self.csv_file.filename.extension}")
       p csv_file
     end
   end
@@ -20,7 +20,7 @@ has_one_attached :csv_file
 		p 'Process Attachment'
 		directory_name = Dir.pwd + "/logstash_folder/" + "#{self.logstash_index}/" 
 		Dir.mkdir(directory_name) unless File.exists?(directory_name)
-	  pdf_attachment_path = directory_name + "/#{self.csv_file.filename}"
+	  pdf_attachment_path = directory_name + "#{self.csv_file.filename}"
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
 	       file.write(csv_file.download)
@@ -31,13 +31,11 @@ has_one_attached :csv_file
 			#path => '/home/augustus/dev/lsa-demo/logstash_folder/elastic_csv.csv'
 			#This issue we face uploading all CSV is there is no guarentee they will have the same header.
 			#Better solution is rerun logstash PER csv upload currently.
-#
-			# path => '/home/augustus/dev/lsa-demo/logstash_folder/'+ #{self.csv_file.filename}
 
 				
 			conf_string = "input {
 							  file {
-									path => '/home/augustus/dev/lsa-demo/logstash_folder/'+ #{self.logstash_index} +'/*.csv'
+									path => '/home/augustus/dev/lsa-demo/logstash_folder/'#{self.logstash_index}'/*.csv'
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
 							  }

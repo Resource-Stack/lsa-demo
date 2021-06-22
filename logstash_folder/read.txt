@@ -1,0 +1,12 @@
+this directory is used to store the csv with there associated index
+
+sources = alpha, beta, charlie
+
+--|alpha
+	- one.csv
+	-two.csv
+  |beta
+  	-three.csv
+  	-four.csv
+  |charlie
+  	-five.csv
