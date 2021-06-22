@@ -145,7 +145,8 @@
     //var source_input = document.getElementById('source')
     //var add_source = document.getElementById('add_source')
     //var current_source_values = document.getElementById('current_source_values')
-    var source_input = document.getElementById('elastic_policy_source_id')
+    //var source_input = document.getElementById('elastic_policy_source_id')
+    var source_input = document.getElementById('elastic_policy_title')
     //
     var input_requirement_select = document.getElementsByClassName('input_requirement_select');
     var input_requirement_value = document.getElementsByClassName('input_requirement_value')
@@ -181,7 +182,7 @@
 
               var mydata = {
                   title: policy_title.value,
-                  source: selected_source, //current_source_values.innerHTML,
+                  source: source_input.value, 
                   output_keys: output_key,
                   output_values: output_value,
                   input_keys: input_key,

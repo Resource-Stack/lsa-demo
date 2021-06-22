@@ -338,7 +338,7 @@ class ElasticPoliciesController < ApplicationController
     #source
     #policy_sources = params[:source].split(',')
     #output
-    policy_sources = [params[:source]]
+    policy_sources = params[:source]
     output_keys = params[:output_keys].split(',')
     output_values = params[:output_values].split(',')
     output = Hash.new 
