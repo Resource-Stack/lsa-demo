@@ -34,6 +34,9 @@ class CsvUploadsController < ApplicationController
     #system("sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/csv-read.conf")
     #Somehow, we need to stop logstash after it is finished syste(control + C)
     # killall -2 Logstash
+    
+    #CALL SYSTEM SCRIPT
+    #system(./)
   end 
 
   # GET /csv_uploads/news

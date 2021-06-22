@@ -13,11 +13,16 @@ module AlphaHelper
  end 
 
  def set_elastic_index(new_index)
- 	p 'hit'
- 	p new_index
- 	  reset_index = $redis.del('elastic_index')
+ 	p 'set INDEX'
+    #reset elastic index
+ 	 reset_index = $redis.del('elastic_index')
+    #reset elastic summary 
+    elastic_fetch_summ = $redis.del('elastic_fetch_summ') 
+    elastic_all_values = $redis.del("elastic_all_values") 
+    #
     $redis.set("elastic_index", new_index)
-
+    set_index = $redis.get("elastic_index") 
+    return set_index
  end 
 end 
 

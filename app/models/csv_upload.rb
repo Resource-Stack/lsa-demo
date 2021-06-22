@@ -26,6 +26,10 @@ has_one_attached :csv_file
 	end
 
 	def construct_conf_file
+			#path => '/home/augustus/dev/lsa-demo/logstash_folder/elastic_csv.csv'
+			#This issue we face uploading all CSV is there is no guarentee they will have the same header.
+			#Better solution is rerun logstash PER csv upload currently.
+
 				
 			conf_string = "input {
 							  file {
