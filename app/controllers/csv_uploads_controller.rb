@@ -31,12 +31,11 @@ class CsvUploadsController < ApplicationController
     #Create LogStash Conf and Copy CSV
     @csv_upload.process_attachment
     @csv_upload.construct_conf_file 
-    #system("sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/csv-read.conf")
-    #Somehow, we need to stop logstash after it is finished syste(control + C)
-    # killall -2 Logstash
-    
+    @csv.upload.construct_execute_file     
     #CALL SYSTEM SCRIPT
-    #system('/home/elastic_runner_script.sh')
+    current_index = @csv_upload.logstash_index
+    excute_string = "execute_#{current_index}.sh"
+    system(Dir.pwd + "/logstash_folder/" + excute_string)
   end 
 
   # GET /csv_uploads/news

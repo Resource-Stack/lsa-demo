@@ -35,7 +35,7 @@ has_one_attached :csv_file
 				
 			conf_string = "input {
 							  file {
-									path => '/home/augustus/dev/lsa-demo/logstash_folder/'#{self.logstash_index}'/*.csv'
+									path => '/home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/*.csv'
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
 							  }
@@ -57,11 +57,26 @@ has_one_attached :csv_file
 							stdout {}
 							}"
 
-		path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + "/rails_conf.conf"
+		path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + "/#{self.logstash_index}.conf"
 		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
 		end
+	end 
+
+	def construct_execute_file
+	
+	excute_file = "#!/bin/bash
+    sudo systemctl stop logstash
+    sleep 1
+    sudo /usr/share/logstash/bin/logstash -f /home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
+
+		path = Dir.pwd + "/logstash_folder/execute_#{self.logstash_index}.sh"
+		#hosts => #{self.logstash_host}
+		File.open(path, "wb") do |f|
+		  f.write(excute_file)
+		end    
+
 	end 
 
 
