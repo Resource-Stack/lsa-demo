@@ -23,8 +23,11 @@ class SourcesController < ApplicationController
 
   # POST /sources or /sources.json
   def create
-    @source = Source.new(source_params)
-
+    
+    mod_source = source_params
+    mod_source['source_title'].downcase
+    
+    @source = Source.new(mod_source)
     respond_to do |format|
       if @source.save
         format.html { redirect_to @source, notice: "Source was successfully created." }

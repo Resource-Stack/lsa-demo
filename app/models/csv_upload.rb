@@ -31,8 +31,6 @@ has_one_attached :csv_file
 			#path => '/home/augustus/dev/lsa-demo/logstash_folder/elastic_csv.csv'
 			#This issue we face uploading all CSV is there is no guarentee they will have the same header.
 			#Better solution is rerun logstash PER csv upload currently.
-
-				
 			conf_string = "input {
 							  file {
 									path => '/home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/*.csv'
@@ -66,7 +64,7 @@ has_one_attached :csv_file
 
 	def construct_execute_file
 	
-	excute_file = "#!/bin/bash
+	execute_file = "#!/bin/bash
     sudo systemctl stop logstash
     sleep 1
     sudo /usr/share/logstash/bin/logstash -f /home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"

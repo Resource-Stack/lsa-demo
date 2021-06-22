@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_020928) do
     t.boolean "uploaded", default: false
     t.date "csv_upload_date"
     t.string "logstash_path"
-    t.string "logstash_column"
+    t.string "logstash_column", array: true
     t.string "logstash_host"
     t.string "logstash_index"
     t.datetime "created_at", null: false
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_020928) do
 
   create_table "elastic_policies", force: :cascade do |t|
     t.string "title"
-    t.string "source", array: true
+    t.string "source"
     t.json "policy_output"
     t.json "input_requirements"
     t.datetime "created_at", null: false
