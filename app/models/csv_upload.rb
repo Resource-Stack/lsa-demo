@@ -18,7 +18,9 @@ has_one_attached :csv_file
 
 	def process_attachment       
 		p 'Process Attachment'
-	  pdf_attachment_path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + '/'+ csv_file.filename #"elastic_csv.csv" 
+		p "#{self.logstash_index}"
+		p "#{self.csv_file.filename}"
+	  pdf_attachment_path = Dir.pwd + "/logstash_folder/" + "#{self.logstash_index}/" + "#{self.csv_file.filename}"
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
 	       file.write(csv_file.download)
