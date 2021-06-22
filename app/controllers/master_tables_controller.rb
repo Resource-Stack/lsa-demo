@@ -5,6 +5,7 @@ class MasterTablesController < ApplicationController
   before_action :set_header_values
   include ElasticSearchHelper
   require 'json'
+  include AlphaHelper 
 
   # GET /master_tables or /master_tables.json
   def index
@@ -73,9 +74,17 @@ class MasterTablesController < ApplicationController
   end
 
   def update_input
+    begin
+      @getter = get_elastic_index
+      p 'getter success' 
+      logger.debug("one two #{@getter}")
+    rescue
+      p 'getter fail'
+      @getter = 'cyberapplicationplatformv2'
+    end 
     p 'update input' 
     #Get A Value
-        tightResponse = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500', 
+        tightResponse = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500', 
               :body => {
                 :aggs => {
                   :langs => { 
@@ -182,8 +191,16 @@ class MasterTablesController < ApplicationController
 
     logger.debug("[STEP THREE]")
     #move into seperate logic
+    begin
+      @getter = get_elastic_index
+      p 'getter success' 
+      logger.debug("one two #{@getter}")
+    rescue
+      p 'getter fail'
+      @getter = 'cyberapplicationplatformv2'
+    end 
     if condition == "AND"
-        response = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500',  
+        response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500',  
           :body => {
             :query => {
               :bool => {
@@ -200,8 +217,8 @@ class MasterTablesController < ApplicationController
             }
         )
     else # THIS IS AN OR STATEMENT
-        response = HTTParty.get('http://localhost:9200/cyberapplicationplatformv2/_search?size=500',  
-          :body => {
+        response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500',  
+          :body => { 
             :query => {
               :bool => {
                 :must => {
