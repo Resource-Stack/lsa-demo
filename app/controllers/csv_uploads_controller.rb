@@ -36,7 +36,7 @@ class CsvUploadsController < ApplicationController
     # killall -2 Logstash
     
     #CALL SYSTEM SCRIPT
-    system('./elastic_runner_script.sh')
+    system('/home/elastic_runner_script.sh')
   end 
 
   # GET /csv_uploads/news
@@ -54,8 +54,12 @@ class CsvUploadsController < ApplicationController
 
   # POST /csv_uploads or /csv_uploads.json
   def create
+    format_index = params[:logstash_index].downcase
+    change_params = csv_upload_params
+    change_params.logstash_index = format_index
+
     #we do this step to gain access to the CSV. CHANGE
-    @csv_upload = CsvUpload.new(csv_upload_params)
+    @csv_upload = CsvUpload.new(change_params)
 
     respond_to do |format|
       if @csv_upload.save

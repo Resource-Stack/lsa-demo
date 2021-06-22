@@ -18,7 +18,7 @@ has_one_attached :csv_file
 
 	def process_attachment       
 		p 'Process Attachment'
-	  pdf_attachment_path = Dir.pwd + "/logstash_folder/" + "elastic_csv.csv"  # /#{csv_file.filename}"
+	  pdf_attachment_path = Dir.pwd + "/logstash_folder/#{csv_file.filename}" #"elastic_csv.csv" 
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
 	       file.write(csv_file.download)
@@ -33,7 +33,7 @@ has_one_attached :csv_file
 				
 			conf_string = "input {
 							  file {
-							    path => '/home/augustus/dev/lsa-demo/logstash_folder/elastic_csv.csv'
+							    path => '/home/augustus/dev/lsa-demo/logstash_folder/'+ #{self.csv_file.filename}
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
 							  }
