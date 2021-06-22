@@ -29,11 +29,13 @@ has_one_attached :csv_file
 			#path => '/home/augustus/dev/lsa-demo/logstash_folder/elastic_csv.csv'
 			#This issue we face uploading all CSV is there is no guarentee they will have the same header.
 			#Better solution is rerun logstash PER csv upload currently.
+#
+			# path => '/home/augustus/dev/lsa-demo/logstash_folder/'+ #{self.csv_file.filename}
 
 				
 			conf_string = "input {
 							  file {
-							    path => '/home/augustus/dev/lsa-demo/logstash_folder/'+ #{self.csv_file.filename}
+									path => '/home/augustus/dev/lsa-demo/logstash_folder/'+ #{self.logstash_index} +'/*.csv'
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
 							  }
@@ -55,7 +57,7 @@ has_one_attached :csv_file
 							stdout {}
 							}"
 
-		path = Dir.pwd + "/logstash_folder/" + "rails_conf.conf"
+		path = Dir.pwd + "/logstash_folder/"+ self.logstash_index + "rails_conf.conf"
 		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
