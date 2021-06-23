@@ -72,8 +72,10 @@ class ElasticPoliciesController < ApplicationController
     end 
     
     #ElasticReport.delete_all
-    my_source = Source.find_by_title(@getter)
-    ElasticReport.where(source: my_source).destroy_all
+    my_source = Source.find_by_source_title(@getter)
+    logger.debug("my source #{my_source}")
+    p ElasticReport.where(source: my_source)
+    ElasticReport.where(source_id: my_source.id).destroy_all
 
     p '[REFRESH DATA]'
     # GET ALL
