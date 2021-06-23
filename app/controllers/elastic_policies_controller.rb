@@ -131,7 +131,8 @@ class ElasticPoliciesController < ApplicationController
                                    er.report_type_title = ReportType.find_by_title(vv['key']).title
                                    er.report_value_title = ReportValue.find_by_title(vv['value']).title
                                    er.elastic_id = karma.to_s
-                                   er.source_id = ep.source 
+                                   #er.source_id = ep.source 
+                                   er.source = ep.source 
                                    #data_creation will eventually be associated to the DATA
                                    er.data_creation_date = random_datetime.strftime('%F')
                                    er.save

@@ -15,11 +15,11 @@ class ElasticReportsController < ApplicationController
     end 
     my_source = Source.find_by_source_title(@getter) 
     @elastic_reports = ElasticReport.where(source_id: my_source.id).sort_by { |obj| obj.report_type_title} 
-    
-    asdf = ElasticReport.where(source: my_source)
-    logger.debug("one #{asdf}")
+    logger.debug("asdfasfdasdf #{@elastic_reports.inspect}")
+    asdf = ElasticReport.where(source_id: my_source)
+    logger.debug("one #{asdf.inspect}")
     fda =ElasticReport.where(source: my_source.id)
-    logger.debug("two #{fda}")
+    logger.debug("two #{fda.inspect}")
 
 
     #@elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title} 
