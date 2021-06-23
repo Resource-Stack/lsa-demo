@@ -131,7 +131,10 @@ class ElasticPoliciesController < ApplicationController
                                    er.report_type_title = ReportType.find_by_title(vv['key']).title
                                    er.report_value_title = ReportValue.find_by_title(vv['value']).title
                                    er.elastic_id = karma.to_s
-                                   er.source_id = ep.source 
+
+                                   #have to find sourceID
+                                   current_source = Source.find_by_title(ep.source)
+                                   er.source_id = current_source
                                    #data_creation will eventually be associated to the DATA
                                    er.data_creation_date = random_datetime.strftime('%F')
                                    er.save
@@ -340,8 +343,6 @@ class ElasticPoliciesController < ApplicationController
     #policy_sources = params[:source].split(',')
     #output
     policy_sources = params[:source]
-    set_source = Source.find_by_source_title(policy_sources)
-    
     output_keys = params[:output_keys].split(',')
     output_values = params[:output_values].split(',')
     output = Hash.new 
@@ -363,7 +364,7 @@ class ElasticPoliciesController < ApplicationController
 
     @new_policy = ElasticPolicy.new
     @new_policy.title = params[:title]
-    @new_policy.source = set_source  
+    @new_policy.source = policy_sources
     @new_policy.policy_output = output
     @new_policy.input_requirements = input
     
