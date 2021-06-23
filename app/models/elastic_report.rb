@@ -1,6 +1,7 @@
 class ElasticReport < ApplicationRecord
 	require 'csv'
 	include ElasticSearchHelper
+	has_one :source
 
 	def self.to_csv
 	    begin

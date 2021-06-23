@@ -5,8 +5,23 @@ class ElasticReportsController < ApplicationController
 
   # GET /elastic_reports or /elastic_reports.json
   def index
-    my_source = Source.find_by_source_title(@getter)
+    begin
+      @getter = get_elastic_index
+      p 'getter success' 
+      logger.debug("one two #{@getter}")
+    rescue
+      p 'getter fail'
+      @getter = 'cyberapplicationplatformv2' 
+    end 
+    my_source = Source.find_by_source_title(@getter) 
     @elastic_reports = ElasticReport.where(source_id: my_source.id).sort_by { |obj| obj.report_type_title} 
+    
+    asdf = ElasticReport.where(source: my_source)
+    logger.debug("one #{asdf}")
+    fda =ElasticReport.where(source: my_source.id)
+    logger.debug("two #{fda}")
+
+
     #@elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title} 
   end
 
