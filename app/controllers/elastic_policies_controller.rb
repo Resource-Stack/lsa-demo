@@ -113,7 +113,7 @@ class ElasticPoliciesController < ApplicationController
                   @trueFalse = []
                   ep[:input_requirements].each do |policy_index,policy_KV|
                       data.each do |key,value|  
-                        logger.debug(" YOU NEED THE DATA #{data}")
+                        #logger.debug(" YOU NEED THE DATA #{data}")
                         #logger.debug("Keys::: d #{key.to_s} == p #{policy_KV['key'].to_s}")
                         #logger.debug("Values::: d #{value.to_s} == p #{policy_KV['value'].to_s}")
 
@@ -121,7 +121,7 @@ class ElasticPoliciesController < ApplicationController
                            p ' MATCH'
                             @trueFalse.push(true)
                          end 
-                            logger.debug("Length: tf#{@trueFalse.length} p#{ep.input_requirements.length}")
+                            #logger.debug("Length: tf#{@trueFalse.length} p#{ep.input_requirements.length}")
                             if ep[:input_requirements].size == @trueFalse.length
                               p 'eureka'
                                  ep[:policy_output].each do |kk,vv|
@@ -131,9 +131,9 @@ class ElasticPoliciesController < ApplicationController
                                    er.elastic_id = karma.to_s
 
                                    #have to find sourceID
-                                   logger.debug("source title #{ep.source}")
+                                   logger.debug("source title #{ep.source}") 
                                    current_source = Source.find_by_source_title(ep.source)
-                                   logger.debug("current_source #{current_source}")
+                                   logger.debug("current_source #{current_source.inspect}")
                                    er.source_id = current_source
                                    #data_creation will eventually be associated to the DATA
                                    er.data_creation_date = random_datetime.strftime('%F')
