@@ -71,11 +71,9 @@ class ElasticPoliciesController < ApplicationController
       @getter = 'cyberapplicationplatformv2'
     end 
     
-    #ElasticReport.delete_all
     my_source = Source.find_by_source_title(@getter)
-    logger.debug("my source #{my_source}")
-    p ElasticReport.where(source: my_source)
     ElasticReport.where(source_id: my_source.id).destroy_all
+    #ElasticReport.delete_all
 
     p '[REFRESH DATA]'
     # GET ALL
@@ -131,10 +129,10 @@ class ElasticPoliciesController < ApplicationController
                                    er.elastic_id = karma.to_s
 
                                    #have to find sourceID
-                                   logger.debug("source title #{ep.source}") 
+                                   logger.debug("source title #{ep.i}") 
                                    current_source = Source.find_by_source_title(ep.source)
                                    logger.debug("current_source #{current_source.inspect}")
-                                   er.source_id = current_source
+                                   er.source_id = current_source.id
                                    #data_creation will eventually be associated to the DATA
                                    er.data_creation_date = random_datetime.strftime('%F')
                                    er.save

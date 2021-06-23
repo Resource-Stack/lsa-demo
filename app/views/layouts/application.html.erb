@@ -15,19 +15,18 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
                 <!-- Topbar -->
+
                 <%= image_tag "transparentlogo.png", style: 'width: 175px;', class: 'img-fluid px-3 px-sm-4 mt-3 mb-4'%>
-                <ul class="nav justify-content-end">
-                  <li>Current: <%= @getter %></li><br>
-                  <li class="nav-item">
+                <div class="pull-right">
+                    <label>Source: <%= @getter %></label><br>
                     <select id="elasticSelect" onchange="updateIndex()">
-                        <option>Select</option>
-                        <option>cyberapplicationplatformv2</option>
+                        <option>Select Source</option>
                         <% @sources.each do |x| %>
                             <option> <%= x.source_title %></option>
                         <% end %>
                     </select>
-                  </li>
-                </ul>
+                </div>
+
                 <!-- End of Topbar -->
         <!-- --> 
         <div id="sideNav"> 

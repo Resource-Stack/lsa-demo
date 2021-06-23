@@ -13,11 +13,14 @@ class ElasticReportsController < ApplicationController
       p 'getter fail'
       @getter = 'cyberapplicationplatformv2'  
     end 
-    my_source = Source.find_by_source_title(@getter) 
-    #@elastic_reports = ElasticReport.where(source: my_source.id).sort_by { |obj| obj.report_type_title} 
 
-    @elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title} 
-    logger.debug("here #{@elastic_reports.inspect}")
+    if Source.find_by_source_title(@getter).present?
+      my_source = Source.find_by_source_title(@getter) 
+      @elastic_reports = ElasticReport.where(source_id: my_source.id).sort_by { |obj| obj.report_type_title} 
+    else
+      @elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title} 
+    end 
+    
   end
 
   def find_by_id

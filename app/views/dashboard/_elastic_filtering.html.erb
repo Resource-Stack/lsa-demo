@@ -1,60 +1,3 @@
-
-    <!-- -->
-    <div class="container-fluid" >
-        <div id ="input_query_div">
-            <h4 style="text-align: center;">Time Range</h4>
-            <div class="row">
-                <div class="col">
-                    <label for="queryStartDate">Start Date:</label><br>
-                    <input type="date" id="queryStartDate" name="start_date">
-                </div>
-                <div class="col">
-                    <label for="queryEndDate">End Date:</label><br>
-                    <input type="date" id="queryEndDate" name="end_date">
-                </div>
-            </div>
-            <hr>
-            <h4 style="text-align: center;"> Key Values <i class="fa fa-plus" id="add_query"></i></h4> 
-            <div class="row">
-                  <div class="col">
-                    <label for="onlyKey"> Conditional: </label>                                        
-                    <select class="query_condition" id="query_condition">
-                      <option value="or">OR</option>
-                      <option value="and">AND</option>
-                    </select>
-                  </div>
-            </div>
-            <div class="row" id="input_query_fields" >
-                 <% if @headerValues.present? %>
-                  <div class="col" >
-                      <label> </label><!--blank for js-->
-                      <select class="query_key_selection" id="query_key_selection_id" ><br> 
-                          <option> Select Key </option>
-                          <% @headerValues.each do |x| %>
-                              <option><%= x %></option>
-                          <% end %>
-                      </select>     
-                      <br>    
-                  </div>
-                  <% else %>
-                  <p>error</p>
-                  <% end %>
-
-                  <div class="col query_value_selection_class" id ="query_value_selection_id">
-                      <p>Select Key</p>
-                  </div>
-                  <div class="col" id ="minus_row_id">
-                      <i class="fa fa-minus minus_row" ></i>
-                  </div>
-            </div> 
-        </div>
-        <div class="row">
-            <div class="col">
-                <button onclick="submit()" class="btn btn-primary"> submit</button>
-            </div>
-        </div>
-    </div>
-    <!-- -->
 <script type="text/javascript">
   var query_key_selection_id = document.getElementById('query_key_selection_id')
   var query_key = document.getElementsByClassName('query_key_selection')
@@ -195,3 +138,75 @@
   //
 </script>
 
+<!-- Area Chart -->
+<div class="col-xl-12 col-lg-12">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between" id="filter_div">
+            <h6 class="m-0 font-weight-bold text-primary">Filter</h6>
+
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <!-- -->
+          <div class="container-fluid" >
+                  <div id ="input_query_div">
+                      <h4 style="text-align: center;">Time Range</h4>
+                      <div class="row">
+                          <div class="col" style="text-align: center;">
+                              <label for="queryStartDate">Start Date:</label><br>
+                              <input type="date" id="queryStartDate" name="start_date">
+                          </div>
+                          <div class="col" style="text-align: center;">
+                              <label for="queryEndDate">End Date:</label><br>
+                              <input type="date" id="queryEndDate" name="end_date">
+                          </div>
+                      </div>
+                      <hr>
+                      <h4 style="text-align: center;"> Key Values <i class="fa fa-plus" id="add_query"></i></h4> 
+                      <div class="row">
+                            <div class="col">
+                              <label for="onlyKey"> Conditional: </label>                                        
+                              <select class="query_condition" id="query_condition">
+                                <option value="or">OR</option>
+                                <option value="and">AND</option>
+                              </select>
+                            </div>
+                      </div>
+                      <div class="row" id="input_query_fields" >
+                           <% if @headerValues.present? %>
+                            <div class="col" style="text-align: center;">
+                                <label> </label><!--blank for js-->
+                                <select class="query_key_selection" id="query_key_selection_id" ><br> 
+                                    <option> Select Key </option>
+                                    <% @headerValues.each do |x| %>
+                                        <option><%= x %></option>
+                                    <% end %>
+                                </select>     
+                                <br>    
+                            </div>
+
+                            <% else %>
+                            <p>error</p>
+                            <% end %>
+
+                            <div class="col query_value_selection_class" id ="query_value_selection_id" style="text-align: center;">
+                                <p>Select Key</p>
+                            </div>
+                            <div class="col" id ="minus_row_id">
+                                <i class="fa fa-minus minus_row" ></i>
+                            </div>
+                      </div> 
+                  </div>
+                  <div class="row">
+                      <div class="col" style="text-align: center;">
+                          <button onclick="submit()" class="btn btn-primary"> submit</button>
+                      </div>
+                  </div>
+              </div>
+
+          <!-- -->
+        </div>
+    </div>
+</div>
