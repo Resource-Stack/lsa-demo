@@ -91,7 +91,7 @@ class ElasticPoliciesController < ApplicationController
       @data_hash = Hash.new  
       count = 0
       @responseBody['hits']['hits'].each do |k,v|
-        logger.debug("HERE WE GOOOOOOOOOOO #{k['_id']}")
+        #logger.debug("HERE WE GOOOOOOOOOOO #{k['_id']}")
         @data_hash[k['_id']] = k['_source']
         #@data_hash[count] = k['_source']
         count = count + 1
@@ -114,8 +114,6 @@ class ElasticPoliciesController < ApplicationController
                   ep[:input_requirements].each do |policy_index,policy_KV|
                       data.each do |key,value|  
                         logger.debug(" YOU NEED THE DATA #{data}")
-
-
                         #logger.debug("Keys::: d #{key.to_s} == p #{policy_KV['key'].to_s}")
                         #logger.debug("Values::: d #{value.to_s} == p #{policy_KV['value'].to_s}")
 
@@ -133,7 +131,9 @@ class ElasticPoliciesController < ApplicationController
                                    er.elastic_id = karma.to_s
 
                                    #have to find sourceID
-                                   current_source = Source.find_by_title(ep.source)
+                                   logger.debug("source title #{ep.source}")
+                                   current_source = Source.find_by_source_title(ep.source)
+                                   logger.debug("current_source #{current_source}")
                                    er.source_id = current_source
                                    #data_creation will eventually be associated to the DATA
                                    er.data_creation_date = random_datetime.strftime('%F')
