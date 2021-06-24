@@ -27,19 +27,25 @@ require 'open3'
       @csv_upload.update_attribute(:logstash_column, up_logstash_column)
     end 
 
-    #Create LogStash Conf and Copy CSV
+    #Create LogStash Conf,Copy CSV, Create Script
     @csv_upload.process_attachment
     @csv_upload.construct_conf_file 
     @csv_upload.construct_execute_file      
     #CALL SYSTEM SCRIPT
-    # chmod +x execute_charlie_test.sh ?
-    current_index = @csv_upload.logstash_index
-    excute_string = "execute_#{current_index}.sh"
-    path = Dir.pwd + "/logstash_folder/#{excute_string}"
-    #system(Dir.pwd + "/logstash_folder/" + excute_string)
-    logger.debug("EXECUTE!!!!")
-    
-    stdout, stderr, status = Open3.capture3("sh #{path}")
+    execute_index = @csv_upload.logstash_index
+    construct_string = "execute_#{current_index}.sh"
+    path =  "logstash_folder/#{construct_string}"
+    puts "EXECUTE!!!!"
+
+    command = Thread.new do
+        something = `path`
+        puts something
+    end
+    command.join 
+
+    puts "command complete"
+
+
   end 
 
   # GET /csv_uploads/news

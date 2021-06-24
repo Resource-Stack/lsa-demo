@@ -33,7 +33,7 @@ has_one_attached :csv_file
 			#Better solution is rerun logstash PER csv upload currently.
 			conf_string = "input {
 							  file {
-									path => '/home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/*.csv'
+									path => 'logstash_folder/#{self.logstash_index}/*.csv'
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
 							  }
@@ -67,16 +67,17 @@ has_one_attached :csv_file
 	execute_file = "#!/bin/bash
     sudo systemctl stop logstash
     sleep 1
-    sudo /usr/share/logstash/bin/logstash -f /home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
+    sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
-		path = Dir.pwd + "/logstash_folder/execute_#{self.logstash_index}.sh"
-		Dir.mkdir(path) unless File.exists?(path)
+		path = "logstash_folder/execute_#{self.logstash_index}.sh"
 		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
 		  f.write(execute_file)
 		end
 		File.chmod(0777,path)    
 	end 
+
+	echo Puppet66 | 
 
 
 end
