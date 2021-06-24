@@ -129,7 +129,7 @@ class ElasticPoliciesController < ApplicationController
                                    er.elastic_id = karma.to_s
 
                                    #have to find sourceID
-                                   logger.debug("source title #{ep.i}") 
+                                   logger.debug("source title #{ep.id}") 
                                    current_source = Source.find_by_source_title(ep.source)
                                    logger.debug("current_source #{current_source.inspect}")
                                    er.source_id = current_source.id

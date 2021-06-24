@@ -2,9 +2,8 @@ class CsvUploadsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_csv_upload, only: %i[ show edit update destroy ]
   include AlphaHelper
-  
-
   require 'csv'
+require 'open3'
 
   # GET /csv_uploads or /csv_uploads.json
   def index
@@ -36,7 +35,11 @@ class CsvUploadsController < ApplicationController
     # chmod +x execute_charlie_test.sh ?
     current_index = @csv_upload.logstash_index
     excute_string = "execute_#{current_index}.sh"
-    system(Dir.pwd + "/logstash_folder/" + excute_string)
+    path = Dir.pwd + "/logstash_folder/#{excute_string}"
+    #system(Dir.pwd + "/logstash_folder/" + excute_string)
+    logger.debug("EXECUTE!!!!")
+    
+    stdout, stderr, status = Open3.capture3("sh #{path}")
   end 
 
   # GET /csv_uploads/news

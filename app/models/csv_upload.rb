@@ -60,7 +60,7 @@ has_one_attached :csv_file
 		File.open(path, "wb") do |f|
 		  f.write(conf_string)
 		end
-	end 
+	end  
 
 	def construct_execute_file
 	
@@ -70,11 +70,12 @@ has_one_attached :csv_file
     sudo /usr/share/logstash/bin/logstash -f /home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
 		path = Dir.pwd + "/logstash_folder/execute_#{self.logstash_index}.sh"
+		Dir.mkdir(path) unless File.exists?(path)
 		#hosts => #{self.logstash_host}
 		File.open(path, "wb") do |f|
-		  f.write(excute_file)
-		end    
-
+		  f.write(execute_file)
+		end
+		File.chmod(0777,path)    
 	end 
 
 
