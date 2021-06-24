@@ -3,12 +3,12 @@ class CsvUploadsController < ApplicationController
   before_action :set_csv_upload, only: %i[ show edit update destroy ]
   include AlphaHelper
   require 'csv'
-require 'open3'
+  require 'open3'
 
   # GET /csv_uploads or /csv_uploads.json
   def index
     @csv_uploads = CsvUpload.all
-
+    #CsvUpload.delete_all
   end
 
   # GET /csv_uploads/1 or /csv_uploads/1.json
@@ -32,14 +32,15 @@ require 'open3'
     @csv_upload.construct_conf_file 
     @csv_upload.construct_execute_file      
     #CALL SYSTEM SCRIPT
+
     execute_index = @csv_upload.logstash_index
-    construct_string = "execute_#{current_index}.sh"
+    construct_string = "execute_#{execute_index}.sh"
     path =  "logstash_folder/#{construct_string}"
     puts "EXECUTE!!!!"
 
     command = Thread.new do
-        something = `path`
-        puts something
+       something = `path`
+	     puts something
     end
     command.join 
 

@@ -33,7 +33,7 @@ has_one_attached :csv_file
 			#Better solution is rerun logstash PER csv upload currently.
 			conf_string = "input {
 							  file {
-									path => 'logstash_folder/#{self.logstash_index}/*.csv'
+									path => '/home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/*.csv'
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
 							  }
