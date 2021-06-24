@@ -18,7 +18,7 @@ has_one_attached :csv_file
 
 	def process_attachment       
 		p 'Process Attachment'
-		directory_name = Dir.pwd + "/logstash_folder/" + "#{self.logstash_index}/" 
+		directory_name = "logstash_folder/" + "#{self.logstash_index}/" 
 		Dir.mkdir(directory_name) unless File.exists?(directory_name)
 	  pdf_attachment_path = directory_name + "#{self.csv_file.filename}"
 	   
@@ -65,9 +65,9 @@ has_one_attached :csv_file
 	def construct_execute_file
 	
 	execute_file = "#!/bin/bash
-    sudo systemctl stop logstash
+    echo Puppet66 | sudo systemctl stop logstash
     sleep 1
-    sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
+    echo Puppet66 | sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
 		path = "logstash_folder/execute_#{self.logstash_index}.sh"
 		#hosts => #{self.logstash_host}
@@ -76,8 +76,4 @@ has_one_attached :csv_file
 		end
 		File.chmod(0777,path)    
 	end 
-
-	echo Puppet66 | 
-
-
 end
