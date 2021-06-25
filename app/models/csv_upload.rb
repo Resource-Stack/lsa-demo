@@ -67,7 +67,7 @@ has_one_attached :csv_file
 	execute_file = "#!/bin/bash
     echo Puppet66 | sudo systemctl stop logstash
     sleep 1
-    echo Puppet66 | sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
+    echo Puppet66 | sudo /usr/share/logstash/bin/logstash -f #{self.logstash_index}/#{self.logstash_index}.conf"
 
 		path = "logstash_folder/execute_#{self.logstash_index}.sh"
 		#hosts => #{self.logstash_host}
