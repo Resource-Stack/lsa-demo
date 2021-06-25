@@ -1,7 +1,7 @@
 class CsvUpload < ApplicationRecord
 require 'fileutils'
 after_create :set_filename
-has_one_attached :csv_file
+has_one_attached :csv_file 
 
   def set_filename
     if self.csv_file.attached?
@@ -23,7 +23,7 @@ has_one_attached :csv_file
 	  pdf_attachment_path = directory_name + "#{self.csv_file.filename}"
 	   
 	   File.open(pdf_attachment_path, 'wb') do |file|
-	       file.write(csv_file.download)
+	       file.write(csv_file.download) 
 	   end   
 	end
 
@@ -65,9 +65,9 @@ has_one_attached :csv_file
 	def construct_execute_file
 	
 	execute_file = "#!/bin/bash
-    echo Puppet66 | sudo systemctl stop logstash
+    sudo systemctl stop logstash
     sleep 1
-    echo Puppet66 | sudo /usr/share/logstash/bin/logstash -f #{self.logstash_index}/#{self.logstash_index}.conf"
+    sudo /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ --path.data -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
 		path = "logstash_folder/execute_#{self.logstash_index}.sh"
 		#hosts => #{self.logstash_host}
@@ -77,3 +77,10 @@ has_one_attached :csv_file
 		File.chmod(0777,path)    
 	end 
 end
+
+
+
+# sudo /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ --path.data -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
+
+#works manually
+#sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
