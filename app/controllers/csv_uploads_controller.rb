@@ -39,14 +39,11 @@ class CsvUploadsController < ApplicationController
     puts "EXECUTE!!!!"
 
     command = Thread.new do
-       something = `path`
-	     puts something
+       system("#{path}")
     end
     command.join 
 
     puts "command complete"
-
-
   end 
 
   # GET /csv_uploads/news

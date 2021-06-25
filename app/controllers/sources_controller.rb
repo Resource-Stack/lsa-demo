@@ -30,6 +30,9 @@ class SourcesController < ApplicationController
     @source = Source.new(mod_source)
     respond_to do |format|
       if @source.save
+        #create index
+        `curl -X PUT "localhost:9200/#{mod_source['source_title']}?pretty"`
+
         format.html { redirect_to @source, notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: @source }
       else
@@ -54,6 +57,9 @@ class SourcesController < ApplicationController
 
   # DELETE /sources/1 or /sources/1.json
   def destroy
+    #delete index as well
+    `curl -X DELETE "localhost:9200/#{@source.source_title}?pretty"`
+    
     @source.destroy
     respond_to do |format|
       format.html { redirect_to sources_url, notice: "Source was successfully destroyed." }

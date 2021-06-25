@@ -8,13 +8,12 @@ has_one_attached :csv_file
     	random = (0...8).map { (65 + rand(26)).chr }.join
       self.csv_file.blob.update(filename: "#{random}.#{self.csv_file.filename.extension}")
       p csv_file
-    end
+    end 
   end
 
   def avatar_path
     ActiveStorage::Blob.service.path_for(csv_file.key)
   end
-
 
 	def process_attachment       
 		p 'Process Attachment'
@@ -63,19 +62,18 @@ has_one_attached :csv_file
 	end  
 
 	def construct_execute_file
-	
-	execute_file = "#!/bin/bash
-    sudo systemctl stop logstash
-    sleep 1
-    sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
+		execute_file = "#!/bin/bash
+	    sudo systemctl stop logstash
+	    sleep 1
+	    sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
-		path = "logstash_folder/execute_#{self.logstash_index}.sh"
-		#hosts => #{self.logstash_host}
-		File.open(path, "wb") do |f|
-		  f.write(execute_file)
-		end
-		File.chmod(0777,path)    
-	end 
+			path = "logstash_folder/execute_#{self.logstash_index}.sh"
+			#hosts => #{self.logstash_host}
+			File.open(path, "wb") do |f|
+			  f.write(execute_file)
+			end
+			File.chmod(0777,path)    
+		end 
 end
 
 
