@@ -19,7 +19,7 @@ class ElasticPoliciesController < ApplicationController
   end
 
   # GET /elastic_policies/1 or /elastic_policies/1.json
-  def show
+  def show 
   end
 
   # GET /elastic_policies/new

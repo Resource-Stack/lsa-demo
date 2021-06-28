@@ -41,6 +41,7 @@ has_one_attached :csv_file
 							  csv {
 							      separator => ','
 							      columns => #{self.logstash_column}
+							      skip_header => 'true'
 							  }
 							    mutate {
           					remove_field => ['message','@timestamp','path','host','@version']
@@ -64,7 +65,7 @@ has_one_attached :csv_file
 	def construct_execute_file
 		execute_file = "#!/bin/bash
 	    sudo systemctl stop logstash
-	    sleep 1
+	    sleep 15
 	    sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
 			path = "logstash_folder/execute_#{self.logstash_index}.sh"

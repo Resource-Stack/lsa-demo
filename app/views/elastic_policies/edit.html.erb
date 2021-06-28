@@ -31,7 +31,7 @@
                     <!-- SOURCE -->
                     <div class="col">
                       <%= form.label :source_id %>
-                      <%= form.select :source_id, options_for_select(@sources.collect{ |u| [u.source_title, u.id]}), {},{ :class => 'form-control' } %>
+                      <%= form.text_field :source_id, class: 'form-control',value: @getter, disabled: true %>
                     </div>
 
                     <!--
@@ -39,13 +39,13 @@
                       <div class="field">
 
                       		<p id="sources" style="display: none;"> 
-                      			<% @elastic_policy.source.each do |x| %> 
+                      			<# % @elastic_policy.source.each do |x| %> 
                       				<%= x %>,
-                      			<% end %>
+                      			<# % end %>
                       		</p>
 
-                          <%= form.label :source  %> <i class="fa fa-plus" id="add_source"></i>
-                        <%= form.text_field :source, id: 'source' ,class: 'form-control'%> 
+                          <# %= form.label :source  %> <i class="fa fa-plus" id="add_source"></i>
+                        <# %= form.text_field :source, id: 'source' ,class: 'form-control'%> 
 
                         <sub id="current_source_values">Added Sources</sub>
                       </div>
