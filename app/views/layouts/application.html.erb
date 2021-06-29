@@ -12,6 +12,7 @@
 
   <body>
 
+
     <!-- Page Wrapper -->
     <div id="wrapper">
                 <!-- Topbar -->
@@ -88,6 +89,12 @@
     </div>
     <!-- End of Page Wrapper -->
     <div class="content-spacer">
+        <% if notice.present? %>
+            <div id="notice" class="alert alert-success" role="alert">
+                <%= notice %>
+            </div>
+        <% end %>
+        
     <%= yield %>
     </div>
     <!-- Footer -->

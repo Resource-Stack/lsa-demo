@@ -3,8 +3,9 @@ class ElasticPoliciesController < ApplicationController
   before_action :authenticate_user!
   # GET /elastic_policies or /elastic_policies.json
   include ElasticPoliciesHelper
-  require 'elasticsearch'
   include AlphaHelper
+  require 'elasticsearch'
+  
   def index
     begin
       @getter = get_elastic_index
@@ -207,7 +208,7 @@ class ElasticPoliciesController < ApplicationController
   def update
     p "update"
     #source
-    policy_sources = [params[:source]]
+    policy_sources = params[:source]
     #params[:source].split(',')
     #output
     output_keys = params[:output_keys].split(',')
@@ -229,7 +230,8 @@ class ElasticPoliciesController < ApplicationController
       i +=1
     end 
 
-  @elastic_policy.update_attributes(:title => params[:title], :source => policy_sources, :policy_output => output, :input_requirements => input)
+  #remove source, needs to be consistient :source => policy_sources,
+  @elastic_policy.update_attributes(:title => params[:title], :policy_output => output, :input_requirements => input)
   redirect_to elastic_policies_path
 
   end

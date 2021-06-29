@@ -26,6 +26,7 @@ class SourcesController < ApplicationController
     
     mod_source = source_params
     mod_source['source_title'].downcase
+    p mod_source.inspect
     
     @source = Source.new(mod_source)
     respond_to do |format|

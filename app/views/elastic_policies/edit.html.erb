@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-    <div class="col-xl-12 col-lg-12">
+<div class="col-xl-12 col-lg-12">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div
@@ -40,7 +38,7 @@
 
                       		<p id="sources" style="display: none;"> 
                       			<# % @elastic_policy.source.each do |x| %> 
-                      				<%= x %>,
+                      				<# %= x %>,
                       			<# % end %>
                       		</p>
 
@@ -189,7 +187,7 @@
   // Ajax Submit
     submission.addEventListener('click', function(){
       //output 
-      var selected_source = source_input.options[source_input.selectedIndex].text
+      //var selected_source = source_input.options[source_input.selectedIndex].text
 
         for (var i =0; i < report_type_select.length; i++){
           report_type =report_type_select[i].options[report_type_select[i].selectedIndex].text
@@ -208,7 +206,7 @@
 
               var mydata = {
                   title: policy_title.value,
-                  source: selected_source,//current_source_values.innerHTML,
+                  source: source_input.value, 
                   output_keys: output_key,
                   output_values: output_value,
                   input_keys: input_key,
