@@ -140,7 +140,7 @@ class DashboardController < ApplicationController
 					@headerValues.push(kilo)
 				end 
 
-				@headerValues =	@headerValues.sort
+				@headerValues = @all_data[0].keys
 
 
 			rescue => err
