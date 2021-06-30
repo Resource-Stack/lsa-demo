@@ -71,29 +71,8 @@ class DashboardController < ApplicationController
 	end 
 
 
-	def tableView
+	def tableView 
 
-		begin
-			p 'success'
-			@summary = fetch_summary[0]
-		
-			@summary.each do |k,v|
-				if user_pref.include?(k)
-					@summary.delete(k) 
-				end 
-				p k
-
-			end 
-
-			@headerValues = []
-			check = JSON.parse(@all_data[0])
-			check.each do |kilo,alpha|
-				@headerValues.push(kilo)
-			end  
-		rescue => err
-			p 'issue'
-			p err
-		end 
 	end 
 
 	def download_policies
@@ -162,8 +141,6 @@ class DashboardController < ApplicationController
 				end 
 
 				@headerValues =	@headerValues.sort
-
-
 
 
 			rescue => err
