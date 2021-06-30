@@ -79,7 +79,7 @@ class DashboardController < ApplicationController
 		
 			@summary.each do |k,v|
 				if user_pref.include?(k)
-					@summary.delete(k)
+					@summary.delete(k) 
 				end 
 				p k
 
@@ -148,13 +148,24 @@ class DashboardController < ApplicationController
 
 		def set_header_values
 			begin
-				@all_data = fetch_all
+				@all_data = []
+				order_data = fetch_all
+				order_data.each do |x|
+					@all_data << eval(x).sort_by { |key| key }.to_h
+				end 
+
 				p 'success'
 				@headerValues = []
 				check = JSON.parse(@all_data[0])
 				check.each do |kilo,alpha|
 					@headerValues.push(kilo)
 				end 
+
+				@headerValues =	@headerValues.sort
+
+
+
+
 			rescue => err
 				p 'issue'
 				p err

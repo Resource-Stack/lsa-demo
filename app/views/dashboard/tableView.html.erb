@@ -31,18 +31,13 @@
                                 </thead>
                                 
                                 <tbody>
-                                    <% @all_data.each do |data| %>
+                                    <% @all_data.each do |row| %> 
                                         <tr>
-                                            <% count = 0 %>
-                                                <% JSON.parse(data).each do |k,v| %>
-                                                    <td>
-                                                        <% if k == @headerValues[count] %>
-                                                            <%= v %>
-                                                        <% end %>
-                                                    </td>
-                                                    <% count +=1 %>
-                                                <% end %>
-
+                                            <% row.each do |k,v|%>
+                                                <td>
+                                                    <%= v %>
+                                                </td>
+                                            <% end %>
                                         </tr>
                                     <% end %>
                                 </tbody>

@@ -32,9 +32,13 @@ has_one_attached :csv_file
 			#Better solution is rerun logstash PER csv upload currently.
 			conf_string = "input {
 							  file {
+							  	mode => 'read'
 									path => '/home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}/*.csv'
 							    start_position => 'beginning'
 							    sincedb_path => '/dev/null'
+							    exit_after_read => 'true'
+							    file_completed_log_path => '/home/augustus/dev/lsa-demo/logstash_folder/#{self.logstash_index}_master'
+							    file_completed_action => 'log_and_delete'
 							  }
 							}
 							filter {
