@@ -65,7 +65,7 @@ class ElasticReport < ApplicationRecord
 
 
 
-	def get_count_summary
+	def self.get_count_summary
 	    #Get Unique Keys
 	    report_type = ElasticReport.pluck(:report_type_title)
 	    @unique_keys = report_type.uniq 

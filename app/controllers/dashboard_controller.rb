@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
 	require 'date'
 	before_action :authenticate_user!
 	before_action :set_header_values
-	before_action :set_csv_upload, only: %i[ index hide_chart ]
+	before_action :set_user_pref, only: %i[ index ]
 	include ElasticSearchHelper
 	include AlphaHelper 
 	
@@ -11,82 +11,16 @@ class DashboardController < ApplicationController
 		#user charts not desired
 		@user_colors = current_user.user_colors.pluck(:color)
 		user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
-		#Summary
-=begin
-		begin
-			p 'fetch summary'
-			@summary = fetch_summary[0]
-			@summary.each do |k,v|
-				if user_pref.include?(k)
-					@summary.delete(k)
-				end 
-			end 
-			@headerValues = []
-			check = JSON.parse(@all_data[0])
-			check.each do |kilo,alpha|
-				@headerValues.push(kilo)
-			end  
-		rescue => err
-			p 'issue'
-			p err
-		end 
-=end
 
 		### For Small Cards
     begin
       @all_data = fetch_all
-      #@time_data = devices_over_time
       p 'success'
     rescue
-      p 'issue2'
+      p 'issue'
     end  
 
-
-    @brewed = ElasticReport.get_count_summary  
-=begin    
-    #Get Unique Keys
-    report_type = ElasticReport.pluck(:report_type_title)
-    @unique_keys = report_type.uniq 
-    logger.debug("Unique Keys:: #{@unique_keys}")
-    @brewed = Hash.new
-      @unique_keys.each do |x|
-        #Get Unique Values
-        unique_value = ElasticReport.where(report_type_title: x)
-        unique = unique_value.pluck(:report_value_title)
-        #count per unique value
-        unique.uniq.each do |q|
-            countdrac = ElasticReport.where(report_value_title: q)
-            p q
-            p countdrac.count
-            #@brewed[count] = {report: x, key: q, value: countdrac.count}
-            if @brewed.include?(x.to_s)
-              #pre existing
-              @brewed[x] << [q , countdrac.count]
-            else 
-              #new
-              @brewed[x] = [[q , countdrac.count]]
-            end 
-        end 
-        p @brewed
-      end 
-=end
-
-	end 
-
-	def update_index
-		set_elastic_index(params[:new_index])
-	end 
-
-	def tableView 
-		@headerValues = @all_data[0].keys
-	end 
-
-	def download_policies
-		send_data ElasticReport.to_csv, filename: "policies-#{Date.today}.csv"
-	end 
-
-	def filter_toggle
-		 @headerValues = @all_data[0].keys 
+    @brewed = ElasticReport.get_count_summary   
 	end 
 
 	def hide_chart
@@ -108,28 +42,42 @@ class DashboardController < ApplicationController
 		end 
 		
 		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
-=begin
-		begin
-			@summary = fetch_summary[0]
-			p 'success'
 
+		#need to refresh with updates
+		begin
+			p 'fetch summary'
+			@summary = fetch_summary[0]
 			@summary.each do |k,v|
 				if user_pref.include?(k)
 					@summary.delete(k)
 				end 
-				p k
-				#sp v
 			end 
-		rescue
+			@headerValues = []
+			check = JSON.parse(@all_data[0])
+			check.each do |kilo,alpha|
+				@headerValues.push(kilo)
+			end  
+		rescue => err
 			p 'issue'
+			p err
 		end 
-		@headerValues = []
-		check = JSON.parse(@all_data[0])
-		check.each do |kilo,alpha|
-			@headerValues.push(kilo)
-		end 
-=end
 	end
+
+	def update_index
+		set_elastic_index(params[:new_index])
+	end 
+
+	def tableView 
+		@headerValues = @all_data[0].keys
+	end 
+
+	def download_policies
+		send_data ElasticReport.to_csv, filename: "policies-#{Date.today}.csv"
+	end 
+
+	def filter_toggle
+		 @headerValues = @all_data[0].keys 
+	end 
 
 	private 
 
@@ -172,14 +120,6 @@ class DashboardController < ApplicationController
 					rescue
 						p 'issue'
 					end 
-
-					@headerValues = []
-					check = JSON.parse(@all_data[0])
-					check.each do |kilo,alpha|
-						@headerValues.push(kilo)
-					end 
 		end
 
-
-	
 end
