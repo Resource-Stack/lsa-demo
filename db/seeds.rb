@@ -14,14 +14,17 @@ a = ReportType.create(title: 'IoT Data')
  ReportValue.create(title: 'Point of Sale', report_type_id: a.id)
  ReportValue.create(title: 'Cameras', report_type_id: a.id)
  ReportValue.create(title: 'Printers', report_type_id: a.id)
+
 ab = ReportType.create(title: 'Wireless')
  ReportValue.create(title: 'Corporate Wireless', report_type_id: ab.id)
  ReportValue.create(title: 'Guest Wireless', report_type_id: ab.id)
+
 ac = ReportType.create(title: 'Endpoint Compliance')
  ReportValue.create(title: 'No AnyConnect Unresolved', report_type_id: ac.id)
  ReportValue.create(title: 'No SCCM Agent Unresolved', report_type_id: ac.id)
  ReportValue.create(title: 'No SEP Agent Unresolved', report_type_id: ac.id)
  ReportValue.create(title: 'Tanium Agent Unresolved', report_type_id: ac.id)
+
 ad = ReportType.create(title: 'Security Risks')
  ReportValue.create(title: 'Telnet Enabled Switches', report_type_id: ad.id)
  ReportValue.create(title: 'Port 80 Enable Devices', report_type_id: ad.id)
@@ -29,12 +32,25 @@ ad = ReportType.create(title: 'Security Risks')
  ReportValue.create(title: 'Telnet Enabled Devices', report_type_id: ad.id)
  ReportValue.create(title: 'Admins Logged in', report_type_id: ad.id)
  ReportValue.create(title: 'USB Devices Deteched', report_type_id: ad.id)
+
 ae = ReportType.create(title: 'Software Vulnerabilties')
  ReportValue.create(title: 'Other', report_type_id: ae.id)
  ReportValue.create(title: 'Microsoft', report_type_id: ae.id)
  ReportValue.create(title: 'Java', report_type_id: ae.id)
  ReportValue.create(title: 'Adobe', report_type_id: ae.id)
 
+#colors 
+UserColor.create(color: '#260C1A')
+UserColor.create(color: '#FFFFFF')
+UserColor.create(color: '#F9C784')
+UserColor.create(color: '#272727')
+UserColor.create(color: '#90A9B7')
+UserColor.create(color: '#2AF5FF')
+UserColor.create(color: '#28C2FF')
+UserColor.create(color: '#183446')
+UserColor.create(color: '#F2545B')
+UserColor.create(color: '#FFC857')
+UserColor.create(color: '#32533D')
 
 
 

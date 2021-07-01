@@ -27,7 +27,6 @@ has_one_attached :csv_file
 	end
 
 	def construct_conf_file
-			#path => '/home/augustus/dev/lsa-demo/logstash_folder/elastic_csv.csv'
 			#This issue we face uploading all CSV is there is no guarentee they will have the same header.
 			#Better solution is rerun logstash PER csv upload currently.
 			conf_string = "input {
@@ -68,8 +67,6 @@ has_one_attached :csv_file
 
 	def construct_execute_file
 		execute_file = "#!/bin/bash
-	    sudo systemctl stop logstash
-	    sleep 15
 	    sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
 
 			path = "logstash_folder/execute_#{self.logstash_index}.sh"
@@ -78,12 +75,6 @@ has_one_attached :csv_file
 			  f.write(execute_file)
 			end
 			File.chmod(0777,path)    
-		end 
+	end 
+
 end
-
-
-
-# sudo /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ --path.data -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"
-
-#works manually
-#sudo /usr/share/logstash/bin/logstash -f logstash_folder/#{self.logstash_index}/#{self.logstash_index}.conf"

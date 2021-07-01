@@ -16,7 +16,7 @@
   <div class="row">
     <div class="col-12">
 
-      <%= line_chart ElasticReport.all.group_by_month(:data_creation_date).count, xtitle: "Month", ytitle: "Devices", title: "Total Number of Devices/Endpoints" %>
+      <%= line_chart ElasticReport.all.group_by_month(:data_creation_date).count, xtitle: "Month", ytitle: "Policies", title: "Total Number of Policies" %>
     </div>
   </div>
 

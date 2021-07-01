@@ -1,20 +1,13 @@
 class ElasticPoliciesController < ApplicationController
   before_action :set_elastic_policy, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :source_getter
   # GET /elastic_policies or /elastic_policies.json
   include ElasticPoliciesHelper
   include AlphaHelper
   require 'elasticsearch'
   
   def index
-    begin
-      @getter = get_elastic_index
-      p 'getter success' 
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2'
-    end 
-
     @elastic_policies = ElasticPolicy.where(source: @getter)
     #@elastic_policies = ElasticPolicy.all
   end
@@ -25,15 +18,6 @@ class ElasticPoliciesController < ApplicationController
 
   # GET /elastic_policies/new
   def new
-    begin
-      @getter = get_elastic_index
-      p 'getter success' 
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2'
-    end 
-
-
     @elastic_policy = ElasticPolicy.new
     @report_values = ReportValue.all
     @report_types = ReportType.all
@@ -60,39 +44,21 @@ class ElasticPoliciesController < ApplicationController
         @headerValues.push(kilo)
       end 
     ##
-
   end
 
-  def false_create
-    begin
-      @getter = get_elastic_index
-      p 'getter success' 
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2'
-    end 
-    
+  def false_create    
     my_source = Source.find_by_source_title(@getter)
     ElasticReport.where(source_id: my_source.id).destroy_all
     #ElasticReport.delete_all
 
+    #Gets all data for the index
     p '[REFRESH DATA]'
-    # GET ALL
       response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=1000')
-
-      p '[RESPONSE CODE]'
-      p response.code
-      #Convert To JSON
       @responseBody = JSON.parse(response.body)
-      p '[RESPONSE BODY]'
-      p @responseBody
-      #Get the HITS
       @data_hash = Hash.new  
       count = 0
       @responseBody['hits']['hits'].each do |k,v|
-        #logger.debug("HERE WE GOOOOOOOOOOO #{k['_id']}")
         @data_hash[k['_id']] = k['_source']
-        #@data_hash[count] = k['_source']
         count = count + 1
       end 
       #ROWS
@@ -102,10 +68,7 @@ class ElasticPoliciesController < ApplicationController
         @headerValues.push(kilo) 
       end 
 
-    #End Get All 
-
-    ##
-        #@data_hash.each_value do |data|
+     ## Loop Through Data and create new ElasticReports
         @data_hash.each do |karma, data|
             ElasticPolicy.all.each do |ep|
               logger.debug("POLICY: #{ep.title} input #{ep.input_requirements}")
@@ -151,36 +114,20 @@ class ElasticPoliciesController < ApplicationController
 
   # GET /elastic_policies/1/edit
   def edit
-
-    begin
-      # ' + @getter +'
-      @getter = get_elastic_index
-      p 'getter success' 
-      logger.debug("one two #{@getter}")
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2'
-    end 
-
-
     @report_values = ReportValue.all
     @report_types = ReportType.all
     @sources = Source.all
+#NOT DRY
     # GET ALL (for input values)
       response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500')
-        p '[RESPONSE CODE]'
-        p response.code
-      #Convert To JSON
       @responseBody = JSON.parse(response.body)
-        p '[RESPONSE BODY]'
-        p @responseBody
-      #Get the HITS
       @responseHash = Hash.new  
       count = 0
       @responseBody['hits']['hits'].each do |k,v|
         @responseHash[count] = k['_source']
         count = count + 1
       end 
+
       #Get The Header Values
       @headerValues = []
       @responseHash[0].each do |kilo,alpha|
@@ -264,19 +211,7 @@ class ElasticPoliciesController < ApplicationController
 
   end 
 
-  def update_input
-
-    begin
-      # ' + @getter +'
-      @getter = get_elastic_index
-      p 'getter success' 
-      logger.debug("one two #{@getter}")
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2'
-    end 
-
-    
+  def update_input    
     p 'update input'
     #Get A Value
         tightResponse = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500', 
@@ -321,8 +256,6 @@ class ElasticPoliciesController < ApplicationController
         p @valuesArray 
     # end get value
 
-
-  
     passed_id = params[:id_selection]
     if passed_id == 'input_requirement_header_id'
       @inputID = 'input_requirement_value_id'
@@ -332,7 +265,6 @@ class ElasticPoliciesController < ApplicationController
       p id_value
       @inputID = 'input_requirement_value_id_' + id_value[id_value.length-1].to_s
     end 
-
 
   end 
 
@@ -383,7 +315,16 @@ class ElasticPoliciesController < ApplicationController
   end 
 
   private
-
+    #getter for index
+    def source_getter
+      begin
+        @getter = get_elastic_index
+        p 'getter success' 
+      rescue
+        p 'getter fail'
+        @getter = 'cyberapplicationplatformv2'
+      end 
+    end 
 
     # Use callbacks to share common setup or constraints between actions.
     def set_elastic_policy

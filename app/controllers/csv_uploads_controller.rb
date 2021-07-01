@@ -13,6 +13,7 @@ class CsvUploadsController < ApplicationController
 
   # GET /csv_uploads/1 or /csv_uploads/1.json
   def show
+    #set column for csv_upload
     if @csv_upload.logstash_column == [] || @csv_upload.logstash_column == nil
       p 'first time?'
       up_logstash_column = []
@@ -114,28 +115,5 @@ class CsvUploadsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def csv_upload_params
       params.require(:csv_upload).permit( :source_id, :uploaded, :csv_upload_date, :logstash_path, :logstash_column, :logstash_host, :logstash_index, :csv_file)
-    end
-
-
-    #Could use to validate header against new updates
-    #before_action :set_master_table, only: %i[ show edit validate submit create add_data_dictionary add_data_dump update destroy ]
-    def set_master_table
-      if current_user.master_table.present?
-
-        #this should be the master table belonging to the user.
-        #@masterTable = MasterTable.first  
-        @masterTable = current_user.master_table
-        @masterRow = []
-        @masterWithIndex = []
-        @masterTable.attributes.each do |k,v|
-            logger.debug("K:#{k} V: #{v}")
-          if k != 'id' && k != 'created_at' && k != 'updated_at' && v != nil && k != 'user_id'
-
-            @masterRow.push(v)
-            @masterWithIndex.push([k,v])
-          end 
-        end 
-      #
-      end
     end
 end

@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
 	require 'date'
 	before_action :authenticate_user!
 	before_action :set_header_values
+	before_action :set_csv_upload, only: %i[ index hide_chart ]
 	include ElasticSearchHelper
 	include AlphaHelper 
 	
@@ -11,7 +12,7 @@ class DashboardController < ApplicationController
 		@user_colors = current_user.user_colors.pluck(:color)
 		user_pref = ChartPreference.where(:user => current_user, :hide_table =>true).pluck(:table_name)
 		#Summary
-
+=begin
 		begin
 			p 'fetch summary'
 			@summary = fetch_summary[0]
@@ -29,6 +30,7 @@ class DashboardController < ApplicationController
 			p 'issue'
 			p err
 		end 
+=end
 
 		### For Small Cards
     begin
@@ -38,6 +40,10 @@ class DashboardController < ApplicationController
     rescue
       p 'issue2'
     end  
+
+
+    @brewed = ElasticReport.get_count_summary  
+=begin    
     #Get Unique Keys
     report_type = ElasticReport.pluck(:report_type_title)
     @unique_keys = report_type.uniq 
@@ -63,6 +69,7 @@ class DashboardController < ApplicationController
         end 
         p @brewed
       end 
+=end
 
 	end 
 
@@ -70,9 +77,8 @@ class DashboardController < ApplicationController
 		set_elastic_index(params[:new_index])
 	end 
 
-
 	def tableView 
-
+		@headerValues = @all_data[0].keys
 	end 
 
 	def download_policies
@@ -80,6 +86,7 @@ class DashboardController < ApplicationController
 	end 
 
 	def filter_toggle
+		 @headerValues = @all_data[0].keys 
 	end 
 
 	def hide_chart
@@ -101,8 +108,8 @@ class DashboardController < ApplicationController
 		end 
 		
 		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
+=begin
 		begin
-
 			@summary = fetch_summary[0]
 			p 'success'
 
@@ -121,6 +128,7 @@ class DashboardController < ApplicationController
 		check.each do |kilo,alpha|
 			@headerValues.push(kilo)
 		end 
+=end
 	end
 
 	private 
@@ -142,12 +150,36 @@ class DashboardController < ApplicationController
 
 				@headerValues = @all_data[0].keys
 
-
 			rescue => err
 				p 'issue'
 				p err
 
 			end 
 		end 
+
+		def set_user_pref
+					begin
+						@summary = fetch_summary[0]
+						p 'success'
+
+						@summary.each do |k,v|
+							if user_pref.include?(k)
+								@summary.delete(k)
+							end 
+							p k
+							#sp v
+						end 
+					rescue
+						p 'issue'
+					end 
+
+					@headerValues = []
+					check = JSON.parse(@all_data[0])
+					check.each do |kilo,alpha|
+						@headerValues.push(kilo)
+					end 
+		end
+
+
 	
 end
