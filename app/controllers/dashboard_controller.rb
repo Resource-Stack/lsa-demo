@@ -19,7 +19,6 @@ class DashboardController < ApplicationController
     rescue
       p 'issue'
     end  
-
     @brewed = ElasticReport.get_count_summary   
 	end 
 
@@ -43,7 +42,7 @@ class DashboardController < ApplicationController
 		
 		user_pref = ChartPreference.where(user: current_user).pluck(:table_name)
 
-		#need to refresh with updates
+		#need to refresh with updates (Not Dry, but needed)
 		begin
 			p 'fetch summary'
 			@summary = fetch_summary[0]

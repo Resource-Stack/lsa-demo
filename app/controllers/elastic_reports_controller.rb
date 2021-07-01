@@ -1,38 +1,20 @@
 class ElasticReportsController < ApplicationController
   before_action :set_elastic_report, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :get_source_index, only: %i[ index find_by_id ]
   include AlphaHelper
 
   # GET /elastic_reports or /elastic_reports.json
   def index
-    begin
-      @getter = get_elastic_index
-      p 'getter success' 
-      logger.debug("one two #{@getter}")
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2'  
-    end 
-
     if Source.find_by_source_title(@getter).present?
       my_source = Source.find_by_source_title(@getter) 
       @elastic_reports = ElasticReport.where(source_id: my_source.id).sort_by { |obj| obj.report_type_title} 
     else
       @elastic_reports = ElasticReport.all.sort_by { |obj| obj.report_type_title} 
     end 
-    
   end
 
   def find_by_id
-    begin
-      @getter = get_elastic_index
-      p 'getter success' 
-      logger.debug("one two #{@getter}")
-    rescue
-      p 'getter fail'
-      @getter = 'cyberapplicationplatformv2' 
-    end 
-
       selected_id = params[:selected_id]
         response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500',  
           :body => {
@@ -50,8 +32,6 @@ class ElasticReportsController < ApplicationController
               "Content-Type" => "application/json" 
             }
         )
-
-        p response.body
       @hashHash = Hash.new
       @responseBody = JSON.parse(response.body) 
       count = 0
@@ -115,6 +95,18 @@ class ElasticReportsController < ApplicationController
   end
 
   private
+    #used for performing actions
+    def get_source_index
+      begin
+        @getter = get_elastic_index
+        p 'getter success' 
+        logger.debug("one two #{@getter}")
+      rescue
+        p 'getter fail'
+        @getter = 'cyberapplicationplatformv2'  
+      end 
+    end 
+
     # Use callbacks to share common setup or constraints between actions.
     def set_elastic_report
       @elastic_report = ElasticReport.find(params[:id])

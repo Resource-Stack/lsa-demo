@@ -169,6 +169,8 @@ class MasterTablesController < ApplicationController
         end 
 
         #The End of the array is a VALUE, finalize hash
+        #These are the values that we are querying.
+        # Set key is the KEY or column
         my_index+=1
         if my_index == kv_length
           lock_chain[@set_key] = values
@@ -191,6 +193,7 @@ class MasterTablesController < ApplicationController
 
     logger.debug("[STEP THREE]")
     #move into seperate logic
+
     begin
       @getter = get_elastic_index
       p 'getter success' 
@@ -199,6 +202,7 @@ class MasterTablesController < ApplicationController
       p 'getter fail'
       @getter = 'cyberapplicationplatformv2'
     end 
+
     if condition == "AND"
         response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500',  
           :body => {
@@ -233,7 +237,8 @@ class MasterTablesController < ApplicationController
               "Content-Type" => "application/json"
             }
         )
-    end 
+    end
+
     logger.debug("[STEP FOUR]")
     # Response
     @jsonData = JSON.parse(response.body)
@@ -243,7 +248,8 @@ class MasterTablesController < ApplicationController
       @query_data_rows = []
       count = 0
       @jsonData['hits']['hits'].each do |k,v|
-        @hashHash[count] = k['_source']
+        #SORT 
+        @hashHash[count] = k['_source'].sort_by { |key| key }.to_h
         #p k['_source']
         @query_data_rows.push(k['_source'].to_json)
         count = count + 1
@@ -363,6 +369,7 @@ class MasterTablesController < ApplicationController
 
 
   private
+
     def set_header_values
       begin
         @all_data = fetch_all
@@ -371,11 +378,8 @@ class MasterTablesController < ApplicationController
         p 'issue'
       end 
 
-      @headerValues = []
-      check = JSON.parse(@all_data[0])
-      check.each do |kilo,alpha|
-        @headerValues.push(kilo)
-      end  
+      @headerValues = @all_data[0].keys.sort
+
     end 
 
     # Use callbacks to share common setup or constraints between actions.
