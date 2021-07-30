@@ -40,17 +40,17 @@ ae = ReportType.create(title: 'Software Vulnerabilties')
  ReportValue.create(title: 'Adobe', report_type_id: ae.id)
 
 #colors 
-UserColor.create(color: '#260C1A')
-UserColor.create(color: '#FFFFFF')
-UserColor.create(color: '#F9C784')
-UserColor.create(color: '#272727')
-UserColor.create(color: '#90A9B7')
-UserColor.create(color: '#2AF5FF')
-UserColor.create(color: '#28C2FF')
-UserColor.create(color: '#183446')
-UserColor.create(color: '#F2545B')
-UserColor.create(color: '#FFC857')
-UserColor.create(color: '#32533D')
+#UserColor.create(color: '#260C1A', user_id: current_user)
+#UserColor.create(color: '#FFFFFF', user_id: current_user)
+#UserColor.create(color: '#F9C784', user_id: current_user)
+#UserColor.create(color: '#272727', user_id: current_user)
+#UserColor.create(color: '#90A9B7', user_id: current_user)
+#UserColor.create(color: '#2AF5FF', user_id: current_user)
+#UserColor.create(color: '#28C2FF', user_id: current_user)
+#UserColor.create(color: '#183446', user_id: current_user)
+#UserColor.create(color: '#F2545B', user_id: current_user)
+#UserColor.create(color: '#FFC857', user_id: current_user)
+#UserColor.create(color: '#32533D', user_id: current_user)
 
 
 
