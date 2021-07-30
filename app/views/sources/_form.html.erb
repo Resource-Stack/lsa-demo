@@ -31,10 +31,52 @@
                   <%= form.text_field :source_title %>
                 </div>
 
-                <div class="actions">
+                <div class="actions" id="submit_div">
                   <%= form.submit %>
                 </div>
               <% end %>
             </div>
           </div>
 </div>
+
+<script type="text/javascript">
+  
+  var source_input = document.getElementById('source_source_title');
+  var submit_button = document.getElementById('submit_div');
+  var warning = false;
+  console.log(submit_button.firstElementChild)
+
+  source_input.addEventListener("keyup", function(){
+
+    let res = /^[a-zA-Z]+$/.test(source_input.value);
+    if (res === false && source_input.value.length > 0){
+      submit_button.firstElementChild.disabled = true;
+
+      if (warning === false){
+        text_warning()  
+      }
+      
+      warning = true;
+    } else {
+
+      submit_button.firstElementChild.disabled = false;
+      
+      if (warning === true){
+      var text_node_p = document.getElementById('text_node');
+      text_node_p.remove();
+}
+      warning = false;
+    }
+
+    function text_warning() {
+      var text_node = document.createElement("p");
+      text_node.id = "text_node";
+      text_node.style.color = "red";
+      text_node.innerHTML = "Only Letters Allowed";
+
+      submit_button.appendChild(text_node)
+
+    }
+
+  })
+</script>

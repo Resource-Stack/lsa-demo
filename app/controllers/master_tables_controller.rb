@@ -378,8 +378,8 @@ class MasterTablesController < ApplicationController
         p 'issue'
       end 
 
-      @headerValues = @all_data[0].keys.sort
-
+      values = eval(@all_data[0]).keys.sort
+      @headerValues = values.map{|n| n[0..-1]}
     end 
 
     # Use callbacks to share common setup or constraints between actions.

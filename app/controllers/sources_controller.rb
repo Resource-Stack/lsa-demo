@@ -25,10 +25,9 @@ class SourcesController < ApplicationController
   def create
     
     mod_source = source_params
-    mod_source['source_title'].downcase
-    p mod_source.inspect
-    
+    mod_source['source_title'] = mod_source['source_title'].downcase    
     @source = Source.new(mod_source)
+
     respond_to do |format|
       if @source.save
         #create index
