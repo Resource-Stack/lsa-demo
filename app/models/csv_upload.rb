@@ -27,8 +27,10 @@ has_one_attached :csv_file
 	end
 
 	def construct_conf_file
-			#This issue we face uploading all CSV is there is no guarentee they will have the same header.
-			#Better solution is rerun logstash PER csv upload currently.
+			
+			puts "UPDATE METHOD CONF_STRING /app/models/csv_uploads.rb ...method construct_conf_file"
+			#Update "path =>", line 37, to your app directory. For example, /home/unbuntu/lsa-demo/logstash_folder/...
+
 			conf_string = "input {
 							  file {
 							  	mode => 'read'
