@@ -1,5 +1,7 @@
 class CsvUpload < ApplicationRecord
 require 'fileutils'
+#require 'net/ssh'
+#require 'net/sftp'
 after_create :set_filename
 has_one_attached :csv_file 
 
@@ -21,9 +23,12 @@ has_one_attached :csv_file
 		Dir.mkdir(directory_name) unless File.exists?(directory_name)
 	  pdf_attachment_path = directory_name + "#{self.csv_file.filename}"
 	   
-	   File.open(pdf_attachment_path, 'wb') do |file|
-	       file.write(csv_file.download) 
-	   end   
+	   # works on smaller files
+	   #File.open(pdf_attachment_path, 'wb') do |file|
+	   #    file.write(csv_file.download) 
+	   #end   
+     #Use this for larger files
+	   upload(directory_name, self.csv_file.filename)
 	end
 
 	def construct_conf_file
@@ -78,5 +83,29 @@ has_one_attached :csv_file
 			end
 			File.chmod(0777,path)    
 	end 
+
+
+  def self.upload #(directory, file_name)
+
+  	#need to take the file and write it to a directory
+
+  	file = File.open("users.txt")
+  	directory = "logstash_folder/test_index/"
+    @server = '104.248.127.32'
+    @username = 'augustus'
+    @password = 'ENTER_PASSWORD'
+    #rails off env variables for a more secure option
+
+    Net::SFTP.start(@server, @username, :password => @password.to_s) do |sftp|
+    	#server code
+    	#directory_name = "logstash_folder/"
+    	
+      sftp.upload!(csv_file.download, directory + "#{file}")
+      #local env test code
+      # for testing 
+      #sftp.mkdir! (directory) 
+      #sftp.upload!(file, directory + "test_file_name.txt")
+    end
+  end
 
 end
