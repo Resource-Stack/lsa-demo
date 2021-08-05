@@ -84,28 +84,28 @@ has_one_attached :csv_file
 			File.chmod(0777,path)    
 	end 
 
-
-  def self.upload #(directory, file_name)
-
-  	#need to take the file and write it to a directory
-
-  	file = File.open("users.txt")
-  	directory = "logstash_folder/test_index/"
-    @server = '104.248.127.32'
-    @username = 'augustus'
-    @password = 'ENTER_PASSWORD'
-    #rails off env variables for a more secure option
+  #UN COMMENT ARGUEMENTS
+  def self.upload(directory, file_name) 
+    @server = 'xxxxxxxx'
+    @username = 'xxx'
+    @password = 'xxx'
 
     Net::SFTP.start(@server, @username, :password => @password.to_s) do |sftp|
-    	#server code
-    	#directory_name = "logstash_folder/"
-    	
-      sftp.upload!(csv_file.download, directory + "#{file}")
-      #local env test code
-      # for testing 
-      #sftp.mkdir! (directory) 
-      #sftp.upload!(file, directory + "test_file_name.txt")
+      sftp.upload!(csv_file.download, directory + "#{file_name}")
     end
   end
+
+  def self.test_upload
+  	file = File.open("Mock_Data_One.csv")
+  	directory = "logstash_folder/test_index/"
+
+    @server = '104.248.127.32'
+    @username = 'augustus'
+    @password = 'xxx'
+    Net::SFTP.start(@server, @username, :password => @password.to_s) do |sftp|
+      #sftp.mkdir! (directory) # use if index is not there
+      sftp.upload!(file, directory + "Mock_Data_One.csv")
+    end
+  end 
 
 end

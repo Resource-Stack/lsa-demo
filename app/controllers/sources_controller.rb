@@ -6,10 +6,12 @@ class SourcesController < ApplicationController
   # GET /sources or /sources.json
   def index
     @sources = Source.all
+    #CsvUpload.test_upload
   end
 
   # GET /sources/1 or /sources/1.json
   def show
+
   end
 
   # GET /sources/new
