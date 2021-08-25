@@ -65,6 +65,8 @@ class DashboardController < ApplicationController
 
 	def update_index
 		set_elastic_index(params[:new_index])
+		#reload the page so new source takes effect
+		redirect_back(fallback_location: root_path)
 	end 
 
 	def tableView 
