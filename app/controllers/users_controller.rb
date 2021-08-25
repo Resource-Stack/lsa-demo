@@ -12,8 +12,6 @@ class UsersController < ApplicationController
 
     @user_colors = UserColor.all
     @chart_preferences = current_user.chart_preferences
-
-
   end
 
   def edit
@@ -35,6 +33,7 @@ class UsersController < ApplicationController
   end 
 
   def toggle_chart
+    p 'toggle_chart'
     chart = ChartPreference.find(params[:toggle])
     chart.update_attribute(:hide_table, !chart.hide_table)
     @chart_preferences = current_user.chart_preferences 

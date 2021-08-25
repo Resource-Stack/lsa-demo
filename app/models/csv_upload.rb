@@ -84,7 +84,6 @@ has_one_attached :csv_file
 			File.chmod(0777,path)    
 	end 
 
-  #UN COMMENT ARGUEMENTS
   def self.upload(directory, file_name) 
     @server = 'xxxxxxxx'
     @username = 'xxx'

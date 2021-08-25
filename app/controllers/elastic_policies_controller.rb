@@ -117,6 +117,7 @@ class ElasticPoliciesController < ApplicationController
     @report_values = ReportValue.all
     @report_types = ReportType.all
     @sources = Source.all
+
 #NOT DRY
     # GET ALL (for input values)
       response = HTTParty.get('http://localhost:9200/' + @getter +'/_search?size=500')
@@ -134,6 +135,7 @@ class ElasticPoliciesController < ApplicationController
         @headerValues.push(kilo)
       end 
     ##
+
   end
 
   # POST /elastic_policies or /elastic_policies.json

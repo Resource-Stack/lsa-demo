@@ -147,8 +147,8 @@ class MasterTablesController < ApplicationController
     logger.debug("[STEP ONE]")
     # PARAMETERS TO KEY VALUE
     lock_chain = Hash.new
-    count = 0 
     values = []
+    count = 0 
     my_index = 0
     kv_length = key_value_parse.length
     #Create Hash
@@ -243,6 +243,8 @@ class MasterTablesController < ApplicationController
     # Response
     @jsonData = JSON.parse(response.body)
 
+    #Add a check to see if the jsonData value holds anything 
+
 
       @hashHash = Hash.new  
       @query_data_rows = []
@@ -252,6 +254,7 @@ class MasterTablesController < ApplicationController
         @hashHash[count] = k['_source'].sort_by { |key| key }.to_h
         #p k['_source']
         @query_data_rows.push(k['_source'].to_json)
+        ## Possibly add a check here
         count = count + 1
       end 
       logger.debug("S4 HASH::: #{@hashHash}")
@@ -369,7 +372,7 @@ class MasterTablesController < ApplicationController
 
 
   private
-
+=begin
     def set_header_values
       begin
         @all_data = fetch_all
@@ -381,7 +384,32 @@ class MasterTablesController < ApplicationController
       values = eval(@all_data[0]).keys.sort
       @headerValues = values.map{|n| n[0..-1]}
     end 
+=end
+    def set_header_values
+      begin
+        @all_data = []
+        order_data = fetch_all
 
+        order_data.each do |x|
+            current_row = JSON.parse(x)
+            current_row.each do |kk,vv|
+              if vv == nil || vv == 'nil'
+                  current_row[kk] = 'NONE'
+              end
+            end
+          @all_data << current_row.sort_by { |key,val| key.to_s}.to_h
+        end 
+
+        @headerValues = []
+        @all_data[0].each do |x|
+          @headerValues.push(x[0])
+        end
+      rescue => err
+        p 'issue'
+        p err
+
+      end 
+    end 
     # Use callbacks to share common setup or constraints between actions.
     def set_master_table
       @master_table = MasterTable.find(params[:id])

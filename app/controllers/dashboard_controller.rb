@@ -23,10 +23,11 @@ class DashboardController < ApplicationController
 	end 
 
 	def hide_chart
+		p 'hide_chart'
 		@user_colors = current_user.user_colors.pluck(:color)
 
-		if ChartPreference.find_by(table_name: params[:chart_name]).present?
-			cp = ChartPreference.find_by(table_name: params[:chart_name])
+		if ChartPreference.where(:user => current_user, :table_name => params[:chart_name]).present?
+			cp = ChartPreference.where(:user => current_user, :table_name => params[:chart_name])
 		end 
 
 		if cp.present?
@@ -84,18 +85,30 @@ class DashboardController < ApplicationController
 			begin
 				@all_data = []
 				order_data = fetch_all
+
 				order_data.each do |x|
-					@all_data << eval(x).sort_by { |key| key }.to_h
+            current_row = JSON.parse(x)
+						current_row.each do |kk,vv|
+							if vv == nil || vv == 'nil'
+									current_row[kk] = 'NONE'
+							end
+						end
+					#@all_data << eval(x).sort_by { |key| key }.to_h
+					@all_data << current_row.sort_by { |key,val| key.to_s}.to_h
 				end 
 
 				p 'success'
 				@headerValues = []
-				check = JSON.parse(@all_data[0])
-				check.each do |kilo,alpha|
-					@headerValues.push(kilo)
-				end 
 
-				@headerValues = @all_data[0].keys
+				#check = JSON.parse(@all_data[0])
+				#check.each do |kilo,alpha|
+				#		@headerValues.push(kilo)
+				#end 
+
+				#@headerValues = @all_data[0].keys
+				@all_data[0].each do |x|
+					@headerValues.push(x[0])
+				end
 
 			rescue => err
 				p 'issue'

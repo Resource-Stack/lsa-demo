@@ -37,7 +37,7 @@
 
                     <div class="form-group">
                     <%= form.label :report_type_id %>
-                    <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}), {},{ :class => 'form-control' } %>
+                    <%= form.select :report_type_id, options_for_select(@report_types.collect{ |u| [u.title, u.id]}, @report_value.report_type_id), {},{ :class => 'form-control' } %>
                     </div>
 
 
