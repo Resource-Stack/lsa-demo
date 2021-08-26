@@ -146,6 +146,7 @@ class MasterTablesController < ApplicationController
     key_value_parse = params[:key_values].split(',')
     logger.debug("[STEP ONE]")
     # PARAMETERS TO KEY VALUE
+
     lock_chain = Hash.new
     values = []
     count = 0 
@@ -253,13 +254,13 @@ class MasterTablesController < ApplicationController
         #SORT 
         @hashHash[count] = k['_source'].sort_by { |key| key }.to_h
         #p k['_source']
-        @query_data_rows.push(k['_source'].to_json)
+        @query_data_rows.push(k['_source'].sort_by { |key| key }.to_json)
         ## Possibly add a check here
         count = count + 1
       end 
-      logger.debug("S4 HASH::: #{@hashHash}")
+      logger.debug("S4 HASH::: #{@hashHash}") ##HASHHASH is used for charts
       logger.debug("S4 HASH:::")
-      logger.debug("S4 ARRAY::: #{@query_data_rows}")
+      logger.debug("S4 ARRAY::: #{@query_data_rows}") ## QDR is used for table view
 
 
     ### End query
@@ -270,7 +271,7 @@ class MasterTablesController < ApplicationController
       @summarized_hash[hv] = []
     end 
     @hashHash.each do |k,v|
-          v.each do |key,value|
+          v.each do |key,value| 
 
 
               current_set = @summarized_hash[key]
